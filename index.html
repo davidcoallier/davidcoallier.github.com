@@ -1,1 +1,173 @@
-My Page with random projects
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+
+<meta name="Description" content="A bunch of projects for David Coallier" />
+<meta name="Keywords" content="php, python, ruby, couchdb, mathematics, game theory, cooperative games, software, engineering, physics" />
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="Distribution" content="Global" />
+<meta name="Author" content="David Coallier - david.coallier@gmail.com" />
+<meta name="Robots" content="index,follow" />		
+<script type="text/javascript" charset="utf-8" src="http://code.jquery.com/jquery-1.4.1.js">
+</script>
+<link rel="stylesheet" href="images/NewHorizon.css" type="text/css" />
+
+<title>David Coallier's @ GitHub'</title>
+	
+</head>
+
+<body>
+
+	<!-- navigation starts here -->
+	<div id="nav">
+		
+		<ul>
+			<li id="current"><a href="/index.html">Home</a></li>
+			<li><a href="/projects.html">Projects</a></li>
+			<li><a href="/mathematics.html">Mathematics</a></li>
+			<li><a href="/about.html">About</a></li>			
+		</ul>
+	
+	</div>
+
+	<!-- header starts here -->
+	<div id="header">	
+		<div id="clouds"></div>
+		<h1 id="logo-text"><a href="index.html" title="">Journey of a lifetime</a></h1>	
+		<p id="slogan">What you are not makes you who you are.</p>
+	</div>	
+				
+	<!-- content-wrap starts here -->
+	<div id="content-wrap"><div id="content">	 
+	
+		<div id="sidebar" >	
+			<h3>Search Box</h3>	
+			<form action="#" class="searchform">
+				<p>
+					<input name="search_query" class="textbox" type="text" value="Does nothing yet." />
+  					<input name="search" class="button" value="Search" type="submit" />
+				</p>			
+			</form>
+				
+			<h3>Sidebar Menu</h3>			
+			<ul class="sidemenu">
+				<li><a href="/index.html">Home</a></li>
+			</ul>	
+				
+				
+			<h3>Sponsors</h3>
+			<ul class="sidemenu">
+				<li><a href="http://www.echolibre.com" title="echolibre software engineering and web development">echolibre</a></li>
+			</ul>
+				
+			<h3>Wise Words</h3>
+			<p id="quote"></p>
+			<p class="align-right" id="quotewhom"></p>		
+		</div>	
+	
+		<div id="main">		
+				
+			<a name="Welcome"></a>				
+			
+			<h2><a href="index.html">First Page going</a></h2>		
+			
+			<p class="post-by">Posted by <a href="http://github.com/davidcoallier">david</a></p>
+				
+            <p>So I decided to create my github page... This is where I'll hold all my personal projects
+               and entertain my ideas. With the help of a weird but interesting design by <a href="http://www.styleshout.com/">styleshout.com</a>
+               I have managed to build this whole thing in nearly 10 minutes :))
+            </p>
+		</div>					
+		
+	<!-- content-wrap ends here -->		
+	</div></div>
+
+	<!-- footer starts here-->	
+	<div id="footer-wrap">
+	
+		<!-- columns starts here-->		
+		<div id="columns">
+	
+			<div class="col3">
+				<h3>Mathematics</h3>
+				<ul>
+					<li><a href=""></a></li>
+				</ul>
+			</div>
+			<div class="col3-center">
+				<h3>Web Development</h3>
+				<ul>
+					<li><a href=""></a></li>
+				</ul>
+			</div>
+			<div class="col3">
+				<h3>Various Interests</h3>
+				<ul>
+					<li><a href=""></a></li>
+				</ul>
+			</div>
+		
+		<!-- columns ends -->
+		</div>	
+	
+		<div id="footer-bottom">		
+			<p>
+			&copy; 2010 <strong>David Coallier</strong>
+
+            &nbsp;&nbsp;&nbsp;&nbsp;
+
+			Awesome design by <a href="http://www.styleshout.com/">styleshout</a>
+
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			
+			<a href="index.html">Home</a> |
+   		    <a href="index.html">Sitemap</a> |
+	  		<a href="index.html">RSS Feed</a> |
+            <a href="http://validator.w3.org/check?uri=referer">XHTML</a> |
+			<a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a>
+			</p>		
+		</div>	
+	
+	<!-- footer ends-->		
+	</div>
+
+</body>
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function() {
+        var quotes = [];
+        var who    = [];
+        
+        quotes[0] = "Scientists dream about doing great things. Engineers do them.";
+        quotes[1] = "Pure mathematics is, in its way, the poetry of logical ideas.";
+        quotes[2] = "The highest form of pure thought is in mathematics";
+        quotes[3] = "Arithmetic is being able to count up to twenty without taking off your shoes";
+        quotes[4] = "Scientists investigate that which already is; Engineers create that which has never been."
+        quotes[5] = "Math is like love -- a simple idea but it can get complicated.";
+        quotes[6] = "There are things which seem incredible to most men who have not studied mathematics.";
+        quotes[7] = "A scientist studies what is, an engineer studies what never was.";
+        quotes[8] = "The engineer has been, and is, a maker of history";
+        quotes[9] = "In some mysterious way woods have never seemed to me to be static things. In physical terms, I move through them; yet in metaphysical ones, they seem to move through me.";
+        quotes[10] = "A bird does not sing because it has an answer. It sings because it has a song.";
+        quotes[11] = "There are many paths to the top of the mountain, but the view is always the same";
+        
+        who[0] = "James A. Michener";
+        who[1] = "Albert Einstein";
+        who[2] = "Plato";
+        who[3] = "Anonymous";
+        who[4] = "Albert Einstein";
+        who[5] = "Anonymous";
+        who[6] = "Aristotle";
+        who[7] = "Anonymous";
+        who[8] = "James Kip Finch";
+        who[9] = "John Fowles";
+        who[10] = "Anonymous";        
+        who[11] = "Anonymous";
+        
+        var i = Math.floor(Math.random() * quotes.length);
+        $('#quote').html(quotes[i]);
+        $('#quotewhom').html('- ' + who[i]);
+    });
+</script>
+</html>
