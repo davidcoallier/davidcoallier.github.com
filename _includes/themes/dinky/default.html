@@ -18,22 +18,6 @@
   </head>
   <body>
     <div class="wrapper">
-       <header>
-        <h1 class="header"><a href="{{ HOME_PATH }}">{{ site.title }}</a></h1>
-        {% if site.ads.google %}
-        <div class="misc ad">
-          <script type="text/javascript"><!--
-            google_ad_client = "{{ site.ads.google.client }}";
-            google_ad_slot = "{{ site.ads.google.slot }}";
-            google_ad_width = {{ site.ads.google.width }};
-            google_ad_height = {{ site.ads.google.height }};
-            //-->
-          </script>
-          <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-        </div>
-        {% endif %}
- 
-      </header>
 
       <section>
       {{ content }}
