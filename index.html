@@ -50,7 +50,16 @@
                 font-size: 21px;
             }
             
-            hr { background-color: black; color: black}
+            hr { 
+                border: 0;
+                height: 1px;
+                background: #333;
+                background-image: -webkit-linear-gradient(left, #ccc, #333, #ccc); 
+                background-image:    -moz-linear-gradient(left, #ccc, #333, #ccc); 
+                background-image:     -ms-linear-gradient(left, #ccc, #333, #ccc); 
+                background-image:      -o-linear-gradient(left, #ccc, #333, #ccc); 
+            } 
+
               .container-narrow > hr {
                   margin: 30px 0;
                   background-color: black;
@@ -60,7 +69,7 @@
               /* Main marketing message and sign up button */
               .jumbotron a { text-decoration: underline; }
               .jumbotron {
-                margin: 60px 0;
+                margin: 20px 0;
                 text-align: center;
               }
               .jumbotron h1 {
@@ -143,7 +152,7 @@
 
                 </div>
             </div>
-            <hr>
+
             <div class="footer">
                 <a href="http://twitter.com/davidcoallier">
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDowNjgwMTE3NDA3MjA2ODExODNCNEQ3ODA2MUJDRTBGNiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpENjFGNDk2NkE5MDkxMUUxQTIwMUZDQjBDRjQ4RUM3OSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpENjFGNDk2NUE5MDkxMUUxQTIwMUZDQjBDRjQ4RUM3OSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjA1ODAxMTc0MDcyMDY4MTE4RDRBRTA1NDc3MTYwQ0JDIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjA2ODAxMTc0MDcyMDY4MTE4M0I0RDc4MDYxQkNFMEY2Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+PKV9JAAAAydJREFUeNrcVktPE1EU/tpOW+xMUyBpGwQEjBCVaGKCtYkaJIAh6sqNO/+AMbpy7caNCzUmLoz+BmN1o4GFDwgNKCryiLxSoQWKUPqYlplpZ+qdIcVCp9MWYome5GQm984933e/c8+Zq+t8+JFJsOybyHrYLfCCAWUwk9kk2qoqvRaG6aHiMba3tpp2Xzl/Aoylohz4YBOcYWRs7mwgxPZS4dC6y93WCh+rQzLKlYWAUa9D/eFGjM/0u6hUMqkPCToyLKFcxktp8NBBxqbkASmdxn7ZJgFpvwmkpX9fgeP2CrQ3WuGgKazEU3jvi2Hi1+ahpo162Mm4LyyoExBVCMiL7pxz4n5/EPGktkI3XHZ0NFmzyAAXGhkMBeKICxJcdbQSRw1HnyGw0w/ZTGh1HMDdjhpUUDrVb2RvJ0DZ4NnmqqWVuRU2ibaDlpw4WQSkHG+oNCofNFWZ8aCnjuzKrPrd5RZbwfTIMeZCHKJcatvaP2dAzJVmdo3fenfQRtzrqoN3gYVnMozvy4mtucMkeCF7NLCMvtlo/kOYYZNtXxdZBIl0Tsa4NeauZxSXx0cJCVnaYuztdFi7CtQOx8VmGwZ+xnC1tTpnTibVfcRWdIWIGlWWVwE5X2rgpdq3pbhq/O0EVM7AiD8OVhDBmPb2h55e5VTj7yjD3NMd4ZJ4PLC4ZwU+zEVU42+rglQeiV5PrCn5vnbSDsZcuhJLMQHD/mjhVqwlkZMx7QpctmfeJc3YminI+NPBAGK8WDL4Z38MnvFVzdiarTjjC2Eel56P4hUJViyRxSiP254ZzbiZ0sxbhtkW3pDwcmwVLXYLjjos2uARHrc802RNcU1KtRVbSc6vn65R3uX8dzZXodZWuOUOz0dx88VUSSlTVUDesdcXVkh0tRRuRpPBOJ70+9E3FdrdhUStVQ76IorLOz/TYMMxJ03ckgWaQCDCofdHiDz5vd2ItHr1/Dqn+N8ww35fSg3/1aV01wTSOj0RQNSTZ1mBdUR1GZsSKfMQtRFxC2YrGTCUCVyEkY+BYH+iRL2xWy8m39Gx4CkyURYZyEallMH0RTQYO38LMACfNC9ZZv/DGQAAAABJRU5ErkJggg==" alt="Follow me on Twitter"></img></a>&nbsp;&nbsp;
