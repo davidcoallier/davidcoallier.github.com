@@ -7,50 +7,64 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="">
         <meta name="author" content=""> 
-        <link href="bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href='http://fonts.googleapis.com/css?family=Old+Standard+TT' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Merriweather' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
         <style type="text/css">
               body {
                 padding-top: 20px;
                 padding-bottom: 40px;
+                font-family: "merriweather", serif;
             }
             body {
-                background: url('img/david-looking-large.jpg') no-repeat 0 0;
-                -khtml-opacity:.83; 
-                -moz-opacity:.83; 
-                -ms-filter:"alpha(opacity=83)";
-                filter:alpha(opacity=83);
+                background: url('img/david-looking-large.jpg') no-repeat center center fixed;
+                background-size: 100%;
+                background-color: #ede0ce;
+                -khtml-opacity:.75; 
+                -moz-opacity:.75; 
+                -ms-filter:"alpha(opacity=75)";
+                filter:alpha(opacity=75);
                 filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0.5);
-                opacity:.83; 
+                opacity:.75; 
+
             }
  
               /* Custom container */
               .container-narrow {
+                  -moz-border-radius: 3px;
+                  border-radius: 3px;
                   margin: 0 auto;
-                  margin-right: 0px;
+                  margin-right: 5%;
                   padding: 20px;
-                  background: black;
-                  color: rgb(233, 229, 189);
-                max-width: 50%;
+                  /*background: black;*/
+                  background-color: rgb(239, 71, 35);
+                  background-color: #ede0ce;
+                  color: black;
+                max-width: 40%;
             }
 
             .container-narrow h4 {
-                color: rgb(253, 233, 167);
-                font-size: 18px;
-                letter-spacing: 2px;
+                color: black; /*color: rgb(253, 233, 167);*/
+                font-size: 21px;
             }
+            
+            hr { background-color: black; color: black}
               .container-narrow > hr {
-                margin: 30px 0;
+                  margin: 30px 0;
+                  background-color: black;
+                  color: black;
               }
         
               /* Main marketing message and sign up button */
+              .jumbotron a { text-decoration: underline; }
               .jumbotron {
                 margin: 60px 0;
                 text-align: center;
-                letter-spacing: 1px;
               }
               .jumbotron h1 {
-                font-size: 72px;
-                color: rgb(253, 233, 167);
+                font-size: 55px;
+                color: black; /*color: rgb(253, 233, 167);*/
                 line-height: 1;
                 
               }
@@ -61,17 +75,15 @@
         
               /* Supporting marketing content */
               .marketing {
-                margin: 60px 0;
-                letter-spacing: 1px;
+                margin: 10px 0;
               }
               .marketing p + h4 {
                 margin-top: 48px;
-              }
+            }
         </style>
-        <!-- TODO: make sure bootstrap-responsive.min.css points to BootTheme
-        generated file -->
-        <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/css/bootstrap-responsive.min.css"
-        rel="stylesheet">
+
+
+        <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
         <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
             <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -99,7 +111,7 @@
 
                     <h4>Advisor &amp; Investor</h4>
                     <p>
-                    With 4 exits and many failures, I have amassed a tremendous amount of experience in 
+                    With 3.5 exits and many failures, I have amassed a tremendous amount of experience in 
                     running lean startups, raising funds, developing business strategies, and in understanding the
                     importance of focus and self-constrain when bootstrapping and developing a brand new product.
                     </p>
@@ -132,13 +144,37 @@
             </div>
             <hr>
             <div class="footer">
-                <a href="http://twitter.com/davidcoallier">Follow me on Twitter</a>
+                <a href="http://twitter.com/davidcoallier">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDowNjgwMTE3NDA3MjA2ODExODNCNEQ3ODA2MUJDRTBGNiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpENjFGNDk2NkE5MDkxMUUxQTIwMUZDQjBDRjQ4RUM3OSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpENjFGNDk2NUE5MDkxMUUxQTIwMUZDQjBDRjQ4RUM3OSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjA1ODAxMTc0MDcyMDY4MTE4RDRBRTA1NDc3MTYwQ0JDIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjA2ODAxMTc0MDcyMDY4MTE4M0I0RDc4MDYxQkNFMEY2Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+PKV9JAAAAydJREFUeNrcVktPE1EU/tpOW+xMUyBpGwQEjBCVaGKCtYkaJIAh6sqNO/+AMbpy7caNCzUmLoz+BmN1o4GFDwgNKCryiLxSoQWKUPqYlplpZ+qdIcVCp9MWYome5GQm984933e/c8+Zq+t8+JFJsOybyHrYLfCCAWUwk9kk2qoqvRaG6aHiMba3tpp2Xzl/Aoylohz4YBOcYWRs7mwgxPZS4dC6y93WCh+rQzLKlYWAUa9D/eFGjM/0u6hUMqkPCToyLKFcxktp8NBBxqbkASmdxn7ZJgFpvwmkpX9fgeP2CrQ3WuGgKazEU3jvi2Hi1+ahpo162Mm4LyyoExBVCMiL7pxz4n5/EPGktkI3XHZ0NFmzyAAXGhkMBeKICxJcdbQSRw1HnyGw0w/ZTGh1HMDdjhpUUDrVb2RvJ0DZ4NnmqqWVuRU2ibaDlpw4WQSkHG+oNCofNFWZ8aCnjuzKrPrd5RZbwfTIMeZCHKJcatvaP2dAzJVmdo3fenfQRtzrqoN3gYVnMozvy4mtucMkeCF7NLCMvtlo/kOYYZNtXxdZBIl0Tsa4NeauZxSXx0cJCVnaYuztdFi7CtQOx8VmGwZ+xnC1tTpnTibVfcRWdIWIGlWWVwE5X2rgpdq3pbhq/O0EVM7AiD8OVhDBmPb2h55e5VTj7yjD3NMd4ZJ4PLC4ZwU+zEVU42+rglQeiV5PrCn5vnbSDsZcuhJLMQHD/mjhVqwlkZMx7QpctmfeJc3YminI+NPBAGK8WDL4Z38MnvFVzdiarTjjC2Eel56P4hUJViyRxSiP254ZzbiZ0sxbhtkW3pDwcmwVLXYLjjos2uARHrc802RNcU1KtRVbSc6vn65R3uX8dzZXodZWuOUOz0dx88VUSSlTVUDesdcXVkh0tRRuRpPBOJ70+9E3FdrdhUStVQ76IorLOz/TYMMxJ03ckgWaQCDCofdHiDz5vd2ItHr1/Dqn+N8ww35fSg3/1aV01wTSOj0RQNSTZ1mBdUR1GZsSKfMQtRFxC2YrGTCUCVyEkY+BYH+iRL2xWy8m39Gx4CkyURYZyEallMH0RTQYO38LMACfNC9ZZv/DGQAAAABJRU5ErkJggg==" alt="Follow me on Twitter"></img></a>&nbsp;&nbsp;
+                <a href="http://ie.linkedin.com/pub/david-coallier/0/b64/600">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAEsElEQVR42r2XaWyUZRDH9YMnghRCbQ0R6XKpQZqYIBoUIocSISAGRWuMJBoTjUftAWpZ222r5VCuFrVr71K23e0l9LInAm2s9QhWPogJMVrbkCKWSivtmnHm2fz3fbrPuxi/0OSXmfnPzDv/vG222WvUz8qsWMbNtF8l3OomjosYd7ClP7PpB//OttOU1dJrC3qhcUfbj8ZMuD25EZfT0i831W1x83R2c39K3ff0ckU3PVN8nDYXTSSutBMEtWdLTiC3m7fVnmNe9HSRs+EUyU31JsRJUk2Pf0vZSdpcfII2FRxDNAjpIxfCzxSa81sOd1Fi9dd+ua0MJNT20FPs8kke2JjfodjEtZaHq2UHNeeqDwIa5jXkVvKR7yho4PXqHlr/WTttLPgSqPrhA000KalEsXRfo9ICc8eQY8+2Ri7zG/IC9RP5gd3XKrstAy95Oml9XgetzW1FVKzMaaSz54cVqzgXDaxz67Mm0gOodfimZeCFsk5a625XrPmkJZhfGLlM+JEc/cdz2yQaSB+g1nf0mm9aBuSPY82nbbT6YDM9xk3kF/8ew33JRTOQWQDt0Y9bQnUj55uWgQ38SlbzkrAiu0lQeWLtNzRwcYT6mfiqbvTtZnXNTjdm1uW2WgZW5XxBy/c30oqcZhC2RjSxn0MuPJKt7ij4pmVgOTt6aF99kGUHGki0a98o0JFeWP3erBqKSvHQdfGFonEsoqjt5bRkj9oBeIZgGVjKjsADe+qCjPn/0UHf0KP50LL9DZTX9ROdGx4VTaKqHek+WrK33u75loH7PzxK4MG9DUEujfl1MGPou1p7kRv8PjRC8zOq8EzcYAP1loH7dn1OwmJuLv6ojgnEodExHZmB/r/Y3dYre9gHmoHdRyl2Ry1JRC4MXrqsg56hn/3jL0rmj/PnS4+Tu+uM0e/4eQDPlwgsA7E7j9DCD2oUkoOB4VEd9A09obpb35XamGEdM8gtAwuzakm4O7NKRfDb0IjOlXXs//cM5iwDC9IrSbiLG8jveb9GXq0OenY6doDdDG5gRjOQWU06c10+Fc8MDk9gXkalnY497lcht5vBcxEtA3PZ2RwmJrVCIbVw+tyQDnqGHtj3YU/mzBn00ipwxzIQk+YjYZazPBDfC8RT/X/qSF8wdG2fd21n8Ewg9UQDM7d7aFaqV0Xwbd8FHczY6sIdzopwM6IJ6IsJzYDLS9Hvlilmsnvh9pTD9NWv53XQs9NlF9jNQMcMvwGPZcDh8tFt75RR5NuHBJVH8z+Wk78M6kgvnG6AHpA9vX+n/itwpHlp+taSIJFsgDE0xBn8ANThmLHtEOZtnzdbfwOzU8tpanIxTecHB+EHQJM4bVupREXE1lLoRg87iLqm13xT+xvgYkpSEU1OnMhUPqTXtyaViAb9StHYncK70CLY8ByXV/sVOMvHI9jVzW8V0OSkYjukB/ghE+tbQupJCYX6jrE/jW85UivGYcAd+UpeX0yaV73KmxKKFNe/mR/kxvhCFdG7Ib4ANWYAZkJy9ArVDbklN/HVbJE4iXo1v8/h9IwvyOBPLP60kgigIdoxz+WVaMzOT/eFaN5xuSU31W0igomr/fV8kdz+F8uDPRGifaVMAAAAAElFTkSuQmCC" /></a>
+                &nbsp;&nbsp;
+                <a href="https://github.com/davidcoallier">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RkY1RDA2REMyQjg4MTFFMkIxNjZDOEVBMDk4MTYzRTYiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RkY1RDA2REQyQjg4MTFFMkIxNjZDOEVBMDk4MTYzRTYiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDowQkVBN0U3NTJCODgxMUUyQjE2NkM4RUEwOTgxNjNFNiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDowQkVBN0U3NjJCODgxMUUyQjE2NkM4RUEwOTgxNjNFNiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PvM56DQAAAYkSURBVHjavFd7TFNX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" alt="Github David Coallier"></img>
+                </a>
+                &nbsp;&nbsp;
+                <a href="http://instagram.com/davidcoallier">
+                    <img src="data:image/png;base64,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" alt="Instagram" />
+                </a>
             </div>
         </div>
         <!-- /container -->
 
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/js/bootstrap.min.js"></script>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-39631603-1']);
+            _gaq.push(['_trackPageview']);
+
+            (function() {
+             var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+             ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+             var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+             })();
+
+         </script>
     </body>
 
 </html>
