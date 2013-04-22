@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Data, Science, Startups and Investment]]></title>
-  <link href="http://davidcoallier.com/blog/atom.xml" rel="self"/>
-  <link href="http://davidcoallier.com/blog/"/>
-  <updated>2013-04-22T21:48:16+01:00</updated>
-  <id>http://davidcoallier.com/blog/</id>
+  <link href="http://davidcoallier.com//atom.xml" rel="self"/>
+  <link href="http://davidcoallier.com//"/>
+  <updated>2013-04-22T21:53:39+01:00</updated>
+  <id>http://davidcoallier.com//</id>
   <author>
     <name><![CDATA[David Coallier]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Mapping the Street of Ireland with R and ggplot2]]></title>
-    <link href="http://davidcoallier.com/blog/ye-olde-streets-of-ireland"/>
+    <link href="http://davidcoallier.com//ye-olde-streets-of-ireland"/>
     <updated>2013-04-22T21:40:00+01:00</updated>
-    <id>http://davidcoallier.com/blog/ye-olde-streets-of-ireland</id>
+    <id>http://davidcoallier.com//ye-olde-streets-of-ireland</id>
     <content type="html"><![CDATA[<h1>Mapping the Streets of Ireland With R and ggplot2</h1>
 
 <p>Earlier today an interesting article about plotting <a href="http://statistik-stuttgart.de/2013/04/19/r-street-of-france/">the streets of france</a> appeared in my feed. What Simon does in his blog post is essentially read OSM street-lines-data for France and displays it in what I find to be a rather traditional and elegant way.</p>
@@ -179,9 +179,9 @@ p &lt;- ggplot(linesIreland, aes(x=slon,y=slat)) +
   
   <entry>
     <title type="html"><![CDATA[Load, Shape and Visualise Data with R and ggplot2]]></title>
-    <link href="http://davidcoallier.com/blog/load-shape-visualise-data-with-r"/>
+    <link href="http://davidcoallier.com//load-shape-visualise-data-with-r"/>
     <updated>2013-04-22T20:55:00+01:00</updated>
-    <id>http://davidcoallier.com/blog/load-shape-visualise-data-with-r</id>
+    <id>http://davidcoallier.com//load-shape-visualise-data-with-r</id>
     <content type="html"><![CDATA[<h1>Load Data With Hmisc</h1>
 
 <p>Often times when working with data in <code>R</code>, you find yourself needing to summarise a <strong>data.frame</strong> by a column, a

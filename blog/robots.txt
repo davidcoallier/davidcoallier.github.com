@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://davidcoallier.com/blog/sitemap.xml 
+Sitemap: http://davidcoallier.com//sitemap.xml 
