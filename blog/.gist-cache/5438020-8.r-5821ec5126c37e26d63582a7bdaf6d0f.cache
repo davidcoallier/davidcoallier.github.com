@@ -1,0 +1,5 @@
+ggplot(byHour, aes(x=hour, y=as.numeric(countPerHour))) + 
+    geom_bar(stat="identity") +
+    labs(title="Count per hour for all users") +
+    ylab("Visits Per Hour") + xlab("Hour of the day") +
+    theme_bw()

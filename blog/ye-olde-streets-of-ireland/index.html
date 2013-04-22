@@ -1,0 +1,364 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Mapping the Street of Ireland with R and ggplot2 - Data, Science, Startups and Investment</title>
+  <meta name="author" content="David Coallier">
+
+  
+  <meta name="description" content="Mapping the Streets of Ireland With R and ggplot2 Earlier today an interesting article about plotting the streets of france appeared in my feed. What &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://davidcoallier.com/blog/ye-olde-streets-of-ireland">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Data, Science, Startups and Investment" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <style type="text/css">
+    .gist-file{
+      border: none !important;
+    }
+    .gist-meta{
+      border: 1px solid #D2d2d2 !important;
+      padding: 12px !important;
+      -moz-border-radius-bottomleft: 10px;
+      -webkit-border-bottom-left-radius: 10px;
+      -moz-border-radius-bottomright: 10px;
+      -webkit-border-bottom-right-radius: 10px;
+    }
+    .gist-data table { width: 100% !important; }
+
+  </style>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Data, Science, Startups and Investment</a></h1>
+  
+    <h2>A place for field experiments notes</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Mapping the Street of Ireland With R and Ggplot2</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-22T21:40:00+01:00" pubdate data-updated="true">Apr 22<span>nd</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h1>Mapping the Streets of Ireland With R and ggplot2</h1>
+
+<p>Earlier today an interesting article about plotting <a href="http://statistik-stuttgart.de/2013/04/19/r-street-of-france/">the streets of france</a> appeared in my feed. What Simon does in his blog post is essentially read OSM street-lines-data for France and displays it in what I find to be a rather traditional and elegant way.</p>
+
+<p>The first thing I immediately though of was: &#8220;I&#8217;d love to see this for Ireland&#8221;. As an OSX user, it took a few tricks to get the article replicated for Ireland therefore I&#8217;ve decided to share my notes.</p>
+
+<p>Should you wish to replicate this for your country, here are some notes I&#8217;ve taken.</p>
+
+<h2>Get The Data</h2>
+
+<p>The first thing you&#8217;ll need to do is get data off the <a href="http://www.geofabrik.de/">Geofabrik</a> servers. Being my first time transforming data I didn&#8217;t know where to look, and what to look for.</p>
+
+<p>Firstly, I found out this URL: http://download.geofabrik.de/europe.html which contains links to <code>.osm.pbf</code>&#8217;, <code>.shp.zip</code>, and <code>osm.zip</code> files.</p>
+
+<p>Not unlike Simon, you&#8217;ll have to download the <code>.osm.pbf</code> file understanding that you&#8217;ll have to convert it to an osm-friendly format. The <code>.shp.zip</code> file contained too many dimensions for me to care to learn how it works.</p>
+
+<h2>Convert The PBF file</h2>
+
+<p>Second step is to unzip, then convert the downloaded <code>pbf</code> file to an <code>o5m</code> file, and finally filter the parts of the <code>osm</code> file you want to work with. Let&#8217;s see how you do all of that.</p>
+
+<p>After acquiring <a href="http://m.m.i24.cc/osmconvert.c">osmconvert</a> and <a href="http://m.m.i24.cc/osmfilter.c">osmfilter</a>, you&#8217;ll need to compile them.</p>
+
+<p>For <strong>osmconvert</strong>, it&#8217;s as simple as:</p>
+
+<pre><code>$&gt; wget -O - http://m.m.i24.cc/osmconvert.c | cc -x c - -lz -O3 -o osmconvert
+</code></pre>
+
+<p>And for <strong>osmfilter</strong> again:</p>
+
+<pre><code>$&gt; wget -O - http://m.m.i24.cc/osmfilter.c |cc -x c - -O3 -o osmfilter
+</code></pre>
+
+<p>After having compiled <strong>osmconvert</strong> and <strong>osmfilter</strong>, you are ready to begin the conversion of the <code>.pbf</code> file to <code>.o5m</code> to <code>.osm</code>.</p>
+
+<h3>Convert From PBF to o5m</h3>
+
+<p>Using the compiled <code>osmconvert</code>, convert the <code>pbf</code> from <code>o5m</code> like such:</p>
+
+<pre><code>$&gt; ./osmconvert ireland-and-northern-ireland-latest.osm.pbf --out-o5m -o="ireland.o5m"
+</code></pre>
+
+<h3>Convert From o5m to osm</h3>
+
+<p>Now using the second compiled program <code>osmfilter</code>, extract the parts you are interested in (Again, this is directly taken from Simon&#8217;s article):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>./osmfilter ireland.o5m --keep="highway=motorway =motorway_link =trunk 
+</span><span class='line'>=trunk_link =primary =primary_link =secondary =secondary_link =tertiary 
+</span><span class='line'>=tertiary_link =living_street =pedestrian =residential =unclassified 
+</span><span class='line'>=service" --drop-author --drop-version &gt; ireland.osm</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>QuantumGIS</h2>
+
+<p>Now that you&#8217;ve converted the <code>pbf</code>, and filtered the <code>o5m</code> into a cleaned <code>osm</code>, I needed to transform the <code>osm</code> file into an <code>shp</code> shapefile.</p>
+
+<p>You can get QuantumGIS from http://www.kyngchaos.com/software/qgis. Follow the requirements, and you will be able to open up QuantumGIS.</p>
+
+<h3>QuantumGIS OpenStreetMap Plugin</h3>
+
+<p>Before converting your layers to <code>shp</code> files, you will need to enable the OpenStreetMap Plugin in QGIS.</p>
+
+<ol>
+<li>Top menu, select &#8220;Plugins&#8221; > &#8220;Manage Plugins…&#8221;,</li>
+<li>From the Manage Plugins windows, search for &#8220;Open&#8221; and enable the OpenStreetMap core plugin</li>
+</ol>
+
+
+<h3>Loading OSM file into QuantumGIS</h3>
+
+<p>Now that you&#8217;ve installed the OpenStreetMap plugin, a new &#8220;Top Menu&#8221; item should have appeared in QuantumGIS. Look for a menu-item named &#8220;Web&#8221;.</p>
+
+<p>From there, you will have multiple choices under the <strong>OpenStreetMap</strong> option. Select <code>Load OSM from file</code> and select the <code>osm</code> file we&#8217;ve created before.</p>
+
+<h3>QuantumGIS Layers</h3>
+
+<p>You&#8217;re nearly there. Now, on the left-handside, you will see 3 layers: {country}<em>streets_points, {country}</em>streets_line, {country}_streets_polygons.</p>
+
+<p>Unselect points, and polygons. Keep only lines.</p>
+
+<h3>Save as SHP</h3>
+
+<p>Now that you&#8217;ve only the lines for your country/region/area, from the top menu, select <strong>Layer</strong> > <strong>Save As</strong> and save your shp shape file.</p>
+
+<h2>Getting R-eady</h2>
+
+<p>Finally some <strong>R</strong>&#8230;</p>
+
+<p>Now, in order to continue, you will need to make sure the following packages are installed:</p>
+
+<ol>
+<li>ggplot2</li>
+<li>maptools</li>
+<li>proto</li>
+<li>sp</li>
+</ol>
+
+
+<p>If you don&#8217;t have them, you can install them with:</p>
+
+<pre><code>R&gt; install.packages(c('ggplot2', 'maptools', 'proto', 'sp'))
+</code></pre>
+
+<h2>Loading the Data in R</h2>
+
+<p>You have all the required packages, your files have been converted into the proper <code>shp</code> format, you are now ready to load the data into something that can be displayed:</p>
+
+<div><script src='https://gist.github.com/5421734.js?file=z-ggplot-for-blog.r'></script>
+<noscript><pre><code>shpIreland &lt;- readShapeLines(&quot;path/to/shapefile/file.shp&quot;)
+linesIreland &lt;- conv_sp_lines_to_seg(shpIreland)
+rm(shpIreland)
+
+streets &lt;- geom_segment2(data=linesIreland, 
+                         aes(xend=elon, yend=elat), 
+                         size=.055, 
+                         color=&quot;black&quot;)
+
+p &lt;- ggplot(linesIreland, aes(x=slon,y=slat)) + 
+    streets + 
+    scale_x_continuous(&quot;&quot;, breaks=NULL) + 
+    scale_y_continuous(&quot;&quot;, breaks=NULL) +
+    labs(title=&quot;Streets of Ireland and Northern Ireland 2013&quot;) +
+    theme(panel.background=element_rect(fill='#f5f4e0')) +
+    theme(plot.background=element_rect(fill='#f5f4e0')) </code></pre></noscript></div>
+
+
+<p>Please note that <code>geom_segment2</code> and <code>conv_sp_lines_to_seg</code> are respectively third-party functions from <a href="http://spatialanalysis.co.uk/2012/02/great-maps-ggplot2/">Spatial Analysis UK</a>, and <a href="http://muon-stat.com/landkarten/convert_shp_line_to_seg.R">Simon Müller</a>. You can find a script attached to this <strong>gist</strong> that contains all the code.</p>
+
+<h2>Resulting ggplot2 Image</h2>
+
+<p>Here&#8217;s what the end result with a map that displays the sparse streets of Ireland looks like:</p>
+
+<p><img src="http://hostr.co/file/PlFMCIFuKiiT/ireland-streets-small.png" alt="Small Street" /></p>
+
+<h2>Title for Edward R. Tufte</h2>
+
+<p>Now, I&#8217;ve saved the plot as a PDF from RStudio, and opened it with Adobe Illustrator which allows me to edit various parts of the plot. That is how the title has been changed. ( <strong>That&#8217;s a pretty big tip right there, write that down</strong> )</p>
+
+<p>If you&#8217;ve ever read Edward R. Tufte, you may have come across one of his book called: <strong>The Visual Display of Quantitative Information</strong> which displays very elegant, <code>Ye Olde Plot</code> types of plots. It is the reason why this map has an edited title, even though I didn&#8217;t have time to find the proper font so I would agree that it looks slightly sloppy.</p>
+
+<p>If you are interested in the original image, please see <a href="http://hostr.co/file/yKZBiz7xww6K/ireland-streets.png">the larger image</a></p>
+
+<h2>Conclusion</h2>
+
+<p>It&#8217;s fairly simplistic, and I believe it created what is to be an elegant old-style plot of Ireland&#8217;s streets (which comprises <em>2,133,736</em> street-data points).</p>
+
+<p>Thanks to Simon for his original article.</p>
+
+<ul>
+<li>See the code in the file called &#8220;plotting-full.R&#8221; under,</li>
+<li>The data OpenStreetMap-data is published under CC BY-SA-licence</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">David Coallier</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-22T21:40:00+01:00" pubdate data-updated="true">Apr 22<span>nd</span>, 2013</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://davidcoallier.com/blog/ye-olde-streets-of-ireland" data-via="" data-counturl="http://davidcoallier.com/blog/ye-olde-streets-of-ireland" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/load-shape-visualise-data-with-r" title="Previous Post: Load, Shape and Visualise Data with R and ggplot2">&laquo; Load, Shape and Visualise Data with R and ggplot2</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/ye-olde-streets-of-ireland">Mapping the Street of Ireland with R and ggplot2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/load-shape-visualise-data-with-r">Load, Shape and Visualise Data with R and ggplot2</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - David Coallier -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

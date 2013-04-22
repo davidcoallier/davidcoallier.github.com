@@ -1,0 +1,5 @@
+ggplot(byWeekday, aes(x=weekday, y=as.numeric(countPerDay))) + 
+  geom_bar(aes(fill=user), position="dodge") +
+  labs(title="Dodge per hour per user") +
+  ylab("Visits Per Hour") + xlab("Hour of the day") +
+  theme_bw() + coord_flip()

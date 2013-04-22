@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
+    <url>
+        <loc>http://davidcoallier.com/blog/load-shape-visualise-data-with-r</loc>
+        <lastmod>2013-04-22T21:23:44+01:00</lastmod>
+    </url>
+    <url>
+        <loc>http://davidcoallier.com/blog/ye-olde-streets-of-ireland</loc>
+        <lastmod>2013-04-22T21:47:04+01:00</lastmod>
+    </url>
+    <url>
+        <loc>http://davidcoallier.com/blog/archive.html</loc>
+        <lastmod>2013-04-22T21:37:50+01:00</lastmod>
+    </url>
+    <url>
+        <loc>http://davidcoallier.com/blog/blog/archives/</loc>
+        <lastmod>2013-04-22T21:47:04+01:00</lastmod>
+    </url>
+    <url>
+        <loc>http://davidcoallier.com/blog/</loc>
+        <lastmod>2013-04-22T21:47:04+01:00</lastmod>
+    </url>
+    <url>
+        <loc>http://davidcoallier.com/blog/robots.txt</loc>
+        <lastmod>2013-04-22T20:50:30+01:00</lastmod>
+    </url>
+</urlset>

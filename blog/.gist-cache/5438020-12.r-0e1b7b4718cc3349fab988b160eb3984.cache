@@ -1,0 +1,12 @@
+byWeekdayHour <- ddply(data, .(user, hour, weekday), summarise, countPerHour=sum(pages.visited))
+
+byWeekdayHour$weekday <- factor(
+    byWeekdayHour$weekday, 
+    levels=c('Wednesday', 'Thursday')
+)
+
+ggplot(byWeekdayHour, aes(x=hour, y=as.numeric(countPerHour))) + 
+    geom_bar(aes(fill=user), stat="identity") +
+    labs(title="Pages visited per hour of day") +
+    ylab("Visits Per Hour") + xlab("Hour of the day") +
+    theme_bw() + facet_grid(user~weekday)

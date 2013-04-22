@@ -1,0 +1,1 @@
+data$hour <- format(data$created.at, '%H')

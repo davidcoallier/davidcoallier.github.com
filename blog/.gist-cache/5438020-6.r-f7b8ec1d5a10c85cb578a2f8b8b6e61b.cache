@@ -1,0 +1,1 @@
+byHour <- ddply(data, .(user, hour), summarise, countPerHour=sum(pages.visited))

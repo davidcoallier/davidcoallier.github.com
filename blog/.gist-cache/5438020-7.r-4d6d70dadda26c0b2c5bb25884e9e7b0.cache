@@ -1,0 +1,2 @@
+data$weekday <- weekdays(data$created.at)
+byWeekday <- ddply(data, .(user, weekday), summarise, countPerDay=sum(pages.visited))

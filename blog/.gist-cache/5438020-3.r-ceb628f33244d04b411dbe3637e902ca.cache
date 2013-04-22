@@ -1,0 +1,3 @@
+data$created.at <- as.POSIXct(
+    format(data$created.at, tz="America/Los_Angeles" usetz=TRUE)
+)

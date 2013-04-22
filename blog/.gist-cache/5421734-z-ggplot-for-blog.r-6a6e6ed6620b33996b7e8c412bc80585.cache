@@ -1,0 +1,16 @@
+shpIreland <- readShapeLines("path/to/shapefile/file.shp")
+linesIreland <- conv_sp_lines_to_seg(shpIreland)
+rm(shpIreland)
+
+streets <- geom_segment2(data=linesIreland, 
+                         aes(xend=elon, yend=elat), 
+                         size=.055, 
+                         color="black")
+
+p <- ggplot(linesIreland, aes(x=slon,y=slat)) + 
+    streets + 
+    scale_x_continuous("", breaks=NULL) + 
+    scale_y_continuous("", breaks=NULL) +
+    labs(title="Streets of Ireland and Northern Ireland 2013") +
+    theme(panel.background=element_rect(fill='#f5f4e0')) +
+    theme(plot.background=element_rect(fill='#f5f4e0')) 

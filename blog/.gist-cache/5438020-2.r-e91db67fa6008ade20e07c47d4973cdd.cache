@@ -1,0 +1,5 @@
+require(Hmisc)
+require(plyr)
+require(ggplot2)
+
+data <- csv.get('path/to/csv-file.csv', header=TRUE)
