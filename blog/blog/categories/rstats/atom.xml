@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Data, Science, Startups and Investment]]></title>
-  <link href="http://davidcoallier.com//atom.xml" rel="self"/>
+  <title><![CDATA[Category: rstats | Data, Science, Startups and Investment]]></title>
+  <link href="http://davidcoallier.com//blog/categories/rstats/atom.xml" rel="self"/>
   <link href="http://davidcoallier.com//"/>
   <updated>2013-04-22T22:16:54+01:00</updated>
   <id>http://davidcoallier.com//</id>
@@ -22,25 +22,25 @@
 
 <p>Earlier today an interesting article about plotting <a href="http://statistik-stuttgart.de/2013/04/19/r-street-of-france/">the streets of france</a> appeared in my feed. What Simon does in his blog post is essentially read OSM street-lines-data for France and displays it in what I find to be a rather traditional and elegant way.</p>
 
-<p>The first thing I immediately though of was: &#8220;I&#8217;d love to see this for Ireland&#8221;. As an OSX user, it took a few tricks to get the article replicated for Ireland therefore I&#8217;ve decided to share my notes.</p>
+<p>The first thing I immediately though of was: "I'd love to see this for Ireland". As an OSX user, it took a few tricks to get the article replicated for Ireland therefore I've decided to share my notes.</p>
 
-<p>Should you wish to replicate this for your country, here are some notes I&#8217;ve taken.</p>
+<p>Should you wish to replicate this for your country, here are some notes I've taken.</p>
 
 <h2>Get The Data</h2>
 
-<p>The first thing you&#8217;ll need to do is get data off the <a href="http://www.geofabrik.de/">Geofabrik</a> servers. Being my first time transforming data I didn&#8217;t know where to look, and what to look for.</p>
+<p>The first thing you'll need to do is get data off the <a href="http://www.geofabrik.de/">Geofabrik</a> servers. Being my first time transforming data I didn't know where to look, and what to look for.</p>
 
-<p>Firstly, I found out this URL: http://download.geofabrik.de/europe.html which contains links to <code>.osm.pbf</code>&#8217;, <code>.shp.zip</code>, and <code>osm.zip</code> files.</p>
+<p>Firstly, I found out this URL: http://download.geofabrik.de/europe.html which contains links to <code>.osm.pbf</code>', <code>.shp.zip</code>, and <code>osm.zip</code> files.</p>
 
-<p>Not unlike Simon, you&#8217;ll have to download the <code>.osm.pbf</code> file understanding that you&#8217;ll have to convert it to an osm-friendly format. The <code>.shp.zip</code> file contained too many dimensions for me to care to learn how it works.</p>
+<p>Not unlike Simon, you'll have to download the <code>.osm.pbf</code> file understanding that you'll have to convert it to an osm-friendly format. The <code>.shp.zip</code> file contained too many dimensions for me to care to learn how it works.</p>
 
 <h2>Convert The PBF file</h2>
 
-<p>Second step is to unzip, then convert the downloaded <code>pbf</code> file to an <code>o5m</code> file, and finally filter the parts of the <code>osm</code> file you want to work with. Let&#8217;s see how you do all of that.</p>
+<p>Second step is to unzip, then convert the downloaded <code>pbf</code> file to an <code>o5m</code> file, and finally filter the parts of the <code>osm</code> file you want to work with. Let's see how you do all of that.</p>
 
-<p>After acquiring <a href="http://m.m.i24.cc/osmconvert.c">osmconvert</a> and <a href="http://m.m.i24.cc/osmfilter.c">osmfilter</a>, you&#8217;ll need to compile them.</p>
+<p>After acquiring <a href="http://m.m.i24.cc/osmconvert.c">osmconvert</a> and <a href="http://m.m.i24.cc/osmfilter.c">osmfilter</a>, you'll need to compile them.</p>
 
-<p>For <strong>osmconvert</strong>, it&#8217;s as simple as:</p>
+<p>For <strong>osmconvert</strong>, it's as simple as:</p>
 
 <pre><code>$&gt; wget -O - http://m.m.i24.cc/osmconvert.c | cc -x c - -lz -O3 -o osmconvert
 </code></pre>
@@ -61,21 +61,18 @@
 
 <h3>Convert From o5m to osm</h3>
 
-<p>Now using the second compiled program <code>osmfilter</code>, extract the parts you are interested in (Again, this is directly taken from Simon&#8217;s article):</p>
+<p>Now using the second compiled program <code>osmfilter</code>, extract the parts you are interested in (Again, this is directly taken from Simon's article):</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>./osmfilter ireland.o5m --keep="highway=motorway =motorway_link =trunk 
-</span><span class='line'>=trunk_link =primary =primary_link =secondary =secondary_link =tertiary 
-</span><span class='line'>=tertiary_link =living_street =pedestrian =residential =unclassified 
-</span><span class='line'>=service" --drop-author --drop-version &gt; ireland.osm</span></code></pre></td></tr></table></div></figure>
-
+<p><code>
+./osmfilter ireland.o5m --keep="highway=motorway =motorway_link =trunk
+=trunk_link =primary =primary_link =secondary =secondary_link =tertiary
+=tertiary_link =living_street =pedestrian =residential =unclassified
+=service" --drop-author --drop-version &gt; ireland.osm
+</code></p>
 
 <h2>QuantumGIS</h2>
 
-<p>Now that you&#8217;ve converted the <code>pbf</code>, and filtered the <code>o5m</code> into a cleaned <code>osm</code>, I needed to transform the <code>osm</code> file into an <code>shp</code> shapefile.</p>
+<p>Now that you've converted the <code>pbf</code>, and filtered the <code>o5m</code> into a cleaned <code>osm</code>, I needed to transform the <code>osm</code> file into an <code>shp</code> shapefile.</p>
 
 <p>You can get QuantumGIS from http://www.kyngchaos.com/software/qgis. Follow the requirements, and you will be able to open up QuantumGIS.</p>
 
@@ -84,30 +81,30 @@
 <p>Before converting your layers to <code>shp</code> files, you will need to enable the OpenStreetMap Plugin in QGIS.</p>
 
 <ol>
-<li>Top menu, select &#8220;Plugins&#8221; > &#8220;Manage Plugins…&#8221;,</li>
-<li>From the Manage Plugins windows, search for &#8220;Open&#8221; and enable the OpenStreetMap core plugin</li>
+<li>Top menu, select "Plugins" > "Manage Plugins…",</li>
+<li>From the Manage Plugins windows, search for "Open" and enable the OpenStreetMap core plugin</li>
 </ol>
 
 
 <h3>Loading OSM file into QuantumGIS</h3>
 
-<p>Now that you&#8217;ve installed the OpenStreetMap plugin, a new &#8220;Top Menu&#8221; item should have appeared in QuantumGIS. Look for a menu-item named &#8220;Web&#8221;.</p>
+<p>Now that you've installed the OpenStreetMap plugin, a new "Top Menu" item should have appeared in QuantumGIS. Look for a menu-item named "Web".</p>
 
-<p>From there, you will have multiple choices under the <strong>OpenStreetMap</strong> option. Select <code>Load OSM from file</code> and select the <code>osm</code> file we&#8217;ve created before.</p>
+<p>From there, you will have multiple choices under the <strong>OpenStreetMap</strong> option. Select <code>Load OSM from file</code> and select the <code>osm</code> file we've created before.</p>
 
 <h3>QuantumGIS Layers</h3>
 
-<p>You&#8217;re nearly there. Now, on the left-handside, you will see 3 layers: {country}<em>streets_points, {country}</em>streets_line, {country}_streets_polygons.</p>
+<p>You're nearly there. Now, on the left-handside, you will see 3 layers: {country}<em>streets_points, {country}</em>streets_line, {country}_streets_polygons.</p>
 
 <p>Unselect points, and polygons. Keep only lines.</p>
 
 <h3>Save as SHP</h3>
 
-<p>Now that you&#8217;ve only the lines for your country/region/area, from the top menu, select <strong>Layer</strong> > <strong>Save As</strong> and save your shp shape file.</p>
+<p>Now that you've only the lines for your country/region/area, from the top menu, select <strong>Layer</strong> > <strong>Save As</strong> and save your shp shape file.</p>
 
 <h2>Getting R-eady</h2>
 
-<p>Finally some <strong>R</strong>&#8230;</p>
+<p>Finally some <strong>R</strong>...</p>
 
 <p>Now, in order to continue, you will need to make sure the following packages are installed:</p>
 
@@ -119,7 +116,7 @@
 </ol>
 
 
-<p>If you don&#8217;t have them, you can install them with:</p>
+<p>If you don't have them, you can install them with:</p>
 
 <pre><code>R&gt; install.packages(c('ggplot2', 'maptools', 'proto', 'sp'))
 </code></pre>
@@ -128,7 +125,7 @@
 
 <p>You have all the required packages, your files have been converted into the proper <code>shp</code> format, you are now ready to load the data into something that can be displayed:</p>
 
-<div><script src='https://gist.github.com/5421734.js?file=z-ggplot-for-blog.r'></script>
+<p><div><script src='https://gist.github.com/5421734.js?file=z-ggplot-for-blog.r'></script>
 <noscript><pre><code>shpIreland &lt;- readShapeLines(&quot;path/to/shapefile/file.shp&quot;)
 linesIreland &lt;- conv_sp_lines_to_seg(shpIreland)
 rm(shpIreland)
@@ -145,32 +142,32 @@ p &lt;- ggplot(linesIreland, aes(x=slon,y=slat)) +
     labs(title=&quot;Streets of Ireland and Northern Ireland 2013&quot;) +
     theme(panel.background=element_rect(fill='#f5f4e0')) +
     theme(plot.background=element_rect(fill='#f5f4e0')) </code></pre></noscript></div>
-
+</p>
 
 <p>Please note that <code>geom_segment2</code> and <code>conv_sp_lines_to_seg</code> are respectively third-party functions from <a href="http://spatialanalysis.co.uk/2012/02/great-maps-ggplot2/">Spatial Analysis UK</a>, and <a href="http://muon-stat.com/landkarten/convert_shp_line_to_seg.R">Simon Müller</a>. You can find a script attached to this <strong>gist</strong> that contains all the code.</p>
 
 <h2>Resulting ggplot2 Image</h2>
 
-<p>Here&#8217;s what the end result with a map that displays the sparse streets of Ireland looks like:</p>
+<p>Here's what the end result with a map that displays the sparse streets of Ireland looks like:</p>
 
 <p><img src="http://hostr.co/file/PlFMCIFuKiiT/ireland-streets-small.png" alt="Small Street" /></p>
 
 <h2>Title for Edward R. Tufte</h2>
 
-<p>Now, I&#8217;ve saved the plot as a PDF from RStudio, and opened it with Adobe Illustrator which allows me to edit various parts of the plot. That is how the title has been changed. ( <strong>That&#8217;s a pretty big tip right there, write that down</strong> )</p>
+<p>Now, I've saved the plot as a PDF from RStudio, and opened it with Adobe Illustrator which allows me to edit various parts of the plot. That is how the title has been changed. ( <strong>That's a pretty big tip right there, write that down</strong> )</p>
 
-<p>If you&#8217;ve ever read Edward R. Tufte, you may have come across one of his book called: <strong>The Visual Display of Quantitative Information</strong> which displays very elegant, <code>Ye Olde Plot</code> types of plots. It is the reason why this map has an edited title, even though I didn&#8217;t have time to find the proper font so I would agree that it looks slightly sloppy.</p>
+<p>If you've ever read Edward R. Tufte, you may have come across one of his book called: <strong>The Visual Display of Quantitative Information</strong> which displays very elegant, <code>Ye Olde Plot</code> types of plots. It is the reason why this map has an edited title, even though I didn't have time to find the proper font so I would agree that it looks slightly sloppy.</p>
 
 <p>If you are interested in the original image, please see <a href="http://hostr.co/file/yKZBiz7xww6K/ireland-streets.png">the larger image</a></p>
 
 <h2>Conclusion</h2>
 
-<p>It&#8217;s fairly simplistic, and I believe it created what is to be an elegant old-style plot of Ireland&#8217;s streets (which comprises <em>2,133,736</em> street-data points).</p>
+<p>It's fairly simplistic, and I believe it created what is to be an elegant old-style plot of Ireland's streets (which comprises <em>2,133,736</em> street-data points).</p>
 
 <p>Thanks to Simon for his original article.</p>
 
 <ul>
-<li>See the code in the file called &#8220;plotting-full.R&#8221; under,</li>
+<li>See the code in the file called "plotting-full.R" under,</li>
 <li>The data OpenStreetMap-data is published under CC BY-SA-licence</li>
 </ul>
 
@@ -187,93 +184,93 @@ p &lt;- ggplot(linesIreland, aes(x=slon,y=slat)) +
 <p>Often times when working with data in <code>R</code>, you find yourself needing to summarise a <strong>data.frame</strong> by a column, a
 <code>SELECT SUM(..)</code> or <code>SELECT COUNT(..)</code> in MySQL if you will.</p>
 
-<p>For instance, you may have a lot of page-visits to analyse and you aren&#8217;t quite certain how to summarise some
+<p>For instance, you may have a lot of page-visits to analyse and you aren't quite certain how to summarise some
 of that data using <code>R</code>.</p>
 
-<p>Let&#8217;s consider the following (trivial) dataset:</p>
+<p>Let's consider the following (trivial) dataset:</p>
 
-<div><script src='https://gist.github.com/5438020.js?file=1.csv'></script>
+<p><div><script src='https://gist.github.com/5438020.js?file=1.csv'></script>
 <noscript><pre><code>user, created.at, pages.visited
 julie, 2011-11-16 03:31:56 GMT, 3
 julie, 2011-11-16 04:22:33 GMT, 5
 jack, 2011-11-16 07:19:13 GMT, 8
 jack, 2011-11-16 12:39:02 GMT, 9
 julie, 2011-11-17 12:39:02 GMT, 3</code></pre></noscript></div>
+</p>
 
+<p>Let's load this <strong>csv</strong> file into <code>R</code> using a package called <strong>Hmisc</strong>:</p>
 
-<p>Let&#8217;s load this <strong>csv</strong> file into <code>R</code> using a package called <strong>Hmisc</strong>:</p>
-
-<div><script src='https://gist.github.com/5438020.js?file=2.r'></script>
+<p><div><script src='https://gist.github.com/5438020.js?file=2.r'></script>
 <noscript><pre><code>require(Hmisc)
 require(plyr)
 require(ggplot2)
 
 data &lt;- csv.get('path/to/csv-file.csv', header=TRUE)</code></pre></noscript></div>
-
+</p>
 
 <p>By using <code>csv.get</code> we essentially create a <code>data</code> variable of type  <em>data.frame</em> on which we can start operating.</p>
 
 <h1>Shape the data (Clean)</h1>
 
-<p>The first thing we&#8217;ll want to do is format the <code>created.at</code> field so that it is parsable and formattable.</p>
+<p>The first thing we'll want to do is format the <code>created.at</code> field so that it is parsable and formattable.</p>
 
-<p>For the purpose of this analysis, let&#8217;s assume that we are based in Los Angeles. If we look closely at the data we have loaded, we
+<p>For the purpose of this analysis, let's assume that we are based in Los Angeles. If we look closely at the data we have loaded, we
 notice the timezone of the <code>data$created.at</code> field being <strong>GMT</strong>.</p>
 
 <p>Considering we are in Los Angeles, visualising <strong>GMT</strong> data will not be as intuitive for our team, therefore we are
-going to start by changing the timezone (and values) of the <code>data$created.at</code> to &#8220;Los Angeles&#8221; times.</p>
+going to start by changing the timezone (and values) of the <code>data$created.at</code> to "Los Angeles" times.</p>
 
-<div><script src='https://gist.github.com/5438020.js?file=3.r'></script>
+<p><div><script src='https://gist.github.com/5438020.js?file=3.r'></script>
 <noscript><pre><code>data$created.at &lt;- as.POSIXct(
     format(data$created.at, tz=&quot;America/Los_Angeles&quot; usetz=TRUE)
 )</code></pre></noscript></div>
-
+</p>
 
 <p>We now have data that is ready to be parsed, and that is represented with local Los Angeles times. We decide we want
 to see how people are using the data per hour of the day.</p>
 
 <p><code>R</code> <em>data.frame</em>s are fairly versatile and allow us to add the hour for each entry as easily as:</p>
 
-<div><script src='https://gist.github.com/5438020.js?file=4.r'></script>
+<p><div><script src='https://gist.github.com/5438020.js?file=4.r'></script>
 <noscript><pre><code>data$hour &lt;- format(data$created.at, '%H')</code></pre></noscript></div>
-
+</p>
 
 <p>Our <code>data</code> now contains the <strong>hour</strong> column and looks like:</p>
 
-<div><script src='https://gist.github.com/5438020.js?file=5.csv'></script>
+<p><div><script src='https://gist.github.com/5438020.js?file=5.csv'></script>
 <noscript><pre><code>user          created.at pages.visited hour
 1 julie 2011-11-16 03:31:56            3   03
 2 julie 2011-11-16 04:22:33            5   04
 3 jack 2011-11-16 07:19:13             8   07
 4 jack 2011-11-16 12:39:02             9   12
 5 julie 2011-11-17 12:39:02            3   12</code></pre></noscript></div>
-
+</p>
 
 <p>At this point we want to count the number of pages visited per hour, per user. If we were using
 an SQL based solution, we could simply do something like:</p>
 
 <p>SELECT SUM(pages.visited) as countPerHour, user, hour FROM data GROUP BY user, hour</p>
 
-<p>The only problem, is we aren&#8217;t using an SQL-based solution, therefore we need to learn how to
+<p>The only problem, is we aren't using an SQL-based solution, therefore we need to learn how to
 manipulate and summarise data from within <code>R</code>.</p>
 
 <p>The <code>plyr</code> package in <code>R</code> allows us to manipulate lists, dataframes, etc. very easily. In this
 instance, it also allows ut to summarise as if we were using and SQL-based query.</p>
 
-<div><script src='https://gist.github.com/5438020.js?file=6.r'></script>
+<p><div><script src='https://gist.github.com/5438020.js?file=6.r'></script>
 <noscript><pre><code>byHour &lt;- ddply(data, .(user, hour), summarise, countPerHour=sum(pages.visited))</code></pre></noscript></div>
-
+</p>
 
 <p>We now have a new <em>data.frame</em> <code>byHour</code> which contains the sum of visited page per hour per user.</p>
 
-<p>Now let&#8217;s say we also want to take a look at the visits by weekday instead of by hour. We&#8217;ll start by adding
-the weekday to our original <code>data</code> <em>data.frame</em> and again, we&#8217;ll use <code>ddply</code> from <code>plyr</code> to sum/count
+<p>Now let's say we also want to take a look at the visits by weekday instead of by hour. We'll start by adding
+the weekday to our original <code>data</code> <em>data.frame</em> and again, we'll use <code>ddply</code> from <code>plyr</code> to sum/count
 the number of visits per weekday:</p>
 
-<div><script src='https://gist.github.com/5438020.js?file=7.r'></script>
+<p><div><script src='https://gist.github.com/5438020.js?file=7.r'></script>
 <noscript><pre><code>data$weekday &lt;- weekdays(data$created.at)
 byWeekday &lt;- ddply(data, .(user, weekday), summarise, countPerDay=sum(pages.visited))</code></pre></noscript></div>
-
+</p>
 
 <p>You now have data summarised that is similar to what you would traditionally get with
 MySQL by doing <code>SELECT SUM(hour) as countPerHour, user, hour FROM data GROUP BY user, user</code> or even
@@ -284,20 +281,20 @@ formatted <em>data.frame</em>.</p>
 
 <h1>Visualise Your Cleansed Data</h1>
 
-<p>As with most analysis, you will want to visualise this data-set. Preferably, you&#8217;ll generate a few
+<p>As with most analysis, you will want to visualise this data-set. Preferably, you'll generate a few
 plots and identify which ones pleases you the most.</p>
 
 <h3>Visited Pages Per Hour</h3>
 
 <p>Lets see how we can use <code>ggplot2</code> to visualise this data-set in a few different ways:</p>
 
-<div><script src='https://gist.github.com/5438020.js?file=8.r'></script>
+<p><div><script src='https://gist.github.com/5438020.js?file=8.r'></script>
 <noscript><pre><code>ggplot(byHour, aes(x=hour, y=as.numeric(countPerHour))) + 
     geom_bar(stat=&quot;identity&quot;) +
     labs(title=&quot;Count per hour for all users&quot;) +
     ylab(&quot;Visits Per Hour&quot;) + xlab(&quot;Hour of the day&quot;) +
     theme_bw()</code></pre></noscript></div>
-
+</p>
 
 <p><img src="https://hostr.co/file/P6yIYUIGBJzK/plot1.png" alt="Plot1" /></p>
 
@@ -307,15 +304,15 @@ our analysis is fairly weak.</p>
 <h3>Visited Pages Per Hour Per User</h3>
 
 <p>What if we decide to put the visited page, per user, as columns but this
-time we&#8217;ll put them side-by-side so we can compare the two users:</p>
+time we'll put them side-by-side so we can compare the two users:</p>
 
-<div><script src='https://gist.github.com/5438020.js?file=9.r'></script>
+<p><div><script src='https://gist.github.com/5438020.js?file=9.r'></script>
 <noscript><pre><code>ggplot(byHour, aes(x=hour, y=as.numeric(countPerHour))) + 
   geom_bar(aes(fill=user), position=&quot;dodge&quot;) +
   labs(title=&quot;Dodge per hour per user&quot;) +
   ylab(&quot;Visits Per Hour&quot;) + xlab(&quot;Hour of the day&quot;) +
   theme_bw()</code></pre></noscript></div>
-
+</p>
 
 <p><img src="https://hostr.co/file/5t8GYEOJimA9/plot2.png" alt="Plot2" /></p>
 
@@ -337,13 +334,13 @@ and that Julie is in fact using it less.</p>
 
 <p>Another way of visualise this would be to seperate the users into facets as such:</p>
 
-<div><script src='https://gist.github.com/5438020.js?file=10.r'></script>
+<p><div><script src='https://gist.github.com/5438020.js?file=10.r'></script>
 <noscript><pre><code>ggplot(byHour, aes(x=hour, y=as.numeric(countPerHour))) + 
   geom_bar(aes(fill=user), stat=&quot;identity&quot;) +
   labs(title=&quot;Pages visited per hour of day&quot;) +
   ylab(&quot;Visits Per Hour&quot;) + xlab(&quot;Hour of the day&quot;) +
   theme_bw() + facet_grid(user~.)</code></pre></noscript></div>
-
+</p>
 
 <p><img src="https://hostr.co/file/iYp5TasMxCGh/plot3.png" alt="Plot3" /></p>
 
@@ -356,16 +353,16 @@ and that Julie is in fact using it less.</p>
 
 <h3>Visited Pages Per Weekday</h3>
 
-<p>Now considering we don&#8217;t have much data in our example data-set, this will yield fairly
-dissapointing results however we&#8217;ll look at a way to change how the axis is displayed:</p>
+<p>Now considering we don't have much data in our example data-set, this will yield fairly
+dissapointing results however we'll look at a way to change how the axis is displayed:</p>
 
-<div><script src='https://gist.github.com/5438020.js?file=11.r'></script>
+<p><div><script src='https://gist.github.com/5438020.js?file=11.r'></script>
 <noscript><pre><code>ggplot(byWeekday, aes(x=weekday, y=as.numeric(countPerDay))) + 
   geom_bar(aes(fill=user), position=&quot;dodge&quot;) +
   labs(title=&quot;Dodge per hour per user&quot;) +
   ylab(&quot;Visits Per Hour&quot;) + xlab(&quot;Hour of the day&quot;) +
   theme_bw() + coord_flip()</code></pre></noscript></div>
-
+</p>
 
 <p><img src="https://hostr.co/file/AezmAnWzfHZw/plot4.png" alt="Plot4" /></p>
 
@@ -375,22 +372,22 @@ dissapointing results however we&#8217;ll look at a way to change how the axis i
 </code></pre>
 
 <p>Which basically takes the x-axis and flips it on its side. In the case of weekdays, we have a maximum
-of seven wherein the names can be long (&#8220;Wednesday&#8221;, &#8220;Saturday&#8221;, etc). This makes it a lot easier
+of seven wherein the names can be long ("Wednesday", "Saturday", etc). This makes it a lot easier
 to read and visualise.</p>
 
 <p>From the previous plot, we can easily see that the only person that visited pages on Thursday was Julie,
-however on Wednesday, Jack visited a lot more pages than Julie. Should we assume that Jack didn&#8217;t do
-any work on Wednesday? I&#8217;ll make you draw your own conclusions ;-)</p>
+however on Wednesday, Jack visited a lot more pages than Julie. Should we assume that Jack didn't do
+any work on Wednesday? I'll make you draw your own conclusions ;-)</p>
 
 <h3>User-Weekday-Faceted Visited Pages Per Hour</h3>
 
-<p>There are many different ways of looking at this type of data and I hope I&#8217;ve conveyed the power of <code>R</code> and the rapidity at
+<p>There are many different ways of looking at this type of data and I hope I've conveyed the power of <code>R</code> and the rapidity at
 which it enables you to prototype. <code>R</code> makes it very easy to <strong>load</strong>, <strong>manipulate</strong> and <strong>visualise</strong> data rapidly.</p>
 
 <p>Now assuming you had many different weekdays and you wanted to visualise the number of pages visited per day per hour. You could do
 something similar to:</p>
 
-<div><script src='https://gist.github.com/5438020.js?file=12.r'></script>
+<p><div><script src='https://gist.github.com/5438020.js?file=12.r'></script>
 <noscript><pre><code>byWeekdayHour &lt;- ddply(data, .(user, hour, weekday), summarise, countPerHour=sum(pages.visited))
 
 byWeekdayHour$weekday &lt;- factor(
@@ -403,12 +400,12 @@ ggplot(byWeekdayHour, aes(x=hour, y=as.numeric(countPerHour))) +
     labs(title=&quot;Pages visited per hour of day&quot;) +
     ylab(&quot;Visits Per Hour&quot;) + xlab(&quot;Hour of the day&quot;) +
     theme_bw() + facet_grid(user~weekday)</code></pre></noscript></div>
-
+</p>
 
 <p><img src="https://hostr.co/file/TfPo8ZPJC0OX/plot5.png" alt="Plot5" /></p>
 
 <p>The first thing we do is we select per user, hour and weekday and sum the visited pages. The second part of the
-snippet, the part that contains <code>factor(...)</code> is only so we order the weekdays in the proper order&#8230; Wednesday
+snippet, the part that contains <code>factor(...)</code> is only so we order the weekdays in the proper order... Wednesday
 comes before Thursday therefore we re-order it (Otherwise Thursday comes before Wednesday (T vs W)).</p>
 
 <h2>Conclusion</h2>
