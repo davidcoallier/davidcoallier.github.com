@@ -4,7 +4,7 @@
   <title><![CDATA[Data, Science, Startups and Investment]]></title>
   <link href="http://davidcoallier.com//atom.xml" rel="self"/>
   <link href="http://davidcoallier.com//"/>
-  <updated>2013-04-23T14:47:15+01:00</updated>
+  <updated>2013-04-23T14:49:48+01:00</updated>
   <id>http://davidcoallier.com//</id>
   <author>
     <name><![CDATA[David Coallier]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Mapping the Street of Ireland with R]]></title>
+    <title type="html"><![CDATA[R: Mapping the Street of Ireland]]></title>
     <link href="http://davidcoallier.com//ye-olde-streets-of-ireland"/>
     <updated>2013-04-22T21:40:00+01:00</updated>
     <id>http://davidcoallier.com//ye-olde-streets-of-ireland</id>
