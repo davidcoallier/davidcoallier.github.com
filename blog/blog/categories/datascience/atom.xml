@@ -4,7 +4,7 @@
   <title><![CDATA[Category: datascience | Data, Science, Startups and Investment]]></title>
   <link href="http://davidcoallier.com//blog/categories/datascience/atom.xml" rel="self"/>
   <link href="http://davidcoallier.com//"/>
-  <updated>2013-04-23T14:49:48+01:00</updated>
+  <updated>2013-04-24T09:39:20+01:00</updated>
   <id>http://davidcoallier.com//</id>
   <author>
     <name><![CDATA[David Coallier]]></name>
@@ -22,7 +22,7 @@
 
 <p>Earlier today an interesting article about plotting <a href="http://statistik-stuttgart.de/2013/04/19/r-street-of-france/">the streets of france</a> appeared in my feed. What Simon does in his blog post is essentially read OSM street-lines-data for France and displays it in what I find to be a rather traditional and elegant way.</p>
 
-<p>The first thing I immediately though of was: "I'd love to see this for Ireland". As an OSX user, it took a few tricks to get the article replicated for Ireland therefore I've decided to share my notes.</p>
+<p>The first thing I immediately thought of was: "I'd love to see this for Ireland". As an OSX user, it took a few tricks to get the article replicated for Ireland therefore I've decided to share my notes.</p>
 
 <p>Should you wish to replicate this for your country, here are some notes I've taken.</p>
 
