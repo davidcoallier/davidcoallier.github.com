@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Zenefits TCDisrupt Timeline</title>
+    <title>Glide TCDisrupt Timeline</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -16,6 +16,11 @@
     <style>
       body {
         padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+      html, body {
+       height:100%;
+       padding: 0px;
+       margin: 0px;
       }
     </style>
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
@@ -46,31 +51,31 @@
 
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li class=""><a href="healthyout.html">Healthy Out</a></li>
-              <li><a href="handle.html">Handle</a></li>
+              <li ><a href="healthyout.html">Healthy Out</a></li>
+              <li ><a href="handle.html">Handle</a></li>
               <li><a href="floored3d.html">Floored3d</a></li>
               <li><a href="enigma_io.html">Enigma.io</a></li>
               <li><a href="supplyshift.html">Supply Shift</a></li>
-              <li class="active"><a class="active" href="zenefits.html">Zenefits</a></li>
-              <li><a href="glideapp.html">Glideapp</a></li>
+              <li><a href="zenefits.html">Zenefits</a></li>
+              <li class="active"><a href="glideapp.html">Glideapp</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
       </div>
     </div>
 
-    <div class="container">
+
   <!-- BEGIN Timeline Embed -->
   <div id="timeline-embed"></div>
   <script type="text/javascript">
     var timeline_config = {
      width: "100%",
      height: "100%",
-     source: 'timelines/zenefits.json'
+     source: 'timelines/glideapp.json'
     }
   </script>
   <script type="text/javascript" src="js/storyjs-embed.js"></script>
-    </div> <!-- /container -->
+
 
     <!-- Le javascript
     ================================================== -->
