@@ -4,7 +4,7 @@
   <title><![CDATA[Data, Science, Startups and Investment]]></title>
   <link href="http://davidcoallier.com//atom.xml" rel="self"/>
   <link href="http://davidcoallier.com//"/>
-  <updated>2013-04-24T09:39:20+01:00</updated>
+  <updated>2013-05-01T16:50:59+01:00</updated>
   <id>http://davidcoallier.com//</id>
   <author>
     <name><![CDATA[David Coallier]]></name>
@@ -12,6 +12,348 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[techcrunch-finalists-sentiment-with-R]]></title>
+    <link href="http://davidcoallier.com//techcrunch-finalists-sentiment-with-r"/>
+    <updated>2013-05-01T15:44:00+01:00</updated>
+    <id>http://davidcoallier.com//techcrunch-finalists-sentiment-with-r</id>
+    <content type="html"><![CDATA[<h1>TechCrunch Finalists Twitter Sentiment Analysis</h1>
+
+<p>Earlier today, I made an experiment to see what could be achieved in 1-hour (Timer next to me). I ended up
+with <a href="http://davidcoallier.com/experiments/disrupt-story/">a timeline of tweets for each finalist</a> but on day 2 of
+TechCrunch Disrupt, many people seemed interested in my generated plots relating to the &#8220;Layers of Experience&#8221; pitches.</p>
+
+<p>There are many ways to analyse sentiment from Tweets. One can approach the analysis using Python&#8217;s NLTK
+and by using Naive Bayes Classifiers. That&#8217;s what we use at <a href="https://engineyard.com">Engine Yard</a> for more complex, and complete analyses.</p>
+
+<p>However, today I&#8217;m hoping to show you how accurate a simple word weighing analysis can be. Please do not take this with the hope
+of predicting market fluctuations and prediction stock prices. This is merely an example of sentiment analysis, with <strong>R</strong>.</p>
+
+<p><strong>Warning: this is scary-accurate despite its dumbfounding simplicity</strong></p>
+
+<h2>Setup your R</h2>
+
+<p>You will need a few packages in order to get started with <strong>R</strong> and this analysis.</p>
+
+<p>Here are the packages you&#8217;ll need to include. If you don&#8217;t have them installed, go ahead and install them with <code>install.packages(...)</code>:</p>
+
+<div><script src='https://gist.github.com/5496106.js?file=a-headers.r'></script>
+<noscript><pre><code>require('twitteR')
+
+require('RJSONIO')
+require('RCurl')
+require('stringr')
+require('plyr')
+require('Unicode')
+
+require('ggplot2')
+require('doBy')
+
+require('ROAuth')</code></pre></noscript></div>
+
+
+<h2>Authentication with Twitter</h2>
+
+<p>As of API version 1.x with Twitter, you will need to authenticate your requests. Thanfully, R makes is <em>easy</em>, however you will need to interact
+with the Twitter website after the handshake.</p>
+
+<p>In order to authenticate with twitter you&#8217;ll need to go to <a href="https://dev.twitter.com">dev.twitter.com</a> and get an account. From which you will then
+create an application and receive a <code>consumer-key</code>, a <code>consumer-secret</code>, an <code>oauth-key</code> and an <code>oauth-secret</code>.</p>
+
+<p>The <strong>R</strong> package we use, will only make use of <code>consumer-key</code> and <code>consumer-secret</code>.</p>
+
+<p>Let&#8217;s register our Twitter authentication:</p>
+
+<div><script src='https://gist.github.com/5496106.js?file=a-twittercred.r'></script>
+<noscript><pre><code>consumerKey &lt;- 'zing'
+consumerSecret &lt;- 'zong'
+reqURL &lt;- 'https://api.twitter.com/oauth/request_token'
+accessURL &lt;- 'https://api.twitter.com/oauth/access_token'
+authURL &lt;- 'https://api.twitter.com/oauth/authorize'
+twitCred &lt;- OAuthFactory$new(consumerKey=consumerKey,
+                             consumerSecret=consumerSecret,
+                             requestURL=reqURL,
+                             accessURL=accessURL,
+                             authURL=authURL)
+
+twitCred$handshake()
+registerTwitterOAuth(twitCred)</code></pre></noscript></div>
+
+
+<h2>A few helper functions</h2>
+
+<p>The next methods we set in <strong>R</strong> are not intrinsically complicated but they make our lives easier as we process the tweets that we retrieve. We
+first have a <code>sentiment.words</code> function that scans a file and makes a returns a list of words.</p>
+
+<div><script src='https://gist.github.com/5496106.js?file=a-scan-words.r'></script>
+<noscript><pre><code>sentiment.words &lt;- function(file) {
+  return(scan(file, what=&quot;character&quot;, comment.char=&quot;;&quot;))
+}</code></pre></noscript></div>
+
+
+<p>This will be useful shortly as we&#8217;ll load a list of <a href="https://gist.github.com/davidcoallier/5496106/raw/c2e46029bfc67edc07b9bdab560878e0e78d9a72/positive-words.txt">positive</a> and <a href="https://gist.github.com/davidcoallier/5496106/raw/daf29b28ea9eb823522093a1681f52aa06baf2f2/negative-words.txt">negative</a> words for our analysis.</p>
+
+<p>Another function that will come in handy is the <code>ucfirst</code> function that returns the first character of every word as upper-case. This is something I like to use for the presentation phase.</p>
+
+<div><script src='https://gist.github.com/5496106.js?file=a-ucfirst.r'></script>
+<noscript><pre><code>ucfirst &lt;- function(txt) {
+  uc_text &lt;- paste(
+    u_to_upper_case(substring(txt, 1, 1)), 
+    substring(txt, 2),
+    sep=&quot;&quot;, collapse=&quot;&quot;
+  )
+  
+  return(uc_text)
+}</code></pre></noscript></div>
+
+
+<p>This function has a twist. It handles <strong>unicode</strong> strings so that your analysis doesn&#8217;t <em>shit the proverbial bed</em>.</p>
+
+<p>The last <strong>utility</strong> function I like to use is one called <code>getText</code>. I&#8217;m pretty sure this could be done differently but I&#8217;ve had that since my early days of R and haven&#8217;t looked into changing it (Not broken, don&#8217;t change it).</p>
+
+<div><script src='https://gist.github.com/5496106.js?file=a-gettext-callback.r'></script>
+<noscript><pre><code>##
+# Another helper for the laply 
+# Oh lazy dave when you'll re-read this code.
+##
+getText &lt;- function(txt) {
+  txt$getText()
+}</code></pre></noscript></div>
+
+
+<h2>Load Positive And Negative Words</h2>
+
+<p>The next phase is pretty straight forward. We&#8217;ve setup our framework for loading files and parsing their words. In order to move ahead, we need to load <a href="https://gist.github.com/davidcoallier/5496106/raw/c2e46029bfc67edc07b9bdab560878e0e78d9a72/positive-words.txt">positive</a> and <a href="https://gist.github.com/davidcoallier/5496106/raw/daf29b28ea9eb823522093a1681f52aa06baf2f2/negative-words.txt">negative</a> words.</p>
+
+<div><script src='https://gist.github.com/5496106.js?file=a-load-words.r'></script>
+<noscript><pre><code>sentiment.words.negative &lt;- sentiment.words('negative-words.txt')
+sentiment.words.positive &lt;- sentiment.words('positive-words.txt')</code></pre></noscript></div>
+
+
+<p>At this point, we are authenticated on Twitter, and we have a list of both positive and negative words.</p>
+
+<h2>Manually adding more words</h2>
+
+<p>When looking at the techcrunch data, the words used to describe companies and startups aren&#8217;t the same as you&#8217;d get when parsing academic essays or more &#8220;professional&#8221; blogs, therefore, we need to add a few words to our list of positives and negatives:</p>
+
+<div><script src='https://gist.github.com/5496106.js?file=a-pos-neg-load.r'></script>
+<noscript><pre><code>##
+# This list of words doens't have all I need.
+# 
+# We just add 'floored' and 'disrupt' to both positive and negative so they negate each other.
+##
+pos.words &lt;- c(sentiment.words.positive, &quot;epic&quot;, &quot;amazeballs&quot;, &quot;sick&quot;, 'floored', 'disrupt')
+neg.words &lt;- c(sentiment.words.negative, &quot;wtf&quot;, &quot;epicfail&quot;, &quot;stoopid&quot;, &quot;damn&quot;, 'floored', 'disrupt')</code></pre></noscript></div>
+
+
+<p>You might notice that we are adding <em>floored</em> and <em>disrupt</em> to both positive and negative lists. It is on purpose so they negate each other.</p>
+
+<h2>Scoring Each Tweet</h2>
+
+<p>The next step is to <em>search</em> for tweets, and then assign a value to each tweet. Before searching, we&#8217;ll setup our <code>sentiment.score</code> function which receives a list of
+<em>sentences</em> in our case, a list of tweets, we iterate over each sentence, remove punctuations, remove <em>cntrl</em> characters and digits, and finally turn them into lowercase.</p>
+
+<p>Once we&#8217;ve cleaned each tweet, we split the sentence into <strong>words</strong> and calculate the sum of positive against negative word matches. So if a sentence contains 3 positives words, and 1 negative word, its score is <strong>2</strong>.</p>
+
+<div><script src='https://gist.github.com/5496106.js?file=a-score-words.r'></script>
+<noscript><pre><code>## 
+# Mostly used Jeffrey Breen's code however 
+# added unicode support for words and right now l
+# in the process of adding multi-language support.
+##
+sentiment.score &lt;- function(sentences, pos.words, neg.words, companyName, .progress='none')
+{  
+  scores = laply(sentences, function(sentence, pos.words, neg.words) {
+    
+    sentence &lt;- gsub('[[:punct:]]', '', sentence)
+    sentence &lt;- gsub('[[:cntrl:]]', '', sentence)
+    sentence &lt;- gsub('\\d+', '', sentence)
+    
+    # We need this for broken tweets with random chars. 
+    sentence = try(u_to_lower_case(sentence), TRUE)
+    
+    # We need to implement an iconv language identification
+    # to then load the proper words lists. Right now, 
+    # it only supports english.
+    word.list = str_split(sentence, '\\s+')
+    
+    # Second level lists are teh suck. Unlist all of the things.
+    words = unlist(word.list)
+    
+    pos.matches = match(words, pos.words)
+    neg.matches = match(words, neg.words)
+    
+    # They are not nothing.
+    pos.matches = !is.na(pos.matches)
+    neg.matches = !is.na(neg.matches)
+    
+    score = sum(pos.matches) - sum(neg.matches)
+    
+    return(score)
+  }, pos.words, neg.words, .progress=.progress )
+  
+  scores.df = data.frame(score=scores, text=sentences, name=companyName)
+  return(scores.df)
+}</code></pre></noscript></div>
+
+
+<p>When we have processed each tweet in a search, we basically end up with a <code>data.frame</code> containing the scores, tweets and the company name associated to it.</p>
+
+<h3>Search for Tweets and Score em&#8217;</h3>
+
+<p>All processing functions are setup, we can now search for tweets for each of the <strong>TechCrunch Finalists</strong>:</p>
+
+<div><script src='https://gist.github.com/5496106.js?file=a-searchtwitter.r'></script>
+<noscript><pre><code>enigma.tweets &lt;- searchTwitter('enigma_io', n=1000)
+enigma.text   &lt;- laply(enigma.tweets, getText)
+enigma.feel   &lt;- sentiment.score(enigma.text, pos.words, neg.words, 'Enigma.io')
+
+healthyout.tweets &lt;- searchTwitter('healthyout', n=1000)
+healthyout.text   &lt;- laply(healthyout.tweets, getText)
+healthyout.feel   &lt;- sentiment.score(healthyout.text, pos.words, neg.words, 'Healthy Out')
+
+handle.tweets &lt;- searchTwitter('@handle', n=1000)
+handle.text   &lt;- laply(handle.tweets, getText)
+handle.feel   &lt;- sentiment.score(handle.text, pos.words, neg.words, 'Handle')
+
+floored.tweets &lt;- searchTwitter('floored3d', n=1000)
+floored.text   &lt;- laply(floored.tweets, getText)
+floored.feel   &lt;- sentiment.score(floored.text, pos.words, neg.words, 'Floored 3D')
+
+supplyshift.tweets &lt;- searchTwitter('supplyshift', n=1000)
+supplyshift.text   &lt;- laply(supplyshift.tweets, getText)
+supplyshift.feel   &lt;- sentiment.score(supplyshift.text, pos.words, neg.words, 'Supply Shift')
+
+zenefits.tweets &lt;- searchTwitter('zenefits', n=1000)
+zenefits.text   &lt;- laply(zenefits.tweets, getText)
+zenefits.feel   &lt;- sentiment.score(zenefits.text, pos.words, neg.words, 'Zenefits')
+
+glide.tweets &lt;- searchTwitter('glideapp', n=1000)
+glide.text   &lt;- laply(glide.tweets, getText)
+glide.feel   &lt;- sentiment.score(glide.text, pos.words, neg.words, 'Glide App')</code></pre></noscript></div>
+
+
+<p>In the case of TCDisrupt, we parse the last 1000 tweets for enigma, healthyout, handle, floored 3d, supply shift, zenefits and glide.</p>
+
+<h2>Scoring the Scores</h2>
+
+<p>Once we&#8217;ve scored each tweet for each company, we want to process an overall aggregate so we can put each company in perspective with others.</p>
+
+<p>One way of doing that, is to identify <em>happy</em>, <em>unhappy</em>, <em>very happy</em> and <em>very unhappy</em> tweets:</p>
+
+<div><script src='https://gist.github.com/5496106.js?file=a-setscores.r'></script>
+<noscript><pre><code>## Now we do the actual binding.
+all.scores = rbind(enigma.feel, healthyout.feel, handle.feel, 
+                   floored.feel, supplyshift.feel, zenefits.feel, glide.feel)
+
+## Now we only inspect the happy and very happy and the unhappy to very unhappy people.. as bools.
+all.scores$very.pos.bool = all.scores$score &gt;= 1
+all.scores$very.pos = as.numeric(all.scores$very.pos.bool)
+
+all.scores$very.neg.bool = all.scores$score &lt;= -1
+all.scores$very.neg = as.numeric(all.scores$very.neg.bool)
+
+score.df = ddply(all.scores, c('name'), summarise, 
+                 very.pos.count=sum(very.pos), 
+                 very.neg.count=sum(very.neg))
+
+# Total of &quot;very&quot; people is positive count + negative count
+# we'll need that for our next step where we re-rank companies.
+score.df$very.total = score.df$very.pos.count +  score.df$very.neg.count
+ 
+score.df$percentScore = round(100 * score.df$very.pos.count / score.df$very.total)
+ 
+# Or if we want the loosers:
+score.df$percentLooser = round(100 * score.df$very.neg.count / score.df$very.total)</code></pre></noscript></div>
+
+
+<p>Let&#8217;s go over this codeblock step-by-step:</p>
+
+<ul>
+<li><code>all.scores</code>: We simply aggregate all the scores for each company together,</li>
+<li><code>all.scores$very.pos.bool</code>: We construct a list of TRUE/FALSE of all tweets that have an overall value above or equal to 1,</li>
+<li><code>all.scores$very.pos</code>: From our boolean list, we find their numeric values (0, 1),</li>
+<li><code>all.scores$very.neg.bool</code>: Not unlike <code>very.pos.bool</code>, we find very negative comments by finding comments that are smaller or equals to -1,</li>
+<li><code>all.scores$very.neg</code>: From our boolean list, we associate numeric values to each bool (0, 1)</li>
+<li><code>score.df</code>: This iterates over each score, and computes the sum for each positive and negative scores per company name,</li>
+<li><code>score.df$very.total</code>: This is a sum of the positive and negative counts so we have a <strong>total</strong> value to derive percentages from,</li>
+<li><code>score.df$percentScore</code>: This is the percentage calculation for positive tweets,</li>
+<li><code>score.df$percentLooser</code>: This is the percentage calculation for the negative tweets.</li>
+</ul>
+
+
+<h2>Comparing Sentiments of Companies</h2>
+
+<p>The next thing we need to do, is try to compare the negative, positive, popularity and tweet sentiments for each company in comparison with the other finalists.</p>
+
+<p>Using <strong>ggplot2</strong>, this is pretty easy, but we also need a custom-made function named <code>multiplot</code> which simply grabs a few ggplots, and stitches them together:</p>
+
+<div><script src='https://gist.github.com/5496106.js?file=a-multiplot.r'></script>
+<noscript><pre><code># Found online months ago... can't remember where. I'll find it and add due creds.
+multiplot &lt;- function(..., plotlist=NULL, cols) {
+  require(grid)
+  
+  # Make a list from the ... arguments and plotlist
+  plots &lt;- c(list(...), plotlist)
+  
+  numPlots = length(plots)
+  
+  # Make the panel
+  plotCols = cols                          # Number of columns of plots
+  plotRows = ceiling(numPlots/plotCols) # Number of rows needed, calculated from # of cols
+  
+  # Set up the page
+  grid.newpage()
+  pushViewport(viewport(layout = grid.layout(plotRows, plotCols)))
+  vplayout &lt;- function(x, y)
+    viewport(layout.pos.row = x, layout.pos.col = y)
+  
+  # Make each plot, in the correct location
+  for (i in 1:numPlots) {
+    curRow = ceiling(i/plotCols)
+    curCol = (i-1) %% plotCols + 1
+    print(plots[[i]], vp = vplayout(curRow, curCol ))
+  }
+}</code></pre></noscript></div>
+
+
+<p>And finally, once we have our multiplot, we are ready to split our data into different ggplot objects, and then display them:</p>
+
+<div><script src='https://gist.github.com/5496106.js?file=a-plottage.r'></script>
+<noscript><pre><code>happy &lt;- qplot(reorder(score.df$name, -score.df$percentScore), score.df$percentScore, fill=I(&quot;orange&quot;), 
+               geom=c(&quot;bar&quot;), ylab=&quot;Relative Happiness&quot;, xlab=&quot;Company Ranking&quot;) + theme_bw()
+
+unhappy &lt;- qplot(reorder(score.df$name, -score.df$percentLooser), score.df$percentLooser, fill=I(&quot;brown&quot;), 
+                 geom=c(&quot;bar&quot;), ylab=&quot;Relative Unhappiness&quot;, xlab=&quot;Company Ranking&quot;) + theme_bw()
+
+sco &lt;- qplot(reorder(score.df$name, -score.df$very.total), score.df$very.total, fill=I(&quot;blue&quot;), 
+             geom=c(&quot;bar&quot;), ylab=&quot;Social Mentions&quot;, xlab=&quot;By Company&quot;) + theme_bw()
+
+multiplot(g, sco, happy, unhappy, cols=2)</code></pre></noscript></div>
+
+
+<p><img src="" alt="Image1" /></p>
+
+<h2>Conclusion</h2>
+
+<p>From looking at the chart, most tweets are positives. This also seems to reflect the reality from looking at the Twitter search page. The second thing to notice is that <strong>Supply Shift</strong> has a lot less mentions than the others, and this also seems to be reflected when looking at the individual popularity of each <a href="http://techcrunch.com/2013/04/30/supplyshift-helps-companies-understand-the-environmental-impact-of-their-supply-chain/">TechCrunch post</a>.</p>
+
+<p>From looking at the charts, my guess would be the winner will be either Healthy Out or Enigma.io. Healthy Out has a very positive sentiment, but enigma has more mentions but also has a great amount of happiness associated with them.</p>
+
+<h2>Links</h2>
+
+<p>The full code of this blog post can be <a href="https://gist.github.com/davidcoallier/5496106#file-processing-r">found here</a>.</p>
+
+<ul>
+<li><a href="http://techcrunch.com/2013/04/30/disrupt-ny-battlefield-2013/">TechCrunch Disrupt Battlefield Finalists</a>,</li>
+<li>Special thanks to Jeffrey Breen for <a href="http://www.inside-r.org/howto/mining-twitter-airline-consumer-sentiment">his post</a> on Airline Consumer Sentiment,</li>
+<li><a href="http://docs.ggplot2.org/current/">ggplot2</a>,</li>
+<li>Thanks to <a href="http://hostr.co">Hostr.co</a> for their file hosting service.</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[R: Mapping the Street of Ireland]]></title>
