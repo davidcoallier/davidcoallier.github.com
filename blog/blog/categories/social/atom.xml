@@ -4,7 +4,7 @@
   <title><![CDATA[Category: social | Data, Science, Startups and Investment]]></title>
   <link href="http://davidcoallier.com//blog/categories/social/atom.xml" rel="self"/>
   <link href="http://davidcoallier.com//"/>
-  <updated>2013-05-01T16:52:48+01:00</updated>
+  <updated>2013-05-01T16:54:40+01:00</updated>
   <id>http://davidcoallier.com//</id>
   <author>
     <name><![CDATA[David Coallier]]></name>
@@ -333,7 +333,7 @@ sco &lt;- qplot(reorder(score.df$name, -score.df$very.total), score.df$very.tota
 multiplot(g, sco, happy, unhappy, cols=2)</code></pre></noscript></div>
 </p>
 
-<p><img src="" alt="Image1" /></p>
+<p><img src="http://hostr.co/file/oYzyhTxLhDME/Rplot15.png" alt="Image1" /></p>
 
 <h2>Conclusion</h2>
 
