@@ -69,9 +69,10 @@
       <p>I am ashamed to be publishing this type of rough, unfinished work, however I only allowed myself to work on this for an hour this morning.</p>
       <p>&nbsp;</p>
       <p>Each tweet is accompanied by a polarity, subjectivity and general positivity value. Please keep in mind
-      that there are a <strong>few false positives</strong>, <strong>false negatives</strong>. For instance, <em>floored</em> seems to be interpreted as negative.</p>
+      that there are a <strong>few false positives</strong>, <strong>false negatives</strong>. For instance, <em>floored</em>, and ironically <em>disrupt</em> (amongst others) seem to be interpreted as negative.</p>
       <p>&nbsp;</p>
-      <p>I'm using Python, <a href="http://www.clips.ua.ac.be/pages/pattern-en">Pattern.en</a>, and <a href="http://timeline.verite.co/">Timeline.JS</a>
+      <h2>How it works (or doesn't)</h2>
+      <p>I'm using python-requests to iterate over 1000 last results for a search on "{name} AND %23tcdisrupt". When I get that, I analyse the polarity, subjectivity and positivity of each tweet using <a href="http://www.clips.ua.ac.be/pages/pattern-en">pattern.en</a>, and build the story of each company using <a href="http://timeline.verite.co/">Timeline.js</a>. I would have loved to see the "timeline-flags" colours according to the relative positivity but unfortunately, time dictated otherwise.</p>
       <p>&nbsp;</p>
       <p>Feel free to shout on <a href="http://twitter.com/davidcoallier">Twitter at @davidcoallier</a> (moi).</p>
 
