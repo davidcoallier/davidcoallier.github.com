@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Technology Popularity Day-Changes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="default/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/bootswatch.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+        overflow-y:scroll;
+      }
+
+      text {
+        font: 12px sans-serif;
+      }
+
+      svg {
+        display: block;
+      }
+
+      #chart1 svg {
+        height: 500px;
+        min-width: 100px;
+        min-height: 100px;
+        margin: 50px; 
+      }
+      #cumulative svg {
+        height: 400px;
+        width: 100%;
+        margin: 50px;
+      }
+    </style>
+
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.js"></script>
+    <![endif]-->
+
+    <link href="src/nv.d3.css" rel="stylesheet" type="text/css">
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/ico/apple-touch-icon-114-precomposed.png">
+      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/ico/apple-touch-icon-72-precomposed.png">
+                    <link rel="apple-touch-icon-precomposed" href="/ico/apple-touch-icon-57-precomposed.png">
+                                   <link rel="shortcut icon" href="/ico/favicon.png">
+  </head>
+
+  <body>
+  <style type="text/css"> 
+    #chart svg {
+      height: 800px;
+      width: 100%;
+    }
+
+  </style>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="index.html">Daily %</a></li>
+              <li><a href="cumulative.html">Cumulative Changes</a></li> 
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+
+    <div class="container">
+      <h1>Technologies and Languages Popularity 2013</h1>
+      <p>Consider a site that shows the day-to-day changes in the price of certain stocks for NASDAQ companies. Considering
+      that StackOverflow keeps track of the number of questions per technology per day, I've figured we might be able to
+      conduct the same kind of visual analysis to identify which technology are changing, and more importantly, how they are 
+      changing.
+      </p>
+
+      <p>
+      This uses archive.org to read the <a href="http://stackoverflow.com/tags">StackOverflow Tags</a> page and its
+      versions since the beginning of 2013 to calculate the percentage of change from the previous day.
+      </p>
+    
+      <h1>Select Technologies to Compare</h1>
+      <p>From this you should be able to select the languages you want, and with the bottom (<em>smaller chart</em>) select
+      the timeframes you want to see. 
+      </p>
+      <p>If a technology cuts in the middle, it might be because it was no longer considered a "<em>popular</em>" tech by stack overflow.</p>
+      <p>&nbsp;</p>
+
+
+      <div id="chart">
+        <svg></svg>
+      </div>
+
+
+      <h2>Possible Caveats</h2>
+      <p>
+      The data from Archive.org isn't always accurate and some days are missing, therefore some drops (lower peaks) could be indicative of missing
+      data.</p> 
+    </div>
+    <script src="http://code.jquery.com/jquery-2.0.0.min.js" type="text/javascript"></script>
+    <script src="lib/d3.v2.js"></script>
+    <script src="nv.d3.js"></script> 
+    <script type="text/javascript" src="history.js"></script>
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-39631603-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+       })();
+
+     </script>
+  </body>
+</html>
+
