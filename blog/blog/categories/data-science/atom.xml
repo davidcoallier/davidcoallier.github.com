@@ -4,7 +4,7 @@
   <title><![CDATA[Category: data-science | Data, Science, Startups and Investment]]></title>
   <link href="http://davidcoallier.com//blog/categories/data-science/atom.xml" rel="self"/>
   <link href="http://davidcoallier.com//"/>
-  <updated>2013-05-27T18:29:33+01:00</updated>
+  <updated>2013-05-27T20:54:05+01:00</updated>
   <id>http://davidcoallier.com//</id>
   <author>
     <name><![CDATA[David Coallier]]></name>
@@ -22,7 +22,7 @@
 
 <p>Linear Regression is one of the most powerful approaches for modelling the relationship between dependent and predictor variables, yet nowadays, it is somehow one of the most underrated method. </p>
 
-<p>Whilst many newcomers to <strong>data science</strong> will be enchanted by extravaguant algorithms, an abundance of scientists will miss out on the predictive power of linear regression.</p>
+<p>Whilst many newcomers to <strong>data science</strong> will be enchanted by extravagant algorithms, an abundance of scientists will miss out on the predictive power of linear regression.</p>
 
 <p>Granted there are disadvantages to Linear Regression as such as sensitivity to outliers, the data must be independent, linear regression tends to naturally look for linearity in relationships between the dependent and independent variables however data is rarely linear, however when used <em>with care</em> linear regression can be very powerful, and computationally economical.</p>
 
@@ -31,7 +31,7 @@
 <h2 id="coefficient-of-determination">Coefficient of Determination</h2>
 <p>With more extensive predictive models, we’d be inclined to cross-validate in order to estimate the accuracy of the performance of our predictive model(s). </p>
 
-<p>Simple linear regression however isn’t quite as prone to overfitting as other more advanced models, therefore we are going to conclude by calculating the <strong>coefficient of determination</strong> value of our fit, otherwise known as the <strong>R-squared</strong> value.</p>
+<p>Simple linear regression however isn’t quite as prone to over-fitting as other more advanced models, therefore we are going to conclude by calculating the <strong>coefficient of determination</strong> value of our fit, otherwise known as the <strong>R-squared</strong> value.</p>
 
 <h2 id="simple-linear-relationship">Simple Linear Relationship</h2>
 
@@ -68,7 +68,7 @@
 plot(data)</code></pre></noscript></div>
 </p>
 
-<p>This will give you a very straightforward scatter-plot of each variable and how they related to each other. For now, we only care about <code>week</code> and <code>revenue</code> and looking at the scatterplot, the intersection of week and revenue seems linear enough. Let’s proceed further.</p>
+<p>This will give you a very straightforward scatter-plot of each variable and how they related to each other. For now, we only care about <code>week</code> and <code>revenue</code> and looking at the scatter-plot, the intersection of week and revenue seems linear enough. Let’s proceed further.</p>
 
 <h3 id="linear-model-fitting">Linear Model Fitting</h3>
 
