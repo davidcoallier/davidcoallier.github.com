@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: mathematics, | Data, Science, Startups and Investment]]></title>
+  <link href="http://davidcoallier.com//blog/categories/mathematics/atom.xml" rel="self"/>
+  <link href="http://davidcoallier.com//"/>
+  <updated>2013-05-27T17:54:04+01:00</updated>
+  <id>http://davidcoallier.com//</id>
+  <author>
+    <name><![CDATA[David Coallier]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Simple Linear Regression From R To Python]]></title>
+    <link href="http://davidcoallier.com//linear-regression-from-r-to-python"/>
+    <updated>2013-05-21T12:53:00+01:00</updated>
+    <id>http://davidcoallier.com//linear-regression-from-r-to-python</id>
+    <content type="html"><![CDATA[<h2 id="introduction">Introduction</h2>
+
+<p>Linear Regression is one of the most powerful approaches for modelling the relationship between dependent and predictor variables, yet it is also one of the most underrated method nowadays. </p>
+
+<p>Whilst many newcomers to <strong>data science</strong> will be enchanted by extravaguant algorithms, an abundance of scientists will miss out on the predictive power of linear regression.</p>
+
+<p>There are disadvantages to Linear Regression as such as sensitivity to outliers, the data must be independent, linear regression tends to naturally look for linearity in relationships between the dependent and independent variables however data is rarely linear. In the case where your data is indeed independent <strong>and</strong> seems to exhebit linearity then linear regression can be very powerful.</p>
+
+<p>For the purpose of this post, we are not going to go into quantile regression, multivariate regression, etc. The purpose is simple: <em>Predict revenue using R, then Python and compare the results.</em>.</p>
+
+<h2 id="coefficient-of-determination">Coefficient of Determination</h2>
+<p>With more extensive predictive models, we’d be inclined to cross-validate in order to estimate the accuracy of the performance of our predictive model(s). </p>
+
+<p>Simple linear regression however isn’t quite as prone to overfitting as other more advanced models, therefore we are going to conclude by calculating the <strong>coefficient of determination</strong> value of our fit, otherwise known as the <strong>R-squared</strong> value.</p>
+
+<h2 id="simple-linear-relationship">Simple Linear Relationship</h2>
+
+<p>Before we continue further into our simple <code>R</code> and <code>Python</code> code, let’s define our problem. </p>
+
+<p>We have a data set who’s independent variable (predictor) is a “week” number. Each week has a customer count, support requests, revenue, and support cost associated. </p>
+
+<p>For this post, we are interested in seeing whether or not there’s a relationship between the week number and the revenue. The model can be defined as:</p>
+
+<script type="math/tex; mode=display"> {Y=\beta_0+\beta_{1}X_{1}+...+\beta_{n}X_{n}} </script>
+
+<p>Despite its looks, all the equations says is that <strong>Y</strong> is the dependent variable, <script type="math/tex">X_1,...,X_{n}</script> are the predictors/independent variables, <script type="math/tex">\beta_{1},...,\beta_{n}</script> are the values (coefficients) that multiply the independent variables. In our example we’ll have an intercept, illustrated in the equation by the constant <script type="math/tex">\beta_{0}</script>.</p>
+
+<h2 id="the-global-setup">The Global Setup</h2>
+
+<p>We’ve crafted a simple <code>csv</code> file which you will need to <a href="...">get this file</a> in order to replicate the simple linear regression experiment we are doing here. Save the file in a location you are likely to remember and modify the two code snippets that use the file location <code>path/to/revenue-example.csv</code>.</p>
+
+<h2 id="simple-linear-regression-with-r">Simple Linear Regression with R</h2>
+
+<p>There are essentially three steps to predicting future values when using simple linear regression. </p>
+
+<p>The first one is looking at your data, the second is fitting your data to a model, the third is the actual prediction, and again, the first is looking at your data.</p>
+
+<h3 id="load-and-look">Load and Look</h3>
+
+<p>The most important part is to look at your data. Get a feel for it. One lazy way to look at how the data points might be related is by sticking a dataset into the <code>plot(...)</code> function in <code>R</code>.</p>
+
+<p><div><script src='https://gist.github.com/5656967.js?file=see-example.R'></script>
+<noscript><pre><code>data &lt;- read.csv(&quot;/path/to/revenue-example.csv&quot;, header=TRUE)
+plot(data)</code></pre></noscript></div>
+</p>
+
+<p>This will give you a very simple scatter-plot of each variable and how they related to each other. For now, we only care about <code>week</code> and <code>revenue</code> and looking at the scatterplot, the intersection of week and revenue seems linear enough. Let’s proceed further.</p>
+
+<h3 id="linear-model-fitting">Linear Model Fitting</h3>
+
+<p><code>R</code> makes it extremely easy to analyse the fit of dependence of variables. In our case, we will assume that <em>week</em> is the independent/predictor variable, and <em>revenue</em> is the dependent variable, our <code>Y</code> if you will: <script type="math/tex">Y ~ X</script>, or in <code>R</code> terms:</p>
+
+<p><div><script src='https://gist.github.com/5656967.js?file=fit-lm.R'></script>
+<noscript><pre><code>revenue_fit &lt;- lm(revenue ~ week, data=data)
+
+b_0   &lt;- revenue_fit$coefficients[[1]]
+coeff &lt;- revenue_fit$coefficients[[2]]</code></pre></noscript></div>
+</p>
+
+<p>You also probably noticed that we’ve assigned two variables that we will be using later to validate our prediction: <script type="math/tex">\beta_{0}</script> as <script type="math/tex">b_0</script> and <strong><script type="math/tex">coeff</script></strong> as the predictor coefficient multiplier.</p>
+
+<h3 id="predicting">Predicting</h3>
+
+<p>Now that we’ve fitted our model, let’s visually compare how the prediction performs and how it <em>fits</em> our original data.</p>
+
+<p><div><script src='https://gist.github.com/5656967.js?file=predict.R'></script>
+<noscript><pre><code>test &lt;- data
+predict_test = predict(revenue_fit, test)
+
+# Look at it.
+plot(revenue ~ week, data=data)
+lines(predict_test, col=&quot;red&quot;)
+
+
+</code></pre></noscript></div>
+</p>
+
+<p>It <em>seems</em> like the trend is similar. We’ll validate a little later using the R-squared value.</p>
+
+<h3 id="forecasting-two-weeks-ahead">Forecasting Two Weeks Ahead</h3>
+
+<p>When looking at revenue and analysing metrics, many businesses will be mainly interested in forecasting the future. From a business perspective, analysing and forecasting the units of economics only makes sense. </p>
+
+<p>Let’s see what’s our predicted revenue for 2 weeks (Week 12, and 13) would be using that model:</p>
+
+<p><div><script src='https://gist.github.com/5656967.js?file=forecast.R'></script>
+<noscript><pre><code># Let's forcast the next 2 weeks.
+data_ahead  &lt;- data.frame(week=c(length(data$week)+1, length(data$week)+2))
+forecast_2w &lt;- predict(revenue_fit, data_ahead)</code></pre></noscript></div>
+</p>
+
+<p>All we had to do is create the <code>data_ahead</code> variable which adds 2 more weeks to a <code>new.data</code> data.frame (required by <code>predict(...)</code>), and assigned the results of the <code>predict(...)</code> function call to <code>forecast_2w</code>.</p>
+
+<p>We now have the values our our revenue for the next two weeks stored in <code>forecast_2w</code>. You can look at it, or, if you are like me you probably want to manually verify the results against the original linear model equation.</p>
+
+<p>In this case, we will take each value from <code>forecast_2w</code>, an compare it against: <script type="math/tex">\beta_{0} + (\beta_{n}X_{n})</script> where <script type="math/tex">n</script> is the <em>week-value of the forecasted data</em>. Consequently, the value of <script type="math/tex">n</script> for <code>forecast_2w[1]</code> is <strong>12</strong>, and for forecast_2w[2] is <strong>13</strong>.</p>
+
+<p>The comparison is pretty simple, using the previously created <code>b_0</code> and <code>coeff</code> variables, we can now compare our <code>predict(...)</code> results against the SLR equation:</p>
+
+<p><div><script src='https://gist.github.com/5656967.js?file=compare.R'></script>
+<noscript><pre><code>cat(forecast_2w)
+forecast_2w[1] == b_0 + (coeff * 12) // TRUE
+forecast_2w[2] == b_0 + (coeff * 13) // TRUE</code></pre></noscript></div>
+</p>
+
+<h2 id="simple-linear-regression-with-python">Simple Linear Regression with Python</h2>
+
+<p>Not unlike <code>R</code>, I like to look at the data before I manipulate and model it, regardless of the language I’m using. Our four steps will be <strong>see-fit-predict-forecast</strong>. </p>
+
+<p>Let’s get started with what we need in order to get working.</p>
+
+<h3 id="the-python-setup">The Python Setup</h3>
+
+<p>Python must have a new <strong>machine learning</strong> library every week and there are a few that stand out. A few stand out when looking for libraries that allow you to play with statistics, to me, the main contenders are: <a href="http://scipy.org">scipy</a>, <a href="http://statsmodels.sourceforge.net/">statsmodels</a>, <a href="http://scikit-learn.org/stable/">scikit-learn</a>, manually made numpy algorithms, and even <a href="http://rpy.sourceforge.net/rpy2.html">rpy2</a> which is a module that allows you to interact with <code>R</code> directly from Python. </p>
+
+<p>Amongst all of those, <code>scikit-learn</code> really stands out for me as it relatively well documented, contains many machine learning algorithms for supervised learning, unsupervised learning, data transformation, model selection, and much more. </p>
+
+<p>For this experiment, we’ll be using:</p>
+
+<pre><code>- Python 2.7,
+- [scikit-learn](http://scikit-learn.org/stable) (Hereafter known as sklearn),
+- [Pandas](https://pandas.pydata.org) (For file reading),
+- [Numpy](http://numpy.org),
+- [Matplotlib.pylab](http://matplotlib.org/).
+</code></pre>
+
+<p>In the context of this post, Pandas is loaded to read the CSV file and might be considered overkill. Pandas is an extremely useful Python library to manipulate data structures and analyse them. If you are coming from <code>R</code>, you will most likely be interested in Pandas. If you aren’t coming from <code>R</code>, you’ll be in awe.</p>
+
+<p>If you have all the libraries, you will include the following in your script:</p>
+
+<p><div><script src='https://gist.github.com/5656967.js?file=import.py'></script>
+<noscript><pre><code>import pandas as pd
+import numpy as np
+import matplotlib.pylab as plt
+
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score</code></pre></noscript></div>
+</p>
+
+<h3 id="load-and-look-1">Load and Look</h3>
+
+<p>Previously with <code>R</code> we displayed a scatterplot of the relations between data points in our data-set. Unfortunately, <code>matplotlib</code> doesn’t have an inherent data-pairing method that would display all the information automatically. Instead, one would have to write his own function (see <a href="http://stackoverflow.com/questions/7941207/is-there-a-function-to-make-scatterplot-matrices-in-matplotlib">this post if you are interested in doing so</a>.</p>
+
+<p>For the time being, let’s load our data in Pandas:</p>
+
+<p><div><script src='https://gist.github.com/5656967.js?file=setup.py'></script>
+<noscript><pre><code>data = pd.read_csv(&quot;/path/to/revenue-example.csv&quot;, sep=&quot;,&quot;)
+week     = data['week'][:, np.newaxis]
+revenue  = data['revenue']</code></pre></noscript></div>
+</p>
+
+<p>We simply load the <code>csv</code> file we have defined before, and in this case create the <code>week</code> variable which contains a format acceptable by <code>sklearn</code>.</p>
+
+<h3 id="linear-model-fitting-1">Linear Model Fitting</h3>
+
+<p>This is yet again very similar to <code>R</code> in terms of simplicity. The main difference is Python is not modelled exclusively for statistical analysis and therefore does not have support for passing “formulas” like we did with <code>R</code> (revenue ~ week (or Y ~ X)). Instead, we assigned loaded the data and created the <code>week</code> and <code>revenue</code> variable which are the two variables we are interested in analysing.</p>
+
+<p>The other difference is the format of the <code>week</code> variable. I would suggest running the code below and looking at <code>data</code>, <code>data['week']</code>, and <code>week</code> to see how they differ.</p>
+
+<p><div><script src='https://gist.github.com/5656967.js?file=fit-lm.py'></script>
+<noscript><pre><code>lr = LinearRegression()
+lr.fit(week, revenue)
+
+b_0   = lr.intercept_
+coeff = lr.coef_</code></pre></noscript></div>
+</p>
+
+<p>Again, we assign our <script type="math/tex">b_0</script> and <script type="math/tex">coeff</script> variables so we can re-use them later in our manual verification against the SLM equation.</p>
+
+<h3 id="predicting-1">Predicting</h3>
+
+<p>When using <code>sklearn</code>, the <code>lr</code> object instance contains local values related to our previous <strong>fit</strong> operation. The object also contains values as such as <code>coef_</code>, <code>intercept_</code>, which we’ve used before. Once an object has been fitted, we can run the prediction directly on it simply by passing the <script type="math/tex">X</script> values we wish to predict.</p>
+
+<p>Before running our prediction, let’s setup a few <code>test</code> values that we’ll be able to compare our data against:</p>
+
+<p><div><script src='https://gist.github.com/5656967.js?file=test-points.py'></script>
+<noscript><pre><code># Let's just test some points.
+test_week = week[1:7]
+test_rev  = revenue[1:7]</code></pre></noscript></div>
+</p>
+
+<p>With that, we have the values from the second, until the 8th week for the revenue. </p>
+
+<p>From here we can predict our <em>test-value</em> and plot them against our actual values to see the difference (visually again).</p>
+
+<p><div><script src='https://gist.github.com/5656967.js?file=predict.py'></script>
+<noscript><pre><code># Let's predict the values for existing weeks (Testing)
+pred = lr.predict(test_week)
+
+plt.scatter(week, rev, color='b')
+plt.scatter(test_week, pred, color='red')
+plt.show()</code></pre></noscript></div>
+</p>
+
+<p>In this code snippet you can see how easy it is to predict values. We predict the <script type="math/tex">Y</script> values for each <code>test_week</code> value and plot their results. The <strong>blue</strong> points is the value corresponding to our <em>actual</em> data, whereas the <strong>red</strong> dots are the predicted values. They are a bit off, but that’s ok. We’ll verify their coefficient of determination later to see if the model fits nicely.</p>
+
+<h3 id="forecasting-two-weeks-ahead-1">Forecasting Two Weeks Ahead</h3>
+
+<p>Similary to our <code>R</code> example, we are interested in seeing what the revenue will be 2 weeks from now (Assuming that now is the max week in our dataset ;).</p>
+
+<p>The difference in this one is we have to create a matrix that will be aligned so it is accepted by our <code>lr.predict(...)</code> function.</p>
+
+<p><div><script src='https://gist.github.com/5656967.js?file=forecast.py'></script>
+<noscript><pre><code># Not query pretty, but we align our week matrices.
+predict_week = np.array(
+  [a for a in xrange(max(week)+1, max(week)+3)]
+)[:, np.newaxis]
+
+forecast_2w = lr.predict(predict_week)</code></pre></noscript></div>
+</p>
+
+<p>This code creates a <code>predict_week</code> variable which is a list of 2 items containing the next two week-values. This value is derived from finding the maximum week in our dataset, and adding 2 (For 2 weeks). If you wanted to forecast for 10 weeks in the future, you would find the maximum week-value in the dataset, and append 10 to it. In Python, this roughly translates to <code>[a for a in xrange(max(week)+1, max(week)+11)]</code>.</p>
+
+<h3 id="comparing-the-results">Comparing the Results</h3>
+
+<p>Now that you have values in your <code>forecast_2w</code> variable, you want to validate it against the model we defined. As described in the <code>R</code> <em>Forecasting Two Weeks Ahead</em> section above, using the previously created <code>b_0</code> and <code>coeff</code> variables, we can now compare the results from <code>lr.predict(...)</code> against the SLR equation:</p>
+
+<p><div><script src='https://gist.github.com/5656967.js?file=compare.py'></script>
+<noscript><pre><code>print forecast_2w
+
+forecast_2w[0] == b_0 + (coeff * 12) // array([ True], dtype=bool)
+forecast_2w[1] == b_0 + (coeff * 13) // array([ True], dtype=bool)</code></pre></noscript></div>
+</p>
+
+<h2 id="validating-our-model">Validating Our Model</h2>
+
+<p>To validate whether our model seems to fit our data, we will calculate the R-squared value, or the <strong>coefficient of determination</strong>. The <script type="math/tex">R^2</script> value, measures how well observed values are replicated by our linear model. Since we are lucky enough to have an intercept value, our <script type="math/tex">R^2</script> is nothing more than a correlation coefficient between observed (original) data, and the predicted values.</p>
+
+<p>Let’s use the <a href="http://en.wikipedia.org/wiki/Coefficient_of_determination">wikipedia definition</a> of <script type="math/tex">R^2</script>:</p>
+
+<p><script type="math/tex"> </script> R^2 = 1 - \frac{\sum (y<em>{i} - f</em>{i})^2}{\sum (y_{i}-\bar{y})} $$</p>
+
+<p>This merely states that the nominator is the regression sum of squares, and that it is divided by the residual sum of squares.</p>
+
+<h3 id="r-squared-in-r">R-squared in R</h3>
+
+<p>To find out the <script type="math/tex">R^2</script> score from the <code>fit</code> function, run the following function, in <code>R</code>:</p>
+
+<pre><code>R&gt; summary(revenue_fit)
+</code></pre>
+
+<p>This shows us that our model seems ~93.88% accurate (0.9388).</p>
+
+<h3 id="r-squred-in-python">R-squred in Python</h3>
+
+<p>There are a few ways to accomplish the <script type="math/tex">R^2</script> calculations using Python and Sklearn. Here’s the standalone function sklearn provides:</p>
+
+<p><div><script src='https://gist.github.com/5656967.js?file=verify.py'></script>
+<noscript><pre><code># sklearn has an r2_score method. 
+score = r2_score(rev, lr.predict(week[:]))
+print score
+
+# Or you can `score` the one from LinearRegression
+score = lr.score(week[:], rev[:])
+print score
+</code></pre></noscript></div>
+</p>
+
+<h2 id="compare-r-and-python-results">Compare R and Python Results</h2>
+
+<p>Hopefully you’ve managed to run all the examples and you can replicate the behaviour in R and Python. What you should do now, is look at the <code>b_0</code>, <code>coeff</code> and various other variables in both R and Python and compare them. Play with them and see how the models behave. If they are similar, etc. </p>
+
+<p>The results <em>should be the same</em>.</p>
+
+<p>The <code>summary(...)</code> function in <code>R</code> is tremendously useful, but the <code>Hmisc</code> package also contains an enourmously useful <code>describe(...)</code> function to inspect the variables and their structures. In <strong>Python</strong>, Pandas allows you to do something similar. For instance, with the data we’ve created above, try analysing the <code>data</code> variable using <code>data.describe()</code>.  You can also quickly visualise <code>data</code> by doing <code>data.plot()</code>, and much more.</p>
+
+<h2 id="forecasting-is-simple">Forecasting is Simple</h2>
+
+<p>As you can see, forecasting is pretty straightforward. In this case, it’s nothing more than training our linear model with existing data, and then attempting to <em>predict</em> the results of unknown data. It is very important to keep in mind that Linear Regression can be <strong>very</strong> misleading if your data is not linear, if the data is dependent, etc. </p>
+
+<p>There are many downsides to linear regression modelling, but like any other learning model, it can be misused and lead to misleading results.</p>
+
+<h2 id="bottom-line">Bottom Line</h2>
+
+<p>Play around, learn, test and visualise. R and Python both contain great libraries to help you realise your experiments rapidly and you should leverage their features as much as you can.</p>
+
+<p><strong>Be careful of the models you select</strong>.</p>
+
+]]></content>
+  </entry>
+  
+</feed>

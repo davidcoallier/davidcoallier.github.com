@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ggplot | Data, Science, Startups and Investment]]></title>
   <link href="http://davidcoallier.com//blog/categories/ggplot/atom.xml" rel="self"/>
   <link href="http://davidcoallier.com//"/>
-  <updated>2013-05-07T13:22:40+01:00</updated>
+  <updated>2013-05-27T17:54:04+01:00</updated>
   <id>http://davidcoallier.com//</id>
   <author>
     <name><![CDATA[David Coallier]]></name>
@@ -18,25 +18,25 @@
     <link href="http://davidcoallier.com//techcrunch-finalists-sentiment-with-r"/>
     <updated>2013-05-01T15:44:00+01:00</updated>
     <id>http://davidcoallier.com//techcrunch-finalists-sentiment-with-r</id>
-    <content type="html"><![CDATA[<h1>TechCrunch Finalists Twitter Sentiment Analysis</h1>
+    <content type="html"><![CDATA[<h1 id="techcrunch-finalists-twitter-sentiment-analysis">TechCrunch Finalists Twitter Sentiment Analysis</h1>
 
 <p>Earlier today, I made an experiment to see what could be achieved in 1-hour (Timer next to me). I ended up
 with <a href="http://davidcoallier.com/experiments/disrupt-story/">a timeline of tweets for each finalist</a> but on day 2 of
-TechCrunch Disrupt, many people seemed interested in my generated plots relating to the "Layers of Experience" pitches.</p>
+TechCrunch Disrupt, many people seemed interested in my generated plots relating to the “Layers of Experience” pitches.</p>
 
-<p>There are many ways to analyse sentiment from Tweets. One can approach the analysis using Python's NLTK
-and by using Naive Bayes Classifiers. That's what we use at <a href="https://engineyard.com">Engine Yard</a> for more complex, and complete analyses.</p>
+<p>There are many ways to analyse sentiment from Tweets. One can approach the analysis using Python’s NLTK
+and by using Naive Bayes Classifiers. That’s what we use at <a href="https://engineyard.com">Engine Yard</a> for more complex, and complete analyses.</p>
 
-<p>However, today I'm hoping to show you how accurate a simple word weighing analysis can be. Please do not take this with the hope
+<p>However, today I’m hoping to show you how accurate a simple word weighing analysis can be. Please do not take this with the hope
 of predicting market fluctuations and prediction stock prices. This is merely an example of sentiment analysis, with <strong>R</strong>.</p>
 
 <p><strong>Warning: this is scary-accurate despite its dumbfounding simplicity</strong></p>
 
-<h2>Setup your R</h2>
+<h2 id="setup-your-r">Setup your R</h2>
 
 <p>You will need a few packages in order to get started with <strong>R</strong> and this analysis.</p>
 
-<p>Here are the packages you'll need to include. If you don't have them installed, go ahead and install them with <code>install.packages(...)</code>:</p>
+<p>Here are the packages you’ll need to include. If you don’t have them installed, go ahead and install them with <code>install.packages(...)</code>:</p>
 
 <p><div><script src='https://gist.github.com/5496106.js?file=a-headers.r'></script>
 <noscript><pre><code>require('twitteR')
@@ -53,17 +53,17 @@ require('doBy')
 require('ROAuth')</code></pre></noscript></div>
 </p>
 
-<h2>Authentication with Twitter</h2>
+<h2 id="authentication-with-twitter">Authentication with Twitter</h2>
 
 <p>As of API version 1.x with Twitter, you will need to authenticate your requests. Thanfully, R makes is <em>easy</em>, however you will need to interact
 with the Twitter website after the handshake.</p>
 
-<p>In order to authenticate with twitter you'll need to go to <a href="https://dev.twitter.com">dev.twitter.com</a> and get an account. From which you will then
+<p>In order to authenticate with twitter you’ll need to go to <a href="https://dev.twitter.com">dev.twitter.com</a> and get an account. From which you will then
 create an application and receive a <code>consumer-key</code>, a <code>consumer-secret</code>, an <code>oauth-key</code> and an <code>oauth-secret</code>.</p>
 
 <p>The <strong>R</strong> package we use, will only make use of <code>consumer-key</code> and <code>consumer-secret</code>.</p>
 
-<p>Let's register our Twitter authentication:</p>
+<p>Let’s register our Twitter authentication:</p>
 
 <p><div><script src='https://gist.github.com/5496106.js?file=a-twittercred.r'></script>
 <noscript><pre><code>consumerKey &lt;- 'zing'
@@ -81,10 +81,10 @@ twitCred$handshake()
 registerTwitterOAuth(twitCred)</code></pre></noscript></div>
 </p>
 
-<h2>A few helper functions</h2>
+<h2 id="a-few-helper-functions">A few helper functions</h2>
 
 <p>The next methods we set in <strong>R</strong> are not intrinsically complicated but they make our lives easier as we process the tweets that we retrieve. We
-first have a <code>sentiment.words</code> function that scans a file and makes a returns a list of words.</p>
+first have a <code>sentiment.words</code> function that scans a file and makes a returns a list of words. </p>
 
 <p><div><script src='https://gist.github.com/5496106.js?file=a-scan-words.r'></script>
 <noscript><pre><code>sentiment.words &lt;- function(file) {
@@ -92,9 +92,9 @@ first have a <code>sentiment.words</code> function that scans a file and makes a
 }</code></pre></noscript></div>
 </p>
 
-<p>This will be useful shortly as we'll load a list of <a href="https://gist.github.com/davidcoallier/5496106/raw/c2e46029bfc67edc07b9bdab560878e0e78d9a72/positive-words.txt">positive</a> and <a href="https://gist.github.com/davidcoallier/5496106/raw/daf29b28ea9eb823522093a1681f52aa06baf2f2/negative-words.txt">negative</a> words for our analysis.</p>
+<p>This will be useful shortly as we’ll load a list of <a href="https://gist.github.com/davidcoallier/5496106/raw/c2e46029bfc67edc07b9bdab560878e0e78d9a72/positive-words.txt">positive</a> and <a href="https://gist.github.com/davidcoallier/5496106/raw/daf29b28ea9eb823522093a1681f52aa06baf2f2/negative-words.txt">negative</a> words for our analysis.</p>
 
-<p>Another function that will come in handy is the <code>ucfirst</code> function that returns the first character of every word as upper-case. This is something I like to use for the presentation phase.</p>
+<p>Another function that will come in handy is the <code>ucfirst</code> function that returns the first character of every word as upper-case. This is something I like to use for the presentation phase. </p>
 
 <p><div><script src='https://gist.github.com/5496106.js?file=a-ucfirst.r'></script>
 <noscript><pre><code>ucfirst &lt;- function(txt) {
@@ -108,9 +108,9 @@ first have a <code>sentiment.words</code> function that scans a file and makes a
 }</code></pre></noscript></div>
 </p>
 
-<p>This function has a twist. It handles <strong>unicode</strong> strings so that your analysis doesn't <em>shit the proverbial bed</em>.</p>
+<p>This function has a twist. It handles <strong>unicode</strong> strings so that your analysis doesn’t <em>shit the proverbial bed</em>.</p>
 
-<p>The last <strong>utility</strong> function I like to use is one called <code>getText</code>. I'm pretty sure this could be done differently but I've had that since my early days of R and haven't looked into changing it (Not broken, don't change it).</p>
+<p>The last <strong>utility</strong> function I like to use is one called <code>getText</code>. I’m pretty sure this could be done differently but I’ve had that since my early days of R and haven’t looked into changing it (Not broken, don’t change it).</p>
 
 <p><div><script src='https://gist.github.com/5496106.js?file=a-gettext-callback.r'></script>
 <noscript><pre><code>##
@@ -122,9 +122,9 @@ getText &lt;- function(txt) {
 }</code></pre></noscript></div>
 </p>
 
-<h2>Load Positive And Negative Words</h2>
+<h2 id="load-positive-and-negative-words">Load Positive And Negative Words</h2>
 
-<p>The next phase is pretty straight forward. We've setup our framework for loading files and parsing their words. In order to move ahead, we need to load <a href="https://gist.github.com/davidcoallier/5496106/raw/c2e46029bfc67edc07b9bdab560878e0e78d9a72/positive-words.txt">positive</a> and <a href="https://gist.github.com/davidcoallier/5496106/raw/daf29b28ea9eb823522093a1681f52aa06baf2f2/negative-words.txt">negative</a> words.</p>
+<p>The next phase is pretty straight forward. We’ve setup our framework for loading files and parsing their words. In order to move ahead, we need to load <a href="https://gist.github.com/davidcoallier/5496106/raw/c2e46029bfc67edc07b9bdab560878e0e78d9a72/positive-words.txt">positive</a> and <a href="https://gist.github.com/davidcoallier/5496106/raw/daf29b28ea9eb823522093a1681f52aa06baf2f2/negative-words.txt">negative</a> words.</p>
 
 <p><div><script src='https://gist.github.com/5496106.js?file=a-load-words.r'></script>
 <noscript><pre><code>sentiment.words.negative &lt;- sentiment.words('negative-words.txt')
@@ -133,9 +133,9 @@ sentiment.words.positive &lt;- sentiment.words('positive-words.txt')</code></pre
 
 <p>At this point, we are authenticated on Twitter, and we have a list of both positive and negative words.</p>
 
-<h2>Manually adding more words</h2>
+<h2 id="manually-adding-more-words">Manually adding more words</h2>
 
-<p>When looking at the techcrunch data, the words used to describe companies and startups aren't the same as you'd get when parsing academic essays or more "professional" blogs, therefore, we need to add a few words to our list of positives and negatives:</p>
+<p>When looking at the techcrunch data, the words used to describe companies and startups aren’t the same as you’d get when parsing academic essays or more “professional” blogs, therefore, we need to add a few words to our list of positives and negatives:</p>
 
 <p><div><script src='https://gist.github.com/5496106.js?file=a-pos-neg-load.r'></script>
 <noscript><pre><code>##
@@ -149,12 +149,12 @@ neg.words &lt;- c(sentiment.words.negative, &quot;wtf&quot;, &quot;epicfail&quot
 
 <p>You might notice that we are adding <em>floored</em> and <em>disrupt</em> to both positive and negative lists. It is on purpose so they negate each other.</p>
 
-<h2>Scoring Each Tweet</h2>
+<h2 id="scoring-each-tweet">Scoring Each Tweet</h2>
 
-<p>The next step is to <em>search</em> for tweets, and then assign a value to each tweet. Before searching, we'll setup our <code>sentiment.score</code> function which receives a list of
+<p>The next step is to <em>search</em> for tweets, and then assign a value to each tweet. Before searching, we’ll setup our <code>sentiment.score</code> function which receives a list of
 <em>sentences</em> in our case, a list of tweets, we iterate over each sentence, remove punctuations, remove <em>cntrl</em> characters and digits, and finally turn them into lowercase.</p>
 
-<p>Once we've cleaned each tweet, we split the sentence into <strong>words</strong> and calculate the sum of positive against negative word matches. So if a sentence contains 3 positives words, and 1 negative word, its score is <strong>2</strong>.</p>
+<p>Once we’ve cleaned each tweet, we split the sentence into <strong>words</strong> and calculate the sum of positive against negative word matches. So if a sentence contains 3 positives words, and 1 negative word, its score is <strong>2</strong>.</p>
 
 <p><div><script src='https://gist.github.com/5496106.js?file=a-score-words.r'></script>
 <noscript><pre><code>## 
@@ -200,8 +200,7 @@ sentiment.score &lt;- function(sentences, pos.words, neg.words, companyName, .pr
 
 <p>When we have processed each tweet in a search, we basically end up with a <code>data.frame</code> containing the scores, tweets and the company name associated to it.</p>
 
-<h3>Search for Tweets and Score em'</h3>
-
+<h3 id="search-for-tweets-and-score-em">Search for Tweets and Score em’</h3>
 <p>All processing functions are setup, we can now search for tweets for each of the <strong>TechCrunch Finalists</strong>:</p>
 
 <p><div><script src='https://gist.github.com/5496106.js?file=a-searchtwitter.r'></script>
@@ -236,9 +235,9 @@ glide.feel   &lt;- sentiment.score(glide.text, pos.words, neg.words, 'Glide App'
 
 <p>In the case of TCDisrupt, we parse the last 1000 tweets for enigma, healthyout, handle, floored 3d, supply shift, zenefits and glide.</p>
 
-<h2>Scoring the Scores</h2>
+<h2 id="scoring-the-scores">Scoring the Scores</h2>
 
-<p>Once we've scored each tweet for each company, we want to process an overall aggregate so we can put each company in perspective with others.</p>
+<p>Once we’ve scored each tweet for each company, we want to process an overall aggregate so we can put each company in perspective with others.</p>
 
 <p>One way of doing that, is to identify <em>happy</em>, <em>unhappy</em>, <em>very happy</em> and <em>very unhappy</em> tweets:</p>
 
@@ -268,22 +267,21 @@ score.df$percentScore = round(100 * score.df$very.pos.count / score.df$very.tota
 score.df$percentLooser = round(100 * score.df$very.neg.count / score.df$very.total)</code></pre></noscript></div>
 </p>
 
-<p>Let's go over this codeblock step-by-step:</p>
+<p>Let’s go over this codeblock step-by-step:</p>
 
 <ul>
-<li><code>all.scores</code>: We simply aggregate all the scores for each company together,</li>
-<li><code>all.scores$very.pos.bool</code>: We construct a list of TRUE/FALSE of all tweets that have an overall value above or equal to 1,</li>
-<li><code>all.scores$very.pos</code>: From our boolean list, we find their numeric values (0, 1),</li>
-<li><code>all.scores$very.neg.bool</code>: Not unlike <code>very.pos.bool</code>, we find very negative comments by finding comments that are smaller or equals to -1,</li>
-<li><code>all.scores$very.neg</code>: From our boolean list, we associate numeric values to each bool (0, 1)</li>
-<li><code>score.df</code>: This iterates over each score, and computes the sum for each positive and negative scores per company name,</li>
-<li><code>score.df$very.total</code>: This is a sum of the positive and negative counts so we have a <strong>total</strong> value to derive percentages from,</li>
-<li><code>score.df$percentScore</code>: This is the percentage calculation for positive tweets,</li>
-<li><code>score.df$percentLooser</code>: This is the percentage calculation for the negative tweets.</li>
+  <li><code>all.scores</code>: We simply aggregate all the scores for each company together,</li>
+  <li><code>all.scores$very.pos.bool</code>: We construct a list of TRUE/FALSE of all tweets that have an overall value above or equal to 1,</li>
+  <li><code>all.scores$very.pos</code>: From our boolean list, we find their numeric values (0, 1),</li>
+  <li><code>all.scores$very.neg.bool</code>: Not unlike <code>very.pos.bool</code>, we find very negative comments by finding comments that are smaller or equals to -1,</li>
+  <li><code>all.scores$very.neg</code>: From our boolean list, we associate numeric values to each bool (0, 1)</li>
+  <li><code>score.df</code>: This iterates over each score, and computes the sum for each positive and negative scores per company name,</li>
+  <li><code>score.df$very.total</code>: This is a sum of the positive and negative counts so we have a <strong>total</strong> value to derive percentages from,</li>
+  <li><code>score.df$percentScore</code>: This is the percentage calculation for positive tweets,</li>
+  <li><code>score.df$percentLooser</code>: This is the percentage calculation for the negative tweets.</li>
 </ul>
 
-
-<h2>Comparing Sentiments of Companies</h2>
+<h2 id="comparing-sentiments-of-companies">Comparing Sentiments of Companies</h2>
 
 <p>The next thing we need to do, is try to compare the negative, positive, popularity and tweet sentiments for each company in comparison with the other finalists.</p>
 
@@ -335,23 +333,22 @@ multiplot(g, sco, happy, unhappy, cols=2)</code></pre></noscript></div>
 
 <p><img src="http://hostr.co/file/oYzyhTxLhDME/Rplot15.png" alt="Image1" /></p>
 
-<h2>Conclusion</h2>
+<h2 id="conclusion">Conclusion</h2>
 
 <p>From looking at the chart, most tweets are positives. This also seems to reflect the reality from looking at the Twitter search page. The second thing to notice is that <strong>Supply Shift</strong> has a lot less mentions than the others, and this also seems to be reflected when looking at the individual popularity of each <a href="http://techcrunch.com/2013/04/30/supplyshift-helps-companies-understand-the-environmental-impact-of-their-supply-chain/">TechCrunch post</a>.</p>
 
 <p>From looking at the charts, my guess would be the winner will be either Healthy Out or Enigma.io. Healthy Out has a very positive sentiment, but enigma has more mentions but also has a great amount of happiness associated with them.</p>
 
-<h2>Links</h2>
+<h2 id="links">Links</h2>
 
 <p>The full code of this blog post can be <a href="https://gist.github.com/davidcoallier/5496106#file-processing-r">found here</a>.</p>
 
 <ul>
-<li><a href="http://techcrunch.com/2013/04/30/disrupt-ny-battlefield-2013/">TechCrunch Disrupt Battlefield Finalists</a>,</li>
-<li>Special thanks to Jeffrey Breen for <a href="http://www.inside-r.org/howto/mining-twitter-airline-consumer-sentiment">his post</a> on Airline Consumer Sentiment,</li>
-<li><a href="http://docs.ggplot2.org/current/">ggplot2</a>,</li>
-<li>Thanks to <a href="http://hostr.co">Hostr.co</a> for their file hosting service.</li>
+  <li><a href="http://techcrunch.com/2013/04/30/disrupt-ny-battlefield-2013/">TechCrunch Disrupt Battlefield Finalists</a>,</li>
+  <li>Special thanks to Jeffrey Breen for <a href="http://www.inside-r.org/howto/mining-twitter-airline-consumer-sentiment">his post</a> on Airline Consumer Sentiment,</li>
+  <li><a href="http://docs.ggplot2.org/current/">ggplot2</a>,</li>
+  <li>Thanks to <a href="http://hostr.co">Hostr.co</a> for their file hosting service.</li>
 </ul>
-
 ]]></content>
   </entry>
   

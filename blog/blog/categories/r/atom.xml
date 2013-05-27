@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: r | Data, Science, Startups and Investment]]></title>
+  <title><![CDATA[Category: r, | Data, Science, Startups and Investment]]></title>
   <link href="http://davidcoallier.com//blog/categories/r/atom.xml" rel="self"/>
   <link href="http://davidcoallier.com//"/>
-  <updated>2013-05-07T13:22:40+01:00</updated>
+  <updated>2013-05-27T17:54:04+01:00</updated>
   <id>http://davidcoallier.com//</id>
   <author>
     <name><![CDATA[David Coallier]]></name>
@@ -14,749 +14,288 @@
 
   
   <entry>
-    <title type="html"><![CDATA[TechCrunch Disrupt Finalists Sentiment Analysis with R]]></title>
-    <link href="http://davidcoallier.com//techcrunch-finalists-sentiment-with-r"/>
-    <updated>2013-05-01T15:44:00+01:00</updated>
-    <id>http://davidcoallier.com//techcrunch-finalists-sentiment-with-r</id>
-    <content type="html"><![CDATA[<h1>TechCrunch Finalists Twitter Sentiment Analysis</h1>
+    <title type="html"><![CDATA[Simple Linear Regression From R To Python]]></title>
+    <link href="http://davidcoallier.com//linear-regression-from-r-to-python"/>
+    <updated>2013-05-21T12:53:00+01:00</updated>
+    <id>http://davidcoallier.com//linear-regression-from-r-to-python</id>
+    <content type="html"><![CDATA[<h2 id="introduction">Introduction</h2>
 
-<p>Earlier today, I made an experiment to see what could be achieved in 1-hour (Timer next to me). I ended up
-with <a href="http://davidcoallier.com/experiments/disrupt-story/">a timeline of tweets for each finalist</a> but on day 2 of
-TechCrunch Disrupt, many people seemed interested in my generated plots relating to the "Layers of Experience" pitches.</p>
+<p>Linear Regression is one of the most powerful approaches for modelling the relationship between dependent and predictor variables, yet it is also one of the most underrated method nowadays. </p>
 
-<p>There are many ways to analyse sentiment from Tweets. One can approach the analysis using Python's NLTK
-and by using Naive Bayes Classifiers. That's what we use at <a href="https://engineyard.com">Engine Yard</a> for more complex, and complete analyses.</p>
+<p>Whilst many newcomers to <strong>data science</strong> will be enchanted by extravaguant algorithms, an abundance of scientists will miss out on the predictive power of linear regression.</p>
 
-<p>However, today I'm hoping to show you how accurate a simple word weighing analysis can be. Please do not take this with the hope
-of predicting market fluctuations and prediction stock prices. This is merely an example of sentiment analysis, with <strong>R</strong>.</p>
+<p>There are disadvantages to Linear Regression as such as sensitivity to outliers, the data must be independent, linear regression tends to naturally look for linearity in relationships between the dependent and independent variables however data is rarely linear. In the case where your data is indeed independent <strong>and</strong> seems to exhebit linearity then linear regression can be very powerful.</p>
 
-<p><strong>Warning: this is scary-accurate despite its dumbfounding simplicity</strong></p>
+<p>For the purpose of this post, we are not going to go into quantile regression, multivariate regression, etc. The purpose is simple: <em>Predict revenue using R, then Python and compare the results.</em>.</p>
 
-<h2>Setup your R</h2>
+<h2 id="coefficient-of-determination">Coefficient of Determination</h2>
+<p>With more extensive predictive models, we’d be inclined to cross-validate in order to estimate the accuracy of the performance of our predictive model(s). </p>
 
-<p>You will need a few packages in order to get started with <strong>R</strong> and this analysis.</p>
+<p>Simple linear regression however isn’t quite as prone to overfitting as other more advanced models, therefore we are going to conclude by calculating the <strong>coefficient of determination</strong> value of our fit, otherwise known as the <strong>R-squared</strong> value.</p>
 
-<p>Here are the packages you'll need to include. If you don't have them installed, go ahead and install them with <code>install.packages(...)</code>:</p>
+<h2 id="simple-linear-relationship">Simple Linear Relationship</h2>
 
-<p><div><script src='https://gist.github.com/5496106.js?file=a-headers.r'></script>
-<noscript><pre><code>require('twitteR')
+<p>Before we continue further into our simple <code>R</code> and <code>Python</code> code, let’s define our problem. </p>
 
-require('RJSONIO')
-require('RCurl')
-require('stringr')
-require('plyr')
-require('Unicode')
+<p>We have a data set who’s independent variable (predictor) is a “week” number. Each week has a customer count, support requests, revenue, and support cost associated. </p>
 
-require('ggplot2')
-require('doBy')
+<p>For this post, we are interested in seeing whether or not there’s a relationship between the week number and the revenue. The model can be defined as:</p>
 
-require('ROAuth')</code></pre></noscript></div>
+<script type="math/tex; mode=display"> {Y=\beta_0+\beta_{1}X_{1}+...+\beta_{n}X_{n}} </script>
+
+<p>Despite its looks, all the equations says is that <strong>Y</strong> is the dependent variable, <script type="math/tex">X_1,...,X_{n}</script> are the predictors/independent variables, <script type="math/tex">\beta_{1},...,\beta_{n}</script> are the values (coefficients) that multiply the independent variables. In our example we’ll have an intercept, illustrated in the equation by the constant <script type="math/tex">\beta_{0}</script>.</p>
+
+<h2 id="the-global-setup">The Global Setup</h2>
+
+<p>We’ve crafted a simple <code>csv</code> file which you will need to <a href="...">get this file</a> in order to replicate the simple linear regression experiment we are doing here. Save the file in a location you are likely to remember and modify the two code snippets that use the file location <code>path/to/revenue-example.csv</code>.</p>
+
+<h2 id="simple-linear-regression-with-r">Simple Linear Regression with R</h2>
+
+<p>There are essentially three steps to predicting future values when using simple linear regression. </p>
+
+<p>The first one is looking at your data, the second is fitting your data to a model, the third is the actual prediction, and again, the first is looking at your data.</p>
+
+<h3 id="load-and-look">Load and Look</h3>
+
+<p>The most important part is to look at your data. Get a feel for it. One lazy way to look at how the data points might be related is by sticking a dataset into the <code>plot(...)</code> function in <code>R</code>.</p>
+
+<p><div><script src='https://gist.github.com/5656967.js?file=see-example.R'></script>
+<noscript><pre><code>data &lt;- read.csv(&quot;/path/to/revenue-example.csv&quot;, header=TRUE)
+plot(data)</code></pre></noscript></div>
 </p>
 
-<h2>Authentication with Twitter</h2>
+<p>This will give you a very simple scatter-plot of each variable and how they related to each other. For now, we only care about <code>week</code> and <code>revenue</code> and looking at the scatterplot, the intersection of week and revenue seems linear enough. Let’s proceed further.</p>
 
-<p>As of API version 1.x with Twitter, you will need to authenticate your requests. Thanfully, R makes is <em>easy</em>, however you will need to interact
-with the Twitter website after the handshake.</p>
+<h3 id="linear-model-fitting">Linear Model Fitting</h3>
 
-<p>In order to authenticate with twitter you'll need to go to <a href="https://dev.twitter.com">dev.twitter.com</a> and get an account. From which you will then
-create an application and receive a <code>consumer-key</code>, a <code>consumer-secret</code>, an <code>oauth-key</code> and an <code>oauth-secret</code>.</p>
+<p><code>R</code> makes it extremely easy to analyse the fit of dependence of variables. In our case, we will assume that <em>week</em> is the independent/predictor variable, and <em>revenue</em> is the dependent variable, our <code>Y</code> if you will: <script type="math/tex">Y ~ X</script>, or in <code>R</code> terms:</p>
 
-<p>The <strong>R</strong> package we use, will only make use of <code>consumer-key</code> and <code>consumer-secret</code>.</p>
+<p><div><script src='https://gist.github.com/5656967.js?file=fit-lm.R'></script>
+<noscript><pre><code>revenue_fit &lt;- lm(revenue ~ week, data=data)
 
-<p>Let's register our Twitter authentication:</p>
-
-<p><div><script src='https://gist.github.com/5496106.js?file=a-twittercred.r'></script>
-<noscript><pre><code>consumerKey &lt;- 'zing'
-consumerSecret &lt;- 'zong'
-reqURL &lt;- 'https://api.twitter.com/oauth/request_token'
-accessURL &lt;- 'https://api.twitter.com/oauth/access_token'
-authURL &lt;- 'https://api.twitter.com/oauth/authorize'
-twitCred &lt;- OAuthFactory$new(consumerKey=consumerKey,
-                             consumerSecret=consumerSecret,
-                             requestURL=reqURL,
-                             accessURL=accessURL,
-                             authURL=authURL)
-
-twitCred$handshake()
-registerTwitterOAuth(twitCred)</code></pre></noscript></div>
+b_0   &lt;- revenue_fit$coefficients[[1]]
+coeff &lt;- revenue_fit$coefficients[[2]]</code></pre></noscript></div>
 </p>
 
-<h2>A few helper functions</h2>
+<p>You also probably noticed that we’ve assigned two variables that we will be using later to validate our prediction: <script type="math/tex">\beta_{0}</script> as <script type="math/tex">b_0</script> and <strong><script type="math/tex">coeff</script></strong> as the predictor coefficient multiplier.</p>
 
-<p>The next methods we set in <strong>R</strong> are not intrinsically complicated but they make our lives easier as we process the tweets that we retrieve. We
-first have a <code>sentiment.words</code> function that scans a file and makes a returns a list of words.</p>
+<h3 id="predicting">Predicting</h3>
 
-<p><div><script src='https://gist.github.com/5496106.js?file=a-scan-words.r'></script>
-<noscript><pre><code>sentiment.words &lt;- function(file) {
-  return(scan(file, what=&quot;character&quot;, comment.char=&quot;;&quot;))
-}</code></pre></noscript></div>
+<p>Now that we’ve fitted our model, let’s visually compare how the prediction performs and how it <em>fits</em> our original data.</p>
+
+<p><div><script src='https://gist.github.com/5656967.js?file=predict.R'></script>
+<noscript><pre><code>test &lt;- data
+predict_test = predict(revenue_fit, test)
+
+# Look at it.
+plot(revenue ~ week, data=data)
+lines(predict_test, col=&quot;red&quot;)
+
+
+</code></pre></noscript></div>
 </p>
 
-<p>This will be useful shortly as we'll load a list of <a href="https://gist.github.com/davidcoallier/5496106/raw/c2e46029bfc67edc07b9bdab560878e0e78d9a72/positive-words.txt">positive</a> and <a href="https://gist.github.com/davidcoallier/5496106/raw/daf29b28ea9eb823522093a1681f52aa06baf2f2/negative-words.txt">negative</a> words for our analysis.</p>
+<p>It <em>seems</em> like the trend is similar. We’ll validate a little later using the R-squared value.</p>
 
-<p>Another function that will come in handy is the <code>ucfirst</code> function that returns the first character of every word as upper-case. This is something I like to use for the presentation phase.</p>
+<h3 id="forecasting-two-weeks-ahead">Forecasting Two Weeks Ahead</h3>
 
-<p><div><script src='https://gist.github.com/5496106.js?file=a-ucfirst.r'></script>
-<noscript><pre><code>ucfirst &lt;- function(txt) {
-  uc_text &lt;- paste(
-    u_to_upper_case(substring(txt, 1, 1)), 
-    substring(txt, 2),
-    sep=&quot;&quot;, collapse=&quot;&quot;
-  )
-  
-  return(uc_text)
-}</code></pre></noscript></div>
+<p>When looking at revenue and analysing metrics, many businesses will be mainly interested in forecasting the future. From a business perspective, analysing and forecasting the units of economics only makes sense. </p>
+
+<p>Let’s see what’s our predicted revenue for 2 weeks (Week 12, and 13) would be using that model:</p>
+
+<p><div><script src='https://gist.github.com/5656967.js?file=forecast.R'></script>
+<noscript><pre><code># Let's forcast the next 2 weeks.
+data_ahead  &lt;- data.frame(week=c(length(data$week)+1, length(data$week)+2))
+forecast_2w &lt;- predict(revenue_fit, data_ahead)</code></pre></noscript></div>
 </p>
 
-<p>This function has a twist. It handles <strong>unicode</strong> strings so that your analysis doesn't <em>shit the proverbial bed</em>.</p>
+<p>All we had to do is create the <code>data_ahead</code> variable which adds 2 more weeks to a <code>new.data</code> data.frame (required by <code>predict(...)</code>), and assigned the results of the <code>predict(...)</code> function call to <code>forecast_2w</code>.</p>
 
-<p>The last <strong>utility</strong> function I like to use is one called <code>getText</code>. I'm pretty sure this could be done differently but I've had that since my early days of R and haven't looked into changing it (Not broken, don't change it).</p>
+<p>We now have the values our our revenue for the next two weeks stored in <code>forecast_2w</code>. You can look at it, or, if you are like me you probably want to manually verify the results against the original linear model equation.</p>
 
-<p><div><script src='https://gist.github.com/5496106.js?file=a-gettext-callback.r'></script>
-<noscript><pre><code>##
-# Another helper for the laply 
-# Oh lazy dave when you'll re-read this code.
-##
-getText &lt;- function(txt) {
-  txt$getText()
-}</code></pre></noscript></div>
+<p>In this case, we will take each value from <code>forecast_2w</code>, an compare it against: <script type="math/tex">\beta_{0} + (\beta_{n}X_{n})</script> where <script type="math/tex">n</script> is the <em>week-value of the forecasted data</em>. Consequently, the value of <script type="math/tex">n</script> for <code>forecast_2w[1]</code> is <strong>12</strong>, and for forecast_2w[2] is <strong>13</strong>.</p>
+
+<p>The comparison is pretty simple, using the previously created <code>b_0</code> and <code>coeff</code> variables, we can now compare our <code>predict(...)</code> results against the SLR equation:</p>
+
+<p><div><script src='https://gist.github.com/5656967.js?file=compare.R'></script>
+<noscript><pre><code>cat(forecast_2w)
+forecast_2w[1] == b_0 + (coeff * 12) // TRUE
+forecast_2w[2] == b_0 + (coeff * 13) // TRUE</code></pre></noscript></div>
 </p>
 
-<h2>Load Positive And Negative Words</h2>
+<h2 id="simple-linear-regression-with-python">Simple Linear Regression with Python</h2>
 
-<p>The next phase is pretty straight forward. We've setup our framework for loading files and parsing their words. In order to move ahead, we need to load <a href="https://gist.github.com/davidcoallier/5496106/raw/c2e46029bfc67edc07b9bdab560878e0e78d9a72/positive-words.txt">positive</a> and <a href="https://gist.github.com/davidcoallier/5496106/raw/daf29b28ea9eb823522093a1681f52aa06baf2f2/negative-words.txt">negative</a> words.</p>
+<p>Not unlike <code>R</code>, I like to look at the data before I manipulate and model it, regardless of the language I’m using. Our four steps will be <strong>see-fit-predict-forecast</strong>. </p>
 
-<p><div><script src='https://gist.github.com/5496106.js?file=a-load-words.r'></script>
-<noscript><pre><code>sentiment.words.negative &lt;- sentiment.words('negative-words.txt')
-sentiment.words.positive &lt;- sentiment.words('positive-words.txt')</code></pre></noscript></div>
-</p>
+<p>Let’s get started with what we need in order to get working.</p>
 
-<p>At this point, we are authenticated on Twitter, and we have a list of both positive and negative words.</p>
+<h3 id="the-python-setup">The Python Setup</h3>
 
-<h2>Manually adding more words</h2>
+<p>Python must have a new <strong>machine learning</strong> library every week and there are a few that stand out. A few stand out when looking for libraries that allow you to play with statistics, to me, the main contenders are: <a href="http://scipy.org">scipy</a>, <a href="http://statsmodels.sourceforge.net/">statsmodels</a>, <a href="http://scikit-learn.org/stable/">scikit-learn</a>, manually made numpy algorithms, and even <a href="http://rpy.sourceforge.net/rpy2.html">rpy2</a> which is a module that allows you to interact with <code>R</code> directly from Python. </p>
 
-<p>When looking at the techcrunch data, the words used to describe companies and startups aren't the same as you'd get when parsing academic essays or more "professional" blogs, therefore, we need to add a few words to our list of positives and negatives:</p>
+<p>Amongst all of those, <code>scikit-learn</code> really stands out for me as it relatively well documented, contains many machine learning algorithms for supervised learning, unsupervised learning, data transformation, model selection, and much more. </p>
 
-<p><div><script src='https://gist.github.com/5496106.js?file=a-pos-neg-load.r'></script>
-<noscript><pre><code>##
-# This list of words doens't have all I need.
-# 
-# We just add 'floored' and 'disrupt' to both positive and negative so they negate each other.
-##
-pos.words &lt;- c(sentiment.words.positive, &quot;epic&quot;, &quot;amazeballs&quot;, &quot;sick&quot;, 'floored', 'disrupt')
-neg.words &lt;- c(sentiment.words.negative, &quot;wtf&quot;, &quot;epicfail&quot;, &quot;stoopid&quot;, &quot;damn&quot;, 'floored', 'disrupt')</code></pre></noscript></div>
-</p>
+<p>For this experiment, we’ll be using:</p>
 
-<p>You might notice that we are adding <em>floored</em> and <em>disrupt</em> to both positive and negative lists. It is on purpose so they negate each other.</p>
-
-<h2>Scoring Each Tweet</h2>
-
-<p>The next step is to <em>search</em> for tweets, and then assign a value to each tweet. Before searching, we'll setup our <code>sentiment.score</code> function which receives a list of
-<em>sentences</em> in our case, a list of tweets, we iterate over each sentence, remove punctuations, remove <em>cntrl</em> characters and digits, and finally turn them into lowercase.</p>
-
-<p>Once we've cleaned each tweet, we split the sentence into <strong>words</strong> and calculate the sum of positive against negative word matches. So if a sentence contains 3 positives words, and 1 negative word, its score is <strong>2</strong>.</p>
-
-<p><div><script src='https://gist.github.com/5496106.js?file=a-score-words.r'></script>
-<noscript><pre><code>## 
-# Mostly used Jeffrey Breen's code however 
-# added unicode support for words and right now l
-# in the process of adding multi-language support.
-##
-sentiment.score &lt;- function(sentences, pos.words, neg.words, companyName, .progress='none')
-{  
-  scores = laply(sentences, function(sentence, pos.words, neg.words) {
-    
-    sentence &lt;- gsub('[[:punct:]]', '', sentence)
-    sentence &lt;- gsub('[[:cntrl:]]', '', sentence)
-    sentence &lt;- gsub('\\d+', '', sentence)
-    
-    # We need this for broken tweets with random chars. 
-    sentence = try(u_to_lower_case(sentence), TRUE)
-    
-    # We need to implement an iconv language identification
-    # to then load the proper words lists. Right now, 
-    # it only supports english.
-    word.list = str_split(sentence, '\\s+')
-    
-    # Second level lists are teh suck. Unlist all of the things.
-    words = unlist(word.list)
-    
-    pos.matches = match(words, pos.words)
-    neg.matches = match(words, neg.words)
-    
-    # They are not nothing.
-    pos.matches = !is.na(pos.matches)
-    neg.matches = !is.na(neg.matches)
-    
-    score = sum(pos.matches) - sum(neg.matches)
-    
-    return(score)
-  }, pos.words, neg.words, .progress=.progress )
-  
-  scores.df = data.frame(score=scores, text=sentences, name=companyName)
-  return(scores.df)
-}</code></pre></noscript></div>
-</p>
-
-<p>When we have processed each tweet in a search, we basically end up with a <code>data.frame</code> containing the scores, tweets and the company name associated to it.</p>
-
-<h3>Search for Tweets and Score em'</h3>
-
-<p>All processing functions are setup, we can now search for tweets for each of the <strong>TechCrunch Finalists</strong>:</p>
-
-<p><div><script src='https://gist.github.com/5496106.js?file=a-searchtwitter.r'></script>
-<noscript><pre><code>enigma.tweets &lt;- searchTwitter('enigma_io', n=1000)
-enigma.text   &lt;- laply(enigma.tweets, getText)
-enigma.feel   &lt;- sentiment.score(enigma.text, pos.words, neg.words, 'Enigma.io')
-
-healthyout.tweets &lt;- searchTwitter('healthyout', n=1000)
-healthyout.text   &lt;- laply(healthyout.tweets, getText)
-healthyout.feel   &lt;- sentiment.score(healthyout.text, pos.words, neg.words, 'Healthy Out')
-
-handle.tweets &lt;- searchTwitter('@handle', n=1000)
-handle.text   &lt;- laply(handle.tweets, getText)
-handle.feel   &lt;- sentiment.score(handle.text, pos.words, neg.words, 'Handle')
-
-floored.tweets &lt;- searchTwitter('floored3d', n=1000)
-floored.text   &lt;- laply(floored.tweets, getText)
-floored.feel   &lt;- sentiment.score(floored.text, pos.words, neg.words, 'Floored 3D')
-
-supplyshift.tweets &lt;- searchTwitter('supplyshift', n=1000)
-supplyshift.text   &lt;- laply(supplyshift.tweets, getText)
-supplyshift.feel   &lt;- sentiment.score(supplyshift.text, pos.words, neg.words, 'Supply Shift')
-
-zenefits.tweets &lt;- searchTwitter('zenefits', n=1000)
-zenefits.text   &lt;- laply(zenefits.tweets, getText)
-zenefits.feel   &lt;- sentiment.score(zenefits.text, pos.words, neg.words, 'Zenefits')
-
-glide.tweets &lt;- searchTwitter('glideapp', n=1000)
-glide.text   &lt;- laply(glide.tweets, getText)
-glide.feel   &lt;- sentiment.score(glide.text, pos.words, neg.words, 'Glide App')</code></pre></noscript></div>
-</p>
-
-<p>In the case of TCDisrupt, we parse the last 1000 tweets for enigma, healthyout, handle, floored 3d, supply shift, zenefits and glide.</p>
-
-<h2>Scoring the Scores</h2>
-
-<p>Once we've scored each tweet for each company, we want to process an overall aggregate so we can put each company in perspective with others.</p>
-
-<p>One way of doing that, is to identify <em>happy</em>, <em>unhappy</em>, <em>very happy</em> and <em>very unhappy</em> tweets:</p>
-
-<p><div><script src='https://gist.github.com/5496106.js?file=a-setscores.r'></script>
-<noscript><pre><code>## Now we do the actual binding.
-all.scores = rbind(enigma.feel, healthyout.feel, handle.feel, 
-                   floored.feel, supplyshift.feel, zenefits.feel, glide.feel)
-
-## Now we only inspect the happy and very happy and the unhappy to very unhappy people.. as bools.
-all.scores$very.pos.bool = all.scores$score &gt;= 1
-all.scores$very.pos = as.numeric(all.scores$very.pos.bool)
-
-all.scores$very.neg.bool = all.scores$score &lt;= -1
-all.scores$very.neg = as.numeric(all.scores$very.neg.bool)
-
-score.df = ddply(all.scores, c('name'), summarise, 
-                 very.pos.count=sum(very.pos), 
-                 very.neg.count=sum(very.neg))
-
-# Total of &quot;very&quot; people is positive count + negative count
-# we'll need that for our next step where we re-rank companies.
-score.df$very.total = score.df$very.pos.count +  score.df$very.neg.count
- 
-score.df$percentScore = round(100 * score.df$very.pos.count / score.df$very.total)
- 
-# Or if we want the loosers:
-score.df$percentLooser = round(100 * score.df$very.neg.count / score.df$very.total)</code></pre></noscript></div>
-</p>
-
-<p>Let's go over this codeblock step-by-step:</p>
-
-<ul>
-<li><code>all.scores</code>: We simply aggregate all the scores for each company together,</li>
-<li><code>all.scores$very.pos.bool</code>: We construct a list of TRUE/FALSE of all tweets that have an overall value above or equal to 1,</li>
-<li><code>all.scores$very.pos</code>: From our boolean list, we find their numeric values (0, 1),</li>
-<li><code>all.scores$very.neg.bool</code>: Not unlike <code>very.pos.bool</code>, we find very negative comments by finding comments that are smaller or equals to -1,</li>
-<li><code>all.scores$very.neg</code>: From our boolean list, we associate numeric values to each bool (0, 1)</li>
-<li><code>score.df</code>: This iterates over each score, and computes the sum for each positive and negative scores per company name,</li>
-<li><code>score.df$very.total</code>: This is a sum of the positive and negative counts so we have a <strong>total</strong> value to derive percentages from,</li>
-<li><code>score.df$percentScore</code>: This is the percentage calculation for positive tweets,</li>
-<li><code>score.df$percentLooser</code>: This is the percentage calculation for the negative tweets.</li>
-</ul>
-
-
-<h2>Comparing Sentiments of Companies</h2>
-
-<p>The next thing we need to do, is try to compare the negative, positive, popularity and tweet sentiments for each company in comparison with the other finalists.</p>
-
-<p>Using <strong>ggplot2</strong>, this is pretty easy, but we also need a custom-made function named <code>multiplot</code> which simply grabs a few ggplots, and stitches them together:</p>
-
-<p><div><script src='https://gist.github.com/5496106.js?file=a-multiplot.r'></script>
-<noscript><pre><code># Found online months ago... can't remember where. I'll find it and add due creds.
-multiplot &lt;- function(..., plotlist=NULL, cols) {
-  require(grid)
-  
-  # Make a list from the ... arguments and plotlist
-  plots &lt;- c(list(...), plotlist)
-  
-  numPlots = length(plots)
-  
-  # Make the panel
-  plotCols = cols                          # Number of columns of plots
-  plotRows = ceiling(numPlots/plotCols) # Number of rows needed, calculated from # of cols
-  
-  # Set up the page
-  grid.newpage()
-  pushViewport(viewport(layout = grid.layout(plotRows, plotCols)))
-  vplayout &lt;- function(x, y)
-    viewport(layout.pos.row = x, layout.pos.col = y)
-  
-  # Make each plot, in the correct location
-  for (i in 1:numPlots) {
-    curRow = ceiling(i/plotCols)
-    curCol = (i-1) %% plotCols + 1
-    print(plots[[i]], vp = vplayout(curRow, curCol ))
-  }
-}</code></pre></noscript></div>
-</p>
-
-<p>And finally, once we have our multiplot, we are ready to split our data into different ggplot objects, and then display them:</p>
-
-<p><div><script src='https://gist.github.com/5496106.js?file=a-plottage.r'></script>
-<noscript><pre><code>happy &lt;- qplot(reorder(score.df$name, -score.df$percentScore), score.df$percentScore, fill=I(&quot;orange&quot;), 
-               geom=c(&quot;bar&quot;), ylab=&quot;Relative Happiness&quot;, xlab=&quot;Company Ranking&quot;) + theme_bw()
-
-unhappy &lt;- qplot(reorder(score.df$name, -score.df$percentLooser), score.df$percentLooser, fill=I(&quot;brown&quot;), 
-                 geom=c(&quot;bar&quot;), ylab=&quot;Relative Unhappiness&quot;, xlab=&quot;Company Ranking&quot;) + theme_bw()
-
-sco &lt;- qplot(reorder(score.df$name, -score.df$very.total), score.df$very.total, fill=I(&quot;blue&quot;), 
-             geom=c(&quot;bar&quot;), ylab=&quot;Social Mentions&quot;, xlab=&quot;By Company&quot;) + theme_bw()
-
-multiplot(g, sco, happy, unhappy, cols=2)</code></pre></noscript></div>
-</p>
-
-<p><img src="http://hostr.co/file/oYzyhTxLhDME/Rplot15.png" alt="Image1" /></p>
-
-<h2>Conclusion</h2>
-
-<p>From looking at the chart, most tweets are positives. This also seems to reflect the reality from looking at the Twitter search page. The second thing to notice is that <strong>Supply Shift</strong> has a lot less mentions than the others, and this also seems to be reflected when looking at the individual popularity of each <a href="http://techcrunch.com/2013/04/30/supplyshift-helps-companies-understand-the-environmental-impact-of-their-supply-chain/">TechCrunch post</a>.</p>
-
-<p>From looking at the charts, my guess would be the winner will be either Healthy Out or Enigma.io. Healthy Out has a very positive sentiment, but enigma has more mentions but also has a great amount of happiness associated with them.</p>
-
-<h2>Links</h2>
-
-<p>The full code of this blog post can be <a href="https://gist.github.com/davidcoallier/5496106#file-processing-r">found here</a>.</p>
-
-<ul>
-<li><a href="http://techcrunch.com/2013/04/30/disrupt-ny-battlefield-2013/">TechCrunch Disrupt Battlefield Finalists</a>,</li>
-<li>Special thanks to Jeffrey Breen for <a href="http://www.inside-r.org/howto/mining-twitter-airline-consumer-sentiment">his post</a> on Airline Consumer Sentiment,</li>
-<li><a href="http://docs.ggplot2.org/current/">ggplot2</a>,</li>
-<li>Thanks to <a href="http://hostr.co">Hostr.co</a> for their file hosting service.</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[R: Mapping the Street of Ireland]]></title>
-    <link href="http://davidcoallier.com//ye-olde-streets-of-ireland"/>
-    <updated>2013-04-22T21:40:00+01:00</updated>
-    <id>http://davidcoallier.com//ye-olde-streets-of-ireland</id>
-    <content type="html"><![CDATA[<h1>Mapping the Streets of Ireland With R and ggplot2</h1>
-
-<p>Earlier today an interesting article about plotting <a href="http://statistik-stuttgart.de/2013/04/19/r-street-of-france/">the streets of france</a> appeared in my feed. What Simon does in his blog post is essentially read OSM street-lines-data for France and displays it in what I find to be a rather traditional and elegant way.</p>
-
-<p>The first thing I immediately thought of was: "I'd love to see this for Ireland". As an OSX user, it took a few tricks to get the article replicated for Ireland therefore I've decided to share my notes.</p>
-
-<p>Should you wish to replicate this for your country, here are some notes I've taken.</p>
-
-<h2>Get The Data</h2>
-
-<p>The first thing you'll need to do is get data off the <a href="http://www.geofabrik.de/">Geofabrik</a> servers. Being my first time transforming data I didn't know where to look, and what to look for.</p>
-
-<p>Firstly, I found out this URL: http://download.geofabrik.de/europe.html which contains links to <code>.osm.pbf</code>', <code>.shp.zip</code>, and <code>osm.zip</code> files.</p>
-
-<p>Not unlike Simon, you'll have to download the <code>.osm.pbf</code> file understanding that you'll have to convert it to an osm-friendly format. The <code>.shp.zip</code> file contained too many dimensions for me to care to learn how it works.</p>
-
-<h2>Convert The PBF file</h2>
-
-<p>Second step is to unzip, then convert the downloaded <code>pbf</code> file to an <code>o5m</code> file, and finally filter the parts of the <code>osm</code> file you want to work with. Let's see how you do all of that.</p>
-
-<p>After acquiring <a href="http://m.m.i24.cc/osmconvert.c">osmconvert</a> and <a href="http://m.m.i24.cc/osmfilter.c">osmfilter</a>, you'll need to compile them.</p>
-
-<p>For <strong>osmconvert</strong>, it's as simple as:</p>
-
-<pre><code>$&gt; wget -O - http://m.m.i24.cc/osmconvert.c | cc -x c - -lz -O3 -o osmconvert
+<pre><code>- Python 2.7,
+- [scikit-learn](http://scikit-learn.org/stable) (Hereafter known as sklearn),
+- [Pandas](https://pandas.pydata.org) (For file reading),
+- [Numpy](http://numpy.org),
+- [Matplotlib.pylab](http://matplotlib.org/).
 </code></pre>
 
-<p>And for <strong>osmfilter</strong> again:</p>
+<p>In the context of this post, Pandas is loaded to read the CSV file and might be considered overkill. Pandas is an extremely useful Python library to manipulate data structures and analyse them. If you are coming from <code>R</code>, you will most likely be interested in Pandas. If you aren’t coming from <code>R</code>, you’ll be in awe.</p>
 
-<pre><code>$&gt; wget -O - http://m.m.i24.cc/osmfilter.c |cc -x c - -O3 -o osmfilter
+<p>If you have all the libraries, you will include the following in your script:</p>
+
+<p><div><script src='https://gist.github.com/5656967.js?file=import.py'></script>
+<noscript><pre><code>import pandas as pd
+import numpy as np
+import matplotlib.pylab as plt
+
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score</code></pre></noscript></div>
+</p>
+
+<h3 id="load-and-look-1">Load and Look</h3>
+
+<p>Previously with <code>R</code> we displayed a scatterplot of the relations between data points in our data-set. Unfortunately, <code>matplotlib</code> doesn’t have an inherent data-pairing method that would display all the information automatically. Instead, one would have to write his own function (see <a href="http://stackoverflow.com/questions/7941207/is-there-a-function-to-make-scatterplot-matrices-in-matplotlib">this post if you are interested in doing so</a>.</p>
+
+<p>For the time being, let’s load our data in Pandas:</p>
+
+<p><div><script src='https://gist.github.com/5656967.js?file=setup.py'></script>
+<noscript><pre><code>data = pd.read_csv(&quot;/path/to/revenue-example.csv&quot;, sep=&quot;,&quot;)
+week     = data['week'][:, np.newaxis]
+revenue  = data['revenue']</code></pre></noscript></div>
+</p>
+
+<p>We simply load the <code>csv</code> file we have defined before, and in this case create the <code>week</code> variable which contains a format acceptable by <code>sklearn</code>.</p>
+
+<h3 id="linear-model-fitting-1">Linear Model Fitting</h3>
+
+<p>This is yet again very similar to <code>R</code> in terms of simplicity. The main difference is Python is not modelled exclusively for statistical analysis and therefore does not have support for passing “formulas” like we did with <code>R</code> (revenue ~ week (or Y ~ X)). Instead, we assigned loaded the data and created the <code>week</code> and <code>revenue</code> variable which are the two variables we are interested in analysing.</p>
+
+<p>The other difference is the format of the <code>week</code> variable. I would suggest running the code below and looking at <code>data</code>, <code>data['week']</code>, and <code>week</code> to see how they differ.</p>
+
+<p><div><script src='https://gist.github.com/5656967.js?file=fit-lm.py'></script>
+<noscript><pre><code>lr = LinearRegression()
+lr.fit(week, revenue)
+
+b_0   = lr.intercept_
+coeff = lr.coef_</code></pre></noscript></div>
+</p>
+
+<p>Again, we assign our <script type="math/tex">b_0</script> and <script type="math/tex">coeff</script> variables so we can re-use them later in our manual verification against the SLM equation.</p>
+
+<h3 id="predicting-1">Predicting</h3>
+
+<p>When using <code>sklearn</code>, the <code>lr</code> object instance contains local values related to our previous <strong>fit</strong> operation. The object also contains values as such as <code>coef_</code>, <code>intercept_</code>, which we’ve used before. Once an object has been fitted, we can run the prediction directly on it simply by passing the <script type="math/tex">X</script> values we wish to predict.</p>
+
+<p>Before running our prediction, let’s setup a few <code>test</code> values that we’ll be able to compare our data against:</p>
+
+<p><div><script src='https://gist.github.com/5656967.js?file=test-points.py'></script>
+<noscript><pre><code># Let's just test some points.
+test_week = week[1:7]
+test_rev  = revenue[1:7]</code></pre></noscript></div>
+</p>
+
+<p>With that, we have the values from the second, until the 8th week for the revenue. </p>
+
+<p>From here we can predict our <em>test-value</em> and plot them against our actual values to see the difference (visually again).</p>
+
+<p><div><script src='https://gist.github.com/5656967.js?file=predict.py'></script>
+<noscript><pre><code># Let's predict the values for existing weeks (Testing)
+pred = lr.predict(test_week)
+
+plt.scatter(week, rev, color='b')
+plt.scatter(test_week, pred, color='red')
+plt.show()</code></pre></noscript></div>
+</p>
+
+<p>In this code snippet you can see how easy it is to predict values. We predict the <script type="math/tex">Y</script> values for each <code>test_week</code> value and plot their results. The <strong>blue</strong> points is the value corresponding to our <em>actual</em> data, whereas the <strong>red</strong> dots are the predicted values. They are a bit off, but that’s ok. We’ll verify their coefficient of determination later to see if the model fits nicely.</p>
+
+<h3 id="forecasting-two-weeks-ahead-1">Forecasting Two Weeks Ahead</h3>
+
+<p>Similary to our <code>R</code> example, we are interested in seeing what the revenue will be 2 weeks from now (Assuming that now is the max week in our dataset ;).</p>
+
+<p>The difference in this one is we have to create a matrix that will be aligned so it is accepted by our <code>lr.predict(...)</code> function.</p>
+
+<p><div><script src='https://gist.github.com/5656967.js?file=forecast.py'></script>
+<noscript><pre><code># Not query pretty, but we align our week matrices.
+predict_week = np.array(
+  [a for a in xrange(max(week)+1, max(week)+3)]
+)[:, np.newaxis]
+
+forecast_2w = lr.predict(predict_week)</code></pre></noscript></div>
+</p>
+
+<p>This code creates a <code>predict_week</code> variable which is a list of 2 items containing the next two week-values. This value is derived from finding the maximum week in our dataset, and adding 2 (For 2 weeks). If you wanted to forecast for 10 weeks in the future, you would find the maximum week-value in the dataset, and append 10 to it. In Python, this roughly translates to <code>[a for a in xrange(max(week)+1, max(week)+11)]</code>.</p>
+
+<h3 id="comparing-the-results">Comparing the Results</h3>
+
+<p>Now that you have values in your <code>forecast_2w</code> variable, you want to validate it against the model we defined. As described in the <code>R</code> <em>Forecasting Two Weeks Ahead</em> section above, using the previously created <code>b_0</code> and <code>coeff</code> variables, we can now compare the results from <code>lr.predict(...)</code> against the SLR equation:</p>
+
+<p><div><script src='https://gist.github.com/5656967.js?file=compare.py'></script>
+<noscript><pre><code>print forecast_2w
+
+forecast_2w[0] == b_0 + (coeff * 12) // array([ True], dtype=bool)
+forecast_2w[1] == b_0 + (coeff * 13) // array([ True], dtype=bool)</code></pre></noscript></div>
+</p>
+
+<h2 id="validating-our-model">Validating Our Model</h2>
+
+<p>To validate whether our model seems to fit our data, we will calculate the R-squared value, or the <strong>coefficient of determination</strong>. The <script type="math/tex">R^2</script> value, measures how well observed values are replicated by our linear model. Since we are lucky enough to have an intercept value, our <script type="math/tex">R^2</script> is nothing more than a correlation coefficient between observed (original) data, and the predicted values.</p>
+
+<p>Let’s use the <a href="http://en.wikipedia.org/wiki/Coefficient_of_determination">wikipedia definition</a> of <script type="math/tex">R^2</script>:</p>
+
+<p><script type="math/tex"> </script> R^2 = 1 - \frac{\sum (y<em>{i} - f</em>{i})^2}{\sum (y_{i}-\bar{y})} $$</p>
+
+<p>This merely states that the nominator is the regression sum of squares, and that it is divided by the residual sum of squares.</p>
+
+<h3 id="r-squared-in-r">R-squared in R</h3>
+
+<p>To find out the <script type="math/tex">R^2</script> score from the <code>fit</code> function, run the following function, in <code>R</code>:</p>
+
+<pre><code>R&gt; summary(revenue_fit)
 </code></pre>
 
-<p>After having compiled <strong>osmconvert</strong> and <strong>osmfilter</strong>, you are ready to begin the conversion of the <code>.pbf</code> file to <code>.o5m</code> to <code>.osm</code>.</p>
+<p>This shows us that our model seems ~93.88% accurate (0.9388).</p>
 
-<h3>Convert From PBF to o5m</h3>
+<h3 id="r-squred-in-python">R-squred in Python</h3>
 
-<p>Using the compiled <code>osmconvert</code>, convert the <code>pbf</code> from <code>o5m</code> like such:</p>
+<p>There are a few ways to accomplish the <script type="math/tex">R^2</script> calculations using Python and Sklearn. Here’s the standalone function sklearn provides:</p>
 
-<pre><code>$&gt; ./osmconvert ireland-and-northern-ireland-latest.osm.pbf --out-o5m -o="ireland.o5m"
-</code></pre>
+<p><div><script src='https://gist.github.com/5656967.js?file=verify.py'></script>
+<noscript><pre><code># sklearn has an r2_score method. 
+score = r2_score(rev, lr.predict(week[:]))
+print score
 
-<h3>Convert From o5m to osm</h3>
-
-<p>Now using the second compiled program <code>osmfilter</code>, extract the parts you are interested in (Again, this is directly taken from Simon's article):</p>
-
-<p><code>
-./osmfilter ireland.o5m --keep="highway=motorway =motorway_link =trunk
-=trunk_link =primary =primary_link =secondary =secondary_link =tertiary
-=tertiary_link =living_street =pedestrian =residential =unclassified
-=service" --drop-author --drop-version &gt; ireland.osm
-</code></p>
-
-<h2>QuantumGIS</h2>
-
-<p>Now that you've converted the <code>pbf</code>, and filtered the <code>o5m</code> into a cleaned <code>osm</code>, I needed to transform the <code>osm</code> file into an <code>shp</code> shapefile.</p>
-
-<p>You can get QuantumGIS from http://www.kyngchaos.com/software/qgis. Follow the requirements, and you will be able to open up QuantumGIS.</p>
-
-<h3>QuantumGIS OpenStreetMap Plugin</h3>
-
-<p>Before converting your layers to <code>shp</code> files, you will need to enable the OpenStreetMap Plugin in QGIS.</p>
-
-<ol>
-<li>Top menu, select "Plugins" > "Manage Plugins…",</li>
-<li>From the Manage Plugins windows, search for "Open" and enable the OpenStreetMap core plugin</li>
-</ol>
-
-
-<h3>Loading OSM file into QuantumGIS</h3>
-
-<p>Now that you've installed the OpenStreetMap plugin, a new "Top Menu" item should have appeared in QuantumGIS. Look for a menu-item named "Web".</p>
-
-<p>From there, you will have multiple choices under the <strong>OpenStreetMap</strong> option. Select <code>Load OSM from file</code> and select the <code>osm</code> file we've created before.</p>
-
-<h3>QuantumGIS Layers</h3>
-
-<p>You're nearly there. Now, on the left-handside, you will see 3 layers: {country}<em>streets_points, {country}</em>streets_line, {country}_streets_polygons.</p>
-
-<p>Unselect points, and polygons. Keep only lines.</p>
-
-<h3>Save as SHP</h3>
-
-<p>Now that you've only the lines for your country/region/area, from the top menu, select <strong>Layer</strong> > <strong>Save As</strong> and save your shp shape file.</p>
-
-<h2>Getting R-eady</h2>
-
-<p>Finally some <strong>R</strong>...</p>
-
-<p>Now, in order to continue, you will need to make sure the following packages are installed:</p>
-
-<ol>
-<li>ggplot2</li>
-<li>maptools</li>
-<li>proto</li>
-<li>sp</li>
-</ol>
-
-
-<p>If you don't have them, you can install them with:</p>
-
-<pre><code>R&gt; install.packages(c('ggplot2', 'maptools', 'proto', 'sp'))
-</code></pre>
-
-<h2>Loading the Data in R</h2>
-
-<p>You have all the required packages, your files have been converted into the proper <code>shp</code> format, you are now ready to load the data into something that can be displayed:</p>
-
-<p><div><script src='https://gist.github.com/5421734.js?file=z-ggplot-for-blog.r'></script>
-<noscript><pre><code>shpIreland &lt;- readShapeLines(&quot;path/to/shapefile/file.shp&quot;)
-linesIreland &lt;- conv_sp_lines_to_seg(shpIreland)
-rm(shpIreland)
-
-streets &lt;- geom_segment2(data=linesIreland, 
-                         aes(xend=elon, yend=elat), 
-                         size=.055, 
-                         color=&quot;black&quot;)
-
-p &lt;- ggplot(linesIreland, aes(x=slon,y=slat)) + 
-    streets + 
-    scale_x_continuous(&quot;&quot;, breaks=NULL) + 
-    scale_y_continuous(&quot;&quot;, breaks=NULL) +
-    labs(title=&quot;Streets of Ireland and Northern Ireland 2013&quot;) +
-    theme(panel.background=element_rect(fill='#f5f4e0')) +
-    theme(plot.background=element_rect(fill='#f5f4e0')) </code></pre></noscript></div>
+# Or you can `score` the one from LinearRegression
+score = lr.score(week[:], rev[:])
+print score
+</code></pre></noscript></div>
 </p>
 
-<p>Please note that <code>geom_segment2</code> and <code>conv_sp_lines_to_seg</code> are respectively third-party functions from <a href="http://spatialanalysis.co.uk/2012/02/great-maps-ggplot2/">Spatial Analysis UK</a>, and <a href="http://muon-stat.com/landkarten/convert_shp_line_to_seg.R">Simon Müller</a>. You can find a script attached to this <strong>gist</strong> that contains all the code.</p>
+<h2 id="compare-r-and-python-results">Compare R and Python Results</h2>
 
-<h2>Resulting ggplot2 Image</h2>
+<p>Hopefully you’ve managed to run all the examples and you can replicate the behaviour in R and Python. What you should do now, is look at the <code>b_0</code>, <code>coeff</code> and various other variables in both R and Python and compare them. Play with them and see how the models behave. If they are similar, etc. </p>
 
-<p>Here's what the end result with a map that displays the sparse streets of Ireland looks like:</p>
+<p>The results <em>should be the same</em>.</p>
 
-<p><img src="http://hostr.co/file/PlFMCIFuKiiT/ireland-streets-small.png" alt="Small Street" /></p>
+<p>The <code>summary(...)</code> function in <code>R</code> is tremendously useful, but the <code>Hmisc</code> package also contains an enourmously useful <code>describe(...)</code> function to inspect the variables and their structures. In <strong>Python</strong>, Pandas allows you to do something similar. For instance, with the data we’ve created above, try analysing the <code>data</code> variable using <code>data.describe()</code>.  You can also quickly visualise <code>data</code> by doing <code>data.plot()</code>, and much more.</p>
 
-<h2>Title for Edward R. Tufte</h2>
+<h2 id="forecasting-is-simple">Forecasting is Simple</h2>
 
-<p>Now, I've saved the plot as a PDF from RStudio, and opened it with Adobe Illustrator which allows me to edit various parts of the plot. That is how the title has been changed. ( <strong>That's a pretty big tip right there, write that down</strong> )</p>
+<p>As you can see, forecasting is pretty straightforward. In this case, it’s nothing more than training our linear model with existing data, and then attempting to <em>predict</em> the results of unknown data. It is very important to keep in mind that Linear Regression can be <strong>very</strong> misleading if your data is not linear, if the data is dependent, etc. </p>
 
-<p>If you've ever read Edward R. Tufte, you may have come across one of his book called: <strong>The Visual Display of Quantitative Information</strong> which displays very elegant, <code>Ye Olde Plot</code> types of plots. It is the reason why this map has an edited title, even though I didn't have time to find the proper font so I would agree that it looks slightly sloppy.</p>
+<p>There are many downsides to linear regression modelling, but like any other learning model, it can be misused and lead to misleading results.</p>
 
-<p>If you are interested in the original image, please see <a href="http://hostr.co/file/yKZBiz7xww6K/ireland-streets.png">the larger image</a></p>
+<h2 id="bottom-line">Bottom Line</h2>
 
-<h2>Conclusion</h2>
+<p>Play around, learn, test and visualise. R and Python both contain great libraries to help you realise your experiments rapidly and you should leverage their features as much as you can.</p>
 
-<p>It's fairly simplistic, and I believe it created what is to be an elegant old-style plot of Ireland's streets (which comprises <em>2,133,736</em> street-data points).</p>
+<p><strong>Be careful of the models you select</strong>.</p>
 
-<p>Thanks to Simon for his original article.</p>
-
-<ul>
-<li>See the code in the file called "plotting-full.R" under,</li>
-<li>The data OpenStreetMap-data is published under CC BY-SA-licence</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Load, Shape and Visualise Data]]></title>
-    <link href="http://davidcoallier.com//load-shape-visualise-data-with-r"/>
-    <updated>2013-04-22T20:55:00+01:00</updated>
-    <id>http://davidcoallier.com//load-shape-visualise-data-with-r</id>
-    <content type="html"><![CDATA[<h1>Load Data With Hmisc</h1>
-
-<p>Often times when working with data in <code>R</code>, you find yourself needing to summarise a <strong>data.frame</strong> by a column, a
-<code>SELECT SUM(..)</code> or <code>SELECT COUNT(..)</code> in MySQL if you will.</p>
-
-<p>For instance, you may have a lot of page-visits to analyse and you aren't quite certain how to summarise some
-of that data using <code>R</code>.</p>
-
-<p>Let's consider the following (trivial) dataset:</p>
-
-<p><div><script src='https://gist.github.com/5438020.js?file=1.csv'></script>
-<noscript><pre><code>user, created.at, pages.visited
-julie, 2011-11-16 03:31:56 GMT, 3
-julie, 2011-11-16 04:22:33 GMT, 5
-jack, 2011-11-16 07:19:13 GMT, 8
-jack, 2011-11-16 12:39:02 GMT, 9
-julie, 2011-11-17 12:39:02 GMT, 3</code></pre></noscript></div>
-</p>
-
-<p>Let's load this <strong>csv</strong> file into <code>R</code> using a package called <strong>Hmisc</strong>:</p>
-
-<p><div><script src='https://gist.github.com/5438020.js?file=2.r'></script>
-<noscript><pre><code>require(Hmisc)
-require(plyr)
-require(ggplot2)
-
-data &lt;- csv.get('path/to/csv-file.csv', header=TRUE)</code></pre></noscript></div>
-</p>
-
-<p>By using <code>csv.get</code> we essentially create a <code>data</code> variable of type  <em>data.frame</em> on which we can start operating.</p>
-
-<h1>Shape the data (Clean)</h1>
-
-<p>The first thing we'll want to do is format the <code>created.at</code> field so that it is parsable and formattable.</p>
-
-<p>For the purpose of this analysis, let's assume that we are based in Los Angeles. If we look closely at the data we have loaded, we
-notice the timezone of the <code>data$created.at</code> field being <strong>GMT</strong>.</p>
-
-<p>Considering we are in Los Angeles, visualising <strong>GMT</strong> data will not be as intuitive for our team, therefore we are
-going to start by changing the timezone (and values) of the <code>data$created.at</code> to "Los Angeles" times.</p>
-
-<p><div><script src='https://gist.github.com/5438020.js?file=3.r'></script>
-<noscript><pre><code>data$created.at &lt;- as.POSIXct(
-    format(data$created.at, tz=&quot;America/Los_Angeles&quot; usetz=TRUE)
-)</code></pre></noscript></div>
-</p>
-
-<p>We now have data that is ready to be parsed, and that is represented with local Los Angeles times. We decide we want
-to see how people are using the data per hour of the day.</p>
-
-<p><code>R</code> <em>data.frame</em>s are fairly versatile and allow us to add the hour for each entry as easily as:</p>
-
-<p><div><script src='https://gist.github.com/5438020.js?file=4.r'></script>
-<noscript><pre><code>data$hour &lt;- format(data$created.at, '%H')</code></pre></noscript></div>
-</p>
-
-<p>Our <code>data</code> now contains the <strong>hour</strong> column and looks like:</p>
-
-<p><div><script src='https://gist.github.com/5438020.js?file=5.csv'></script>
-<noscript><pre><code>user          created.at pages.visited hour
-1 julie 2011-11-16 03:31:56            3   03
-2 julie 2011-11-16 04:22:33            5   04
-3 jack 2011-11-16 07:19:13             8   07
-4 jack 2011-11-16 12:39:02             9   12
-5 julie 2011-11-17 12:39:02            3   12</code></pre></noscript></div>
-</p>
-
-<p>At this point we want to count the number of pages visited per hour, per user. If we were using
-an SQL based solution, we could simply do something like:</p>
-
-<p>SELECT SUM(pages.visited) as countPerHour, user, hour FROM data GROUP BY user, hour</p>
-
-<p>The only problem, is we aren't using an SQL-based solution, therefore we need to learn how to
-manipulate and summarise data from within <code>R</code>.</p>
-
-<p>The <code>plyr</code> package in <code>R</code> allows us to manipulate lists, dataframes, etc. very easily. In this
-instance, it also allows ut to summarise as if we were using and SQL-based query.</p>
-
-<p><div><script src='https://gist.github.com/5438020.js?file=6.r'></script>
-<noscript><pre><code>byHour &lt;- ddply(data, .(user, hour), summarise, countPerHour=sum(pages.visited))</code></pre></noscript></div>
-</p>
-
-<p>We now have a new <em>data.frame</em> <code>byHour</code> which contains the sum of visited page per hour per user.</p>
-
-<p>Now let's say we also want to take a look at the visits by weekday instead of by hour. We'll start by adding
-the weekday to our original <code>data</code> <em>data.frame</em> and again, we'll use <code>ddply</code> from <code>plyr</code> to sum/count
-the number of visits per weekday:</p>
-
-<p><div><script src='https://gist.github.com/5438020.js?file=7.r'></script>
-<noscript><pre><code>data$weekday &lt;- weekdays(data$created.at)
-byWeekday &lt;- ddply(data, .(user, weekday), summarise, countPerDay=sum(pages.visited))</code></pre></noscript></div>
-</p>
-
-<p>You now have data summarised that is similar to what you would traditionally get with
-MySQL by doing <code>SELECT SUM(hour) as countPerHour, user, hour FROM data GROUP BY user, user</code> or even
-<code>SELECT SUM(weekday) as countPerDay, user, weekday FROM data GROUP BY user, weekday</code>.</p>
-
-<p>The difference, is that you can start visualising your data a lot faster now that you have a
-formatted <em>data.frame</em>.</p>
-
-<h1>Visualise Your Cleansed Data</h1>
-
-<p>As with most analysis, you will want to visualise this data-set. Preferably, you'll generate a few
-plots and identify which ones pleases you the most.</p>
-
-<h3>Visited Pages Per Hour</h3>
-
-<p>Lets see how we can use <code>ggplot2</code> to visualise this data-set in a few different ways:</p>
-
-<p><div><script src='https://gist.github.com/5438020.js?file=8.r'></script>
-<noscript><pre><code>ggplot(byHour, aes(x=hour, y=as.numeric(countPerHour))) + 
-    geom_bar(stat=&quot;identity&quot;) +
-    labs(title=&quot;Count per hour for all users&quot;) +
-    ylab(&quot;Visits Per Hour&quot;) + xlab(&quot;Hour of the day&quot;) +
-    theme_bw()</code></pre></noscript></div>
-</p>
-
-<p><img src="https://hostr.co/file/P6yIYUIGBJzK/plot1.png" alt="Plot1" /></p>
-
-<p>Now this seems to be exhibiting an upward trend however with only 2-different users,
-our analysis is fairly weak.</p>
-
-<h3>Visited Pages Per Hour Per User</h3>
-
-<p>What if we decide to put the visited page, per user, as columns but this
-time we'll put them side-by-side so we can compare the two users:</p>
-
-<p><div><script src='https://gist.github.com/5438020.js?file=9.r'></script>
-<noscript><pre><code>ggplot(byHour, aes(x=hour, y=as.numeric(countPerHour))) + 
-  geom_bar(aes(fill=user), position=&quot;dodge&quot;) +
-  labs(title=&quot;Dodge per hour per user&quot;) +
-  ylab(&quot;Visits Per Hour&quot;) + xlab(&quot;Hour of the day&quot;) +
-  theme_bw()</code></pre></noscript></div>
-</p>
-
-<p><img src="https://hostr.co/file/5t8GYEOJimA9/plot2.png" alt="Plot2" /></p>
-
-<p>From that we can now see that Julie is the only one that visited pages between 3am and 4am. On the other hand,
-at 7am, only Jack used the site. At 12pm, both users used the site but Jack used it more.</p>
-
-<p>The interesting part in this is the:</p>
-
-<pre><code>geom_bar(aes(fill=user), position="dodge")
-</code></pre>
-
-<p>This tells the plotting-engine to fill bars with colours for each user, but then tells the engine
-to <strong>dodge</strong> the bars instead of say <strong>stacking</strong> them.</p>
-
-<p>What this shows is that our upwards trend now shows that only 1 user is using it more as the hours progress
-and that Julie is in fact using it less.</p>
-
-<h3>User-Faceted Visited Pages Per Hour</h3>
-
-<p>Another way of visualise this would be to seperate the users into facets as such:</p>
-
-<p><div><script src='https://gist.github.com/5438020.js?file=10.r'></script>
-<noscript><pre><code>ggplot(byHour, aes(x=hour, y=as.numeric(countPerHour))) + 
-  geom_bar(aes(fill=user), stat=&quot;identity&quot;) +
-  labs(title=&quot;Pages visited per hour of day&quot;) +
-  ylab(&quot;Visits Per Hour&quot;) + xlab(&quot;Hour of the day&quot;) +
-  theme_bw() + facet_grid(user~.)</code></pre></noscript></div>
-</p>
-
-<p><img src="https://hostr.co/file/iYp5TasMxCGh/plot3.png" alt="Plot3" /></p>
-
-<p>From this, what you need to look at is:</p>
-
-<pre><code>facet_grid(user~.)
-</code></pre>
-
-<p>which splits the plot into 2 facets, each facet being the <code>user</code> field.</p>
-
-<h3>Visited Pages Per Weekday</h3>
-
-<p>Now considering we don't have much data in our example data-set, this will yield fairly
-dissapointing results however we'll look at a way to change how the axis is displayed:</p>
-
-<p><div><script src='https://gist.github.com/5438020.js?file=11.r'></script>
-<noscript><pre><code>ggplot(byWeekday, aes(x=weekday, y=as.numeric(countPerDay))) + 
-  geom_bar(aes(fill=user), position=&quot;dodge&quot;) +
-  labs(title=&quot;Dodge per hour per user&quot;) +
-  ylab(&quot;Visits Per Hour&quot;) + xlab(&quot;Hour of the day&quot;) +
-  theme_bw() + coord_flip()</code></pre></noscript></div>
-</p>
-
-<p><img src="https://hostr.co/file/AezmAnWzfHZw/plot4.png" alt="Plot4" /></p>
-
-<p>The interesting part from this snippet is:</p>
-
-<pre><code>coord_flip()
-</code></pre>
-
-<p>Which basically takes the x-axis and flips it on its side. In the case of weekdays, we have a maximum
-of seven wherein the names can be long ("Wednesday", "Saturday", etc). This makes it a lot easier
-to read and visualise.</p>
-
-<p>From the previous plot, we can easily see that the only person that visited pages on Thursday was Julie,
-however on Wednesday, Jack visited a lot more pages than Julie. Should we assume that Jack didn't do
-any work on Wednesday? I'll make you draw your own conclusions ;-)</p>
-
-<h3>User-Weekday-Faceted Visited Pages Per Hour</h3>
-
-<p>There are many different ways of looking at this type of data and I hope I've conveyed the power of <code>R</code> and the rapidity at
-which it enables you to prototype. <code>R</code> makes it very easy to <strong>load</strong>, <strong>manipulate</strong> and <strong>visualise</strong> data rapidly.</p>
-
-<p>Now assuming you had many different weekdays and you wanted to visualise the number of pages visited per day per hour. You could do
-something similar to:</p>
-
-<p><div><script src='https://gist.github.com/5438020.js?file=12.r'></script>
-<noscript><pre><code>byWeekdayHour &lt;- ddply(data, .(user, hour, weekday), summarise, countPerHour=sum(pages.visited))
-
-byWeekdayHour$weekday &lt;- factor(
-    byWeekdayHour$weekday, 
-    levels=c('Wednesday', 'Thursday')
-)
-
-ggplot(byWeekdayHour, aes(x=hour, y=as.numeric(countPerHour))) + 
-    geom_bar(aes(fill=user), stat=&quot;identity&quot;) +
-    labs(title=&quot;Pages visited per hour of day&quot;) +
-    ylab(&quot;Visits Per Hour&quot;) + xlab(&quot;Hour of the day&quot;) +
-    theme_bw() + facet_grid(user~weekday)</code></pre></noscript></div>
-</p>
-
-<p><img src="https://hostr.co/file/TfPo8ZPJC0OX/plot5.png" alt="Plot5" /></p>
-
-<p>The first thing we do is we select per user, hour and weekday and sum the visited pages. The second part of the
-snippet, the part that contains <code>factor(...)</code> is only so we order the weekdays in the proper order... Wednesday
-comes before Thursday therefore we re-order it (Otherwise Thursday comes before Wednesday (T vs W)).</p>
-
-<h2>Conclusion</h2>
-
-<p>For the less experienced <code>R</code> users, keep in mind that load and intensively manipulating data is going to be of
-utmost importance when you prototype with R. Visualising is also a very important part of the analysis as it
-allows for your cognitive functions to identify patterns before investing time into a deeper analysis.</p>
-
-<p>Now go forth, be crazy.</p>
 ]]></content>
   </entry>
   
