@@ -4,7 +4,7 @@
   <title><![CDATA[Category: numpy | Data, Science, Startups and Investment]]></title>
   <link href="http://davidcoallier.com//blog/categories/numpy/atom.xml" rel="self"/>
   <link href="http://davidcoallier.com//"/>
-  <updated>2013-05-27T18:27:48+01:00</updated>
+  <updated>2013-05-27T18:29:33+01:00</updated>
   <id>http://davidcoallier.com//</id>
   <author>
     <name><![CDATA[David Coallier]]></name>
@@ -197,7 +197,7 @@ coeff = lr.coef_</code></pre></noscript></div>
 
 <p>When using <code>sklearn</code>, the <code>lr</code> object instance contains local values related to our previous <strong>fit</strong> operation. The object also contains values as such as <code>coef_</code>, <code>intercept_</code>, which we’ve used before. Once an object has been fitted, we can run the prediction directly on it simply by passing the <script type="math/tex">X</script> values we wish to predict.</p>
 
-<p>For instance, in our case we have values for <strong>week</strong>: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 and our model is trained with these. We could pass <code>12, 14, 15, 16</code> as <script type="math/tex">X</script> we wish to predict <script type="math/tex">Y</script> values.</p>
+<p>For instance, in our case we have values for <strong>week</strong>: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 and our model is trained with these. We could pass <code>12, 14, 15, 16</code> as <script type="math/tex">X</script> values for which we wish to predict their <script type="math/tex">Y</script> values.</p>
 
 <p>Before running our prediction, let’s setup a few <code>test</code> values that we’ll be able to compare our data against:</p>
 
