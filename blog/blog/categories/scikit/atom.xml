@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: statistics | Data, Science, Startups and Investment]]></title>
-  <link href="http://davidcoallier.com//blog/categories/statistics/atom.xml" rel="self"/>
+  <title><![CDATA[Category: scikit | Data, Science, Startups and Investment]]></title>
+  <link href="http://davidcoallier.com//blog/categories/scikit/atom.xml" rel="self"/>
   <link href="http://davidcoallier.com//"/>
   <updated>2013-05-27T17:56:43+01:00</updated>
   <id>http://davidcoallier.com//</id>
