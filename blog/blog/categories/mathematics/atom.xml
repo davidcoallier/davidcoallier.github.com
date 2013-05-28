@@ -4,7 +4,7 @@
   <title><![CDATA[Category: mathematics | Data, Science, Startups and Investment]]></title>
   <link href="http://davidcoallier.com//blog/categories/mathematics/atom.xml" rel="self"/>
   <link href="http://davidcoallier.com//"/>
-  <updated>2013-05-27T20:54:05+01:00</updated>
+  <updated>2013-05-28T14:19:33+01:00</updated>
   <id>http://davidcoallier.com//</id>
   <author>
     <name><![CDATA[David Coallier]]></name>
@@ -106,7 +106,7 @@ lines(predict_test, col=&quot;red&quot;)
 
 <p>From a business perspective, analysing and forecasting the units of economics overtime for instance, only makes sense. </p>
 
-<p>Let’s see what’s our predicted revenue for 2 weeks (Week 12, and 13) would be using our previous model model:</p>
+<p>Let’s see what’s our predicted revenue for 2 weeks (Week 12, and 13) would be using our previous model:</p>
 
 <p><div><script src='https://gist.github.com/5656967.js?file=forecast.R'></script>
 <noscript><pre><code># Let's forcast the next 2 weeks.
@@ -114,9 +114,9 @@ data_ahead  &lt;- data.frame(week=c(length(data$week)+1, length(data$week)+2))
 forecast_2w &lt;- predict(revenue_fit, data_ahead)</code></pre></noscript></div>
 </p>
 
-<p>All we had to do is create the <code>data_ahead</code> variable which adds 2 more weeks a <code>data.frame</code> variable which is passed to <code>predict(...)</code> as the <strong>second</strong> argument, and we assigned the results of the <code>predict(...)</code> function call to <code>forecast_2w</code>.</p>
+<p>All we had to do is create the <code>data_ahead</code> variable which adds 2 more weeks to a <code>data.frame</code> which is passed to <code>predict(...)</code> as the <strong>second</strong> argument. We then assign the results of the <code>predict(...)</code> function call to <code>forecast_2w</code>.</p>
 
-<p>We now have the values of our revenue for the next two weeks stored in <code>forecast_2w</code>. You can look at it, or, if you are like me you probably want to manually verify the results against the original linear model equation and making sure the arithmetic adds up before looking at the value.</p>
+<p>We now have the values of our revenue for the next two weeks stored in <code>forecast_2w</code>. You can look at it, or, if you are like me you probably want to manually verify the results against the original linear model equation to make sure the arithmetic adds up — before looking at the value.</p>
 
 <p>In this case, we compare each value from <code>forecast_2w</code> against: <script type="math/tex">\beta_{0} + (\beta_{n}X_{n})</script> where <script type="math/tex">n</script> is the <strong>week</strong><em>-value of the forecasted data</em>. Consequently, the value of <script type="math/tex">n</script> for <code>forecast_2w[1]</code> is <strong>12</strong>, and for forecast_2w[2] is <strong>13</strong>.</p>
 
