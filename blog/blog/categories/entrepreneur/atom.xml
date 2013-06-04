@@ -4,7 +4,7 @@
   <title><![CDATA[Category: entrepreneur | Data, Science, Startups and Investment]]></title>
   <link href="http://davidcoallier.com//blog/categories/entrepreneur/atom.xml" rel="self"/>
   <link href="http://davidcoallier.com//"/>
-  <updated>2013-06-04T03:34:57+01:00</updated>
+  <updated>2013-06-04T03:37:54+01:00</updated>
   <id>http://davidcoallier.com//</id>
   <author>
     <name><![CDATA[David Coallier]]></name>
@@ -46,7 +46,7 @@ is known as the <em>cringeworthy</em> term: <strong>networking</strong>. Go out 
 <pre><code>Spend time building investor relationship long before you raise money.
 </code></pre>
 
-<p>To an average entrepreneur, this quote seems evident, but also utopic. <em>Who do you build a relationship with? How do you decide? How do you maximize your chances whilst minimizing the amount of energy/time doing it? Who’s really influential, who can make the bridges to other investors? How do I pin-point investors relevant to my industry?</em></p>
+<p>To an average entrepreneur, this quote seems evident, but also utopic. <em>Who do you build a relationship with? How do you decide? How do you maximise your chances whilst minimising the amount of energy/time doing it? Who’s really influential, who can make the bridges to other investors? How do I pin-point investors relevant to my industry?</em></p>
 
 <p>This is where the <em>strategic</em> part of the angel-investor comes in. Entrepreneurs are often standing so close to the trees that they fail to see the forest. It is the job of the
 early-stage investors to take a step-back, relax, and provide objective insight. At this point, <em>data becomes important</em>.</p>
@@ -57,7 +57,7 @@ early-stage investors to take a step-back, relax, and provide objective insight.
 
 <p>In an attempt to make the entrepreneurial and investment worlds more connected I’ve developed many <strong>personal</strong> products that allow me to analyse startups and whether or not people seem to be interested, if the future (<em>I just said future. Yes</em>) appears bleak or promising, and what the ecosystem of the industry of the startup receiving the investment seems receptive. This includes a mix of natural language processing, statistical analysis, backtesting analysis, acquisition potential analysis, etc. </p>
 
-<p>These are fairly standard (I hope) tools for most investors attempting to maximize their returns. </p>
+<p>These are fairly standard (I hope) tools for most investors attempting to maximise their returns. </p>
 
 <p>Here’s the kick: <strong>Entrepreneurs also have to analyse investors</strong>. For entrepreneurs, building relationships and doing your own due-dilligence on potential investors is primordial. There is no extent to the importance of stressing that fact with entrepreneurs.</p>
 
@@ -75,7 +75,7 @@ early-stage investors to take a step-back, relax, and provide objective insight.
 
 <p>After having parsed and retrieved the information (management, investments, investors, etc.) of over <strong>140,000</strong> businesses from the <a href="http://developer.crunchbase.com">CrunchBase API</a>, I’ve borrowed <em>centrality measuring</em> techniques from the field known as graph theory to identify influential investors as well as investors more likely to make bridges to others. </p>
 
-<p>Take <a href="http://davidcoallier.com/experiments/important-investors">a look at the results of influential/briding investors per industry</a></p>
+<p>Take <a href="http://davidcoallier.com/experiments/important-investors">a look at the results of influential/bridging investors per industry</a></p>
 
 <h2 id="sparse-and-limited-results">Sparse and Limited Results</h2>
 
