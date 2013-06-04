@@ -9,6 +9,7 @@ import pandas as pd
 import string
 import networkx as nx
 import networkx.readwrite as nxrw
+import networkx.algorithms.clique as clique
 
 
 category = sys.argv[1] if len(sys.argv) > 1 else 'web'
@@ -79,6 +80,11 @@ for inv in find:
             G.add_node(name)
             #print "Node: %s" % name
             [G.add_edge(name, l) for l in comp if l != name]
+
+X = clique.make_clique_bipartite(G)
+nx.draw(X)
+sys.exit(0)
+
 
 gt, rank = most_influential(G)
 br, brank = most_bridges(G)

@@ -107,7 +107,7 @@ body > svg {
   width: 44% !important;
   height: 500px;
   overflow: auto;
-  margin-top: 5%;
+  margin-top: 3%;
   margin-left: 5%;
   max-width: 49%;
 }
@@ -117,4 +117,18 @@ body > svg {
   width: 100%;
 
   float: left;
+}
+
+ul
+{
+  list-style-type: none;
+  padding: 0px;
+  margin: 0px;
+}
+ul li
+{
+  background-image: url(sqpurple.gif);
+  background-repeat: no-repeat;
+  background-position: 0px 5px; 
+  padding-left: 14px; 
 }

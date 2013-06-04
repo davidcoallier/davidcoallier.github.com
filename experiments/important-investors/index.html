@@ -1,0 +1,545 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <link type="text/css" rel="stylesheet" href="style.css"/>
+    <link type="text/css" rel="stylesheet" href="table.css"/>
+
+    <style type="text/css">
+      body { margin: 5% !important; padding-left: 10%; width: 80%;}
+path.arc {
+  cursor: move;
+  fill: #fff;
+}
+
+.node {
+  color: #f5f5f5;
+  color: #c4c4c4;
+  color: #9e9e9e;
+  font-size: 10px;
+  fill: #c4c4c4;
+  fill: #9e9e9e;
+  cursor: pointer;
+}
+
+.node:hover {
+  fill: #1f77b4;
+  font-weight: bold !important;
+  font-size: 15px;
+}
+
+.nodehover {
+  fill: #1f77b4;
+  font-weight: bold !important;
+  font-size: 15px;
+}
+
+.link {
+  fill: none;
+  stroke: #1f77b4;
+  stroke: #c4c4c4;
+  stroke: #9e9e9e;
+  stroke-opacity: .1;
+  pointer-events: none;
+}
+
+.link.source, .link.target {
+  stroke-opacity: 1;
+  stroke-width: 1px;
+  stroke: black;
+}
+
+.node.target {
+  fill: #d62728 !important;
+  fill: #1f77b4 !important;
+  font-size: 13px !important;
+}
+
+.link.source {
+  stroke: #d62728;
+  stroke: #1f77b4;
+}
+
+.node.source {
+  fill: #2ca02c;
+}
+
+.link.target {
+  stroke: #2ca02c;
+  stroke: #1f77b4;
+}
+
+    </style>
+  </head>
+  <body> 
+    <h1>Industry Investors</h1>
+    <h2>A list of non-instutional investors, by industry;</h2>
+    <br />
+    <div style="">
+      <p>
+      This is experiment attempts to analyse which investors, per sector, should you
+      be approaching depending on whether you want bridges to other investors, or influential people.
+      </p>
+      <br />
+      <p>
+      This experiment is based on public data found through the <a href="http://developer.crunchbase.com/">Crunchbase API</a>. Crunchbase
+      is essentially a repository of information about companies, investments, management changes, directors and investors.
+      </p>
+      </br />
+      <p>
+      Thorough this page, you will be presented with a list of investors per sector (Web, Mobile, etc). Using algorithms known to graph theorists
+      we establish the ability of an investor to make bridges (<strong>Bridge Ranking</strong>) and its influence (<strong>Influence Ranking</strong>).
+      </p>
+      <br />
+      <p>
+      Technical Ranking Definition:
+      <br />
+      <br />
+      <ul>
+        <li><strong>Bridge Ranking</strong>: This ranking uses the <i>betweenness centrality</i> to measure the ability for an investor to make
+        bridges to other investors. The betweenness centrality measures the number of times an investor acts as a shortest path to another investor.
+        </li>
+        <li><strong>Influence Ranking</strong>: The influence ranking is based on the <i>eigenvector centrality</i> measure, which is very similar to 
+        how the Google PageRank algorithm works to identify relevant and influential links thorough the web. 
+        </li> 
+      </ul>
+      <br />
+      For more information on graph theory and measures of centrality, feel free to take a look at the <a href="http://en.wikipedia.org/wiki/Centrality">
+      wikipedia article about centrality in graph theory</a>.
+      </p>
+      <br />
+      <p><i>In order to make the analysis more visually intuitive, investors with centrality measures below three times the average have been dropped.</i>. Also, 
+      the eigenvector centrality measure might only return nodes that appear relevant, therefore reducing the amount of results present in the analysis.</p>
+      </p>
+      <br/>
+      <p>
+      <strong>How to use</strong>: Each investor name in the righthand-side tables display the aforementioned ranking per investor. If you hover the table
+      items, the graph on the lefthand-side will also display the connections of the selected investor. Each investor name in the tables are links back to the Crunchbase Link,
+      and the table columns are sortable.
+      </p>
+      <br />
+      <p>
+      <strong>Side Note</strong>: This page is quite computationally expensive, therefore the experience is likely to be sluggish with slower computers.
+      <p>
+      <br />
+    </div>
+    <br />
+    <br />
+
+    <div class="group" id="web">
+      <h2>Web Investors</h2>
+      <div class="chart"></div>
+      <div class="table"></div>
+    </div>
+    <div class="group" id="enterprise">
+      <h2>Enterprise Investors</h2>
+      <div class="chart"></div>
+      <div class="table"></div>
+    </div>
+    <div class="group" id="software">
+      <h2>Software Investors</h2>
+      <div class="chart"></div>
+      <div class="table"></div>
+    </div>
+    <div class="group" id="network_hosting">
+      <h2>Network_Hosting Investors</h2>
+      <div class="chart"></div>
+      <div class="table"></div>
+    </div>
+    <div class="group" id="games_video">
+      <h2>Games_Video Investors</h2>
+      <div class="chart"></div>
+      <div class="table"></div>
+    </div>
+    <div class="group" id="search">
+      <h2>Search Investors</h2>
+      <div class="chart"></div>
+      <div class="table"></div>
+    </div>
+    <div class="group" id="mobile">
+      <h2>Mobile Investors</h2>
+      <div class="chart"></div>
+      <div class="table"></div>
+    </div>
+    <div class="group" id="advertising">
+      <h2>Advertising Investors</h2>
+      <div class="chart"></div>
+      <div class="table"></div>
+    </div>
+    <div class="group" id="ecommerce">
+      <h2>Ecommerce Investors</h2>
+      <div class="chart"></div>
+      <div class="table"></div>
+    </div>
+    <div class="group" id="hardware">
+      <h2>Hardware Investors</h2>
+      <div class="chart"></div>
+      <div class="table"></div>
+    </div>
+    <div class="group" id="public_relations">
+      <h2>Public_Relations Investors</h2>
+      <div class="chart"></div>
+      <div class="table"></div>
+    </div>
+    <div class="group" id="security">
+      <h2>Security Investors</h2>
+      <div class="chart"></div>
+      <div class="table"></div>
+    </div>
+    <div class="group" id="other">
+      <h2>Other Investors</h2>
+      <div class="chart"></div>
+      <div class="table"></div>
+    </div>
+    <div class="group" id="consulting">
+      <h2>Consulting Investors</h2>
+      <div class="chart"></div>
+      <div class="table"></div>
+    </div>
+    <div class="group" id="education">
+      <h2>Education Investors</h2>
+      <div class="chart"></div>
+      <div class="table"></div>
+    </div>
+    <div class="group" id="biotech">
+      <h2>Biotech Investors</h2>
+      <div class="chart"></div>
+      <div class="table"></div>
+    </div>
+    <div class="group" id="semiconductor">
+      <h2>Semiconductor Investors</h2>
+      <div class="chart"></div>
+      <div class="table"></div>
+    </div>
+    <div class="group" id="cleantech">
+      <h2>Cleantech Investors</h2>
+      <div class="chart"></div>
+      <div class="table"></div>
+    </div>
+    <div class="group" id="legal">
+      <h2>Legal Investors</h2>
+      <div class="chart"></div>
+      <div class="table"></div>
+    </div>
+
+    <script type="text/javascript" src="d3/d3.js"></script>
+    <script type="text/javascript" src="d3/d3.layout.js"></script>
+    <script type="text/javascript" src="d3/packages.js"></script>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/jquery.ts.min.js"></script>
+    <script type="text/javascript">
+
+      function drawGraph(divName) {
+        var w = 700,
+            h = 550,
+            rx = w / 2,
+            ry = h / 2,
+            m0,
+            rotate = 0;
+
+        var splines = [];
+
+        var cluster = d3.layout.cluster()
+          .size([360, ry - 90])
+          .sort(function(a, b) { return d3.ascending(a.key, b.key); });
+
+        var bundle = d3.layout.bundle();
+
+        var line = d3.svg.line.radial()
+          .interpolate("bundle")
+          .tension(.85)
+          .radius(function(d) { return d.y; })
+          .angle(function(d) { return d.x / 180 * Math.PI; });
+
+        // Chrome 15 bug: <http://code.google.com/p/chromium/issues/detail?id=98951>
+        var div = d3.select("#" + divName + ' .chart')
+          .style("width", w + "px")
+          .style("height", w + "px")
+          //.style("position", "absolute")
+          .style("-webkit-backface-visibility", "hidden");
+
+        var svg = div.append("svg:svg")
+          .attr("width", w)
+          .attr("height", w)
+          .attr('id', divName)
+          .append("svg:g")
+          .attr("transform", "translate(" + rx + "," + ry + ")");
+
+        svg.append("svg:path")
+          .attr("class", "arc")
+          .attr("d", d3.svg.arc().outerRadius(ry - 120).innerRadius(0).startAngle(0).endAngle(2 * Math.PI))
+          .on("mousedown", mousedown);
+
+        d3.json("data/person/"+divName+"-graph.json", function(classes) {
+            var nodes = cluster.nodes(packages.root(classes)),
+            links = packages.imports(nodes),
+            splines = bundle(links);
+
+
+            var path = svg.selectAll("path.link")
+            .data(links)
+            .enter().append("svg:path")
+            .attr("class", function(d) { return "link source-" + d.source.key + " target-" + d.target.key; })
+            .attr("d", function(d, i) { return line(splines[i]); });
+
+            svg.selectAll("g.node")
+            .data(nodes.filter(function(n) { return !n.children; }))
+            .enter().append("svg:g")
+            .attr("class", "node")
+            .attr("id", function(d) { return "node-" + d.key; })
+            .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; })
+            .append("svg:text")
+            .attr("dx", function(d) { return d.x < 180 ? 8 : -8; })
+            //.attr("dy", ".31em")
+            .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
+            .attr("transform", function(d) { return d.x < 180 ? null : "rotate(180)"; })
+            .text(function(d) { return d.key.replace('-', ' '); })
+            .on("mouseover", mouseover)
+            .on("mouseout", mouseout);
+
+        d3.select("input[type=range]").on("change", function() {
+            line.tension(this.value / 100);
+            path.attr("d", function(d, i) { return line(splines[i]); });
+            });
+        });
+        
+        $('#person[person-id]').bind('mouseover', function(d) {
+         
+          person = $(this).attr('person-id');
+          divName = $(this).closest('div.group').attr('id');
+
+          lsvg = d3.selectAll('svg#' + divName);
+
+          lsvg.selectAll("path.link.target-" + person)
+            .classed("target", true)
+            .each(updateNodesBySvg(lsvg, "source", true));
+
+          gnode = $('svg#' + divName).find('g#node-' + person);
+          gnode.attr('class', 'nodehover');
+
+          lsvg.selectAll("path.link.source-" + person)
+            .classed("source", true)
+            .each(updateNodesBySvg(lsvg, "target", true));
+        });
+
+        $('#person[person-id]').bind('mouseout', function(d) {
+          person = $(this).attr('person-id');
+          divName = $(this).closest('div.group').attr('id');
+          lsvg = d3.selectAll('svg#' + divName);
+          lsvg.selectAll("path.link.source-" + person)
+            .classed("source", false)
+            .each(updateNodesBySvg(lsvg, "target", false));
+
+          gnode = $('svg#' + divName).find('g#node-' + person);
+          gnode.attr('class', 'node');
+          lsvg.selectAll("path.link.target-" + person)
+            .classed("target", false)
+            .each(updateNodesBySvg(lsvg, "source", false));
+        });
+ 
+        d3.select(window)
+          .on("mousemove", mousemove)
+          .on("mouseup", mouseup);
+
+        function mouse(e) {
+          return [e.pageX - rx, e.pageY - ry];
+        }
+
+        function mousedown() {
+          m0 = mouse(d3.event);
+          d3.event.preventDefault();
+        }
+
+        function mousemove() {
+          if (m0) {
+            var m1 = mouse(d3.event),
+                dm = Math.atan2(cross(m0, m1), dot(m0, m1)) * 180 / Math.PI;
+            div.style("-webkit-transform", "translateY(" + (ry - rx) + "px)rotateZ(" + dm + "deg)translateY(" + (rx - ry) + "px)");
+          }
+        }
+
+        function mouseup() {
+          if (m0) {
+            var m1 = mouse(d3.event),
+                dm = Math.atan2(cross(m0, m1), dot(m0, m1)) * 180 / Math.PI;
+
+            rotate += dm;
+            if (rotate > 360) rotate -= 360;
+            else if (rotate < 0) rotate += 360;
+            m0 = null;
+
+            div.style("-webkit-transform", null);
+
+            svg
+              .attr("transform", "translate(" + rx + "," + ry + ")rotate(" + rotate + ")")
+              .selectAll("g.node text")
+              .attr("dx", function(d) { return (d.x + rotate) % 360 < 180 ? 8 : -8; })
+              .attr("text-anchor", function(d) { return (d.x + rotate) % 360 < 180 ? "start" : "end"; })
+              .attr("transform", function(d) { return (d.x + rotate) % 360 < 180 ? null : "rotate(180)"; });
+          }
+        }
+
+        function mouseover(d) {
+          svg.selectAll("path.link.target-" + d.key)
+            .classed("target", true)
+            .each(updateNodes("source", true));
+
+          svg.selectAll("path.link.source-" + d.key)
+            .classed("source", true)
+            .each(updateNodes("target", true));
+        }
+
+        function mouseout(d) {
+          svg.selectAll("path.link.source-" + d.key)
+            .classed("source", false)
+            .each(updateNodes("target", false));
+
+          svg.selectAll("path.link.target-" + d.key)
+            .classed("target", false)
+            .each(updateNodes("source", false));
+        }
+
+        function updateNodes(name, value) {
+          return function(d) {
+            if (value) this.parentNode.appendChild(this);
+            svg.select("#node-" + d[name].key).classed(name, value);
+          };
+        }
+
+        function updateNodesBySvg(svg, name, value) {
+          return function(d) {
+            if (value) this.parentNode.appendChild(this);
+            svg.select("#node-" + d[name].key).classed(name, value);
+          };
+        }
+       
+        function cross(a, b) {
+          return a[0] * b[1] - a[1] * b[0];
+        }
+
+        function dot(a, b) {
+          return a[0] * b[0] + a[1] * b[1];
+        }
+      }
+
+      function drawTable(divName) {
+        
+        table = $("<table cellspacing='0'></table>");
+        head  = $("<thead><tr><th>Investor Name</th><th>Number of Connections</th><th>Bridge Ranking</th><th>Influence Ranking</th></tr></thead>");
+        table.append(head);
+
+        var users = {}
+        $.ajax({
+          url: 'data/person/'+divName+'-centrality.json', 
+          dataType: 'json',
+          async:false, 
+          success: function(d) {
+            var centrality = d.betweenness;
+            for (var k in centrality) {
+              users[centrality[k][0]] = {
+                'betweenness': parseFloat(centrality[k][1]).toFixed(4)
+              }
+            }
+            var eigenvalues = {}
+            for (var e in d.eigen) { 
+              eigenvalues[d.eigen[e][0]] = d.eigen[e][1];
+            }
+            for (u in users) {
+              users[u]['eigen'] = 'Score Too Low';
+              if (eigenvalues[u] !== undefined) {
+                users[u]['eigen'] = parseFloat(eigenvalues[u]).toFixed(4);
+              }
+            }
+          }
+        });
+
+        $.ajax({
+          url: 'data/person/'+divName+'-graph.json', 
+          dataType: 'json',
+          async: false, 
+          success: function(d) {
+            for (var entry in d) {
+              investor = d[entry]
+              if (typeof(users[investor.name]) == 'undefined') {
+                users[investor.name] = {}
+              }
+              users[investor.name]['investments'] = investor.imports.length;
+            }
+          }
+        });
+
+        var i = 0;
+        tbod = $("<tbody></tbody>")
+        for (var user in users) {
+          if (users[user]['investments'] === undefined) {
+            continue;
+          }
+          if (users[user]['betweenness'] === undefined) {
+            centrality = 'Score Too Low';
+          } else {
+            centrality = users[user]['betweenness'];
+          }
+
+          if (users[user]['eigen'] === undefined) {
+            eigen = 'Score Too Low';
+          } else {
+            eigen = users[user]['eigen'];
+          }
+          
+          usereigen = 'Not Ranked';
+          if (users[user]['eigen'] !== undefined) {
+            usereigen = users[user]['eigen'];
+          }
+    
+          userlink = '<a href="http://www.crunchbase.com/person/' + user + '">'+user.replace('-', ' ')+'</a>'; 
+          row  = $("<tr><td id='person' person-id='"+user+"'>"+userlink+"</td><td>"+users[user]['investments']+"</td><td>"+centrality+"</td><td>"+usereigen+"</td></tr>");
+          tbod.append(row)
+          i += 1;
+        }
+        table.append(tbod);
+        table.tablesorter();
+        $('#' + divName + ' > .table').append(table);
+      }
+
+      drawGraph("web")
+      drawTable("web")
+      drawGraph("enterprise")
+      drawTable("enterprise")
+      drawGraph("software")
+      drawTable("software")
+      drawGraph("network_hosting")
+      drawTable("network_hosting")
+      drawGraph("games_video")
+      drawTable("games_video")
+      drawGraph("mobile")
+      drawTable("mobile")
+      drawGraph("advertising")
+      drawTable("advertising")
+      drawGraph("ecommerce")
+      drawTable("ecommerce")
+      drawGraph("hardware")
+      drawTable("hardware")
+      drawGraph("public_relations")
+      drawTable("public_relations")
+      drawGraph("security")
+      drawTable("security")
+      drawGraph("other")
+      drawTable("other")
+      drawGraph("consulting")
+      drawTable("consulting")
+      drawGraph("education")
+      drawTable("education")
+      drawGraph("biotech")
+      drawTable("biotech")
+      drawGraph("semiconductor")
+      drawTable("semiconductor")
+      drawGraph("cleantech")
+      drawTable("cleantech")
+      drawGraph("legal")
+      drawTable("legal")      
+
+    </script>
+  </body>
+</html>
+
