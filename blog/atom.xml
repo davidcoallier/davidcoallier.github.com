@@ -4,7 +4,7 @@
   <title><![CDATA[Data, Science, Startups and Investment]]></title>
   <link href="http://davidcoallier.com//atom.xml" rel="self"/>
   <link href="http://davidcoallier.com//"/>
-  <updated>2013-06-04T04:18:39+01:00</updated>
+  <updated>2013-06-12T01:07:08+01:00</updated>
   <id>http://davidcoallier.com//</id>
   <author>
     <name><![CDATA[David Coallier]]></name>
@@ -12,6 +12,51 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[If PRISM had to raise money]]></title>
+    <link href="http://davidcoallier.com//if-prism-had-to-raise-money"/>
+    <updated>2013-06-12T00:51:00+01:00</updated>
+    <id>http://davidcoallier.com//if-prism-had-to-raise-money</id>
+    <content type="html"><![CDATA[<h1 id="introduction">Introduction</h1>
+
+<p>For those of you who are not aware of <a href="http://en.wikipedia.org/wiki/PRISM_(surveillance_program)">PRISM</a>, it is a clandestine national security electronic surveillance program that has been ran by the <a href="http://www.nsa.gov/">National Security Agency</a> since 2007. </p>
+
+<p>In an attempt to remain neutral, I’m going to say that it has caused much confusion and anger in the online community. Operating under incomplete information, I will reserve my judgement on the matter until supplementary facts come out.</p>
+
+<p>Being someone with a sense of humour, I thought it would be funny to slip into PRISMs’ shoes for a minute and see how it would feel if PRISM were to be a startup attempting to raise money.</p>
+
+<h1 id="investor-pitch-deck">Investor Pitch Deck</h1>
+
+<p>My rules for entrepreneurs creating investor decks are pretty simple. Only a few slides have to be present:</p>
+
+<ul>
+  <li>The product presentation,</li>
+  <li>The Problem Description,</li>
+  <li>The Solution to The Problem,</li>
+  <li>The Market Validation,</li>
+  <li>The Market Size,</li>
+  <li>The Product details,</li>
+  <li>The Business and Revenue Model,</li>
+  <li>The Adoption and Expansion Plan,</li>
+  <li>The Competition and Competitive Advantage,</li>
+  <li>The Ask (How much you’re looking for).</li>
+</ul>
+
+<p>The goal is to allow anyone who isn’t in the room to catch a glimpse of your potential without having to read a full business plan (My views on business plans are also quite opinionated).</p>
+
+<h1 id="the-prism-investor-deck">The PRISM Investor Deck</h1>
+
+<p>Here’s an example of what an investor deck for PRISM might look like:</p>
+
+<iframe src="http://www.slideshare.net/slideshow/embed_code/22831865" width="427" height="356" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC;border-width:1px 1px 0;margin-bottom:5px" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen=""> </iframe>
+<div style="margin-bottom:5px"> <strong> <a href="http://www.slideshare.net/david.coallier/prism-investordeck" title="PRISM seed-stage Investor Deck" target="_blank">PRISM seed-stage Investor Deck</a> </strong> from <strong><a href="http://www.slideshare.net/david.coallier" target="_blank">David Coallier</a></strong> </div>
+
+<h1 id="disclaimer">Disclaimer</h1>
+
+<p>This is only humouristic and does not intend to misinform people. Should you have concerns about the deck, feel free to contact me on <a href="https://twitter.com/davidcoallier">twitter @davidcoallier</a>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[The Quantitative Entrepreneur]]></title>
