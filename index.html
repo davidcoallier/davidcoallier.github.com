@@ -94,31 +94,27 @@
     letter-spacing: -0.01em; line-height: 1.15; margin-bottom: 36px;
   }
 
-  /* Ledger */
-  .ledger { width: 100%; border-collapse: collapse; font-size: 15.5px; }
-  .ledger th {
-    font-size: 11.5px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--soft); text-align: left;
-    padding: 0 16px 12px 0; border-bottom: 1px solid var(--ink);
+  /* Record */
+  .record-list { border-top: 1px solid var(--ink); }
+  .rec {
+    display: grid; grid-template-columns: 92px 1fr auto; gap: 0 28px;
+    padding: 22px 0; border-bottom: 1px solid var(--line);
+    align-items: start;
   }
-  .ledger td { padding: 18px 16px 18px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
-  .ledger .ind {
-    white-space: nowrap;
-    font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--soft);
+  .rec-yr { font-variant-numeric: tabular-nums; font-size: 14px; color: var(--soft); padding-top: 20px; }
+  .rec-ind {
+    display: block; font-size: 10.5px; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--soft);
   }
-  .ledger .yr { font-variant-numeric: tabular-nums; font-size: 14px; color: var(--soft); white-space: nowrap; }
-  .ledger .co { font-weight: 600; white-space: nowrap; }
-  .ledger .co small { display: block; font-weight: 400; color: var(--soft); font-size: 14px; white-space: normal; max-width: 420px; }
-  .badge {
-    display: inline-block; font-size: 10.5px; font-weight: 500;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    padding: 4px 10px; border-radius: 2px; white-space: nowrap;
+  .rec-co { font-weight: 600; font-size: 16.5px; margin-top: 2px; }
+  .rec-role { font-weight: 400; color: var(--soft); }
+  .rec-desc { font-size: 14px; color: var(--soft); max-width: 560px; margin-top: 1px; }
+  .rec-out {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--soft); white-space: nowrap; padding-top: 22px; text-align: right;
   }
-  .b-sold { color: var(--ink); border: 1px solid var(--ink); }
-  .b-op { color: var(--paper); background: var(--ink); border: 1px solid var(--ink); }
-  .b-exec { color: var(--soft); border: 1px dashed var(--hairline); }
-  .ledger-note { margin-top: 24px; font-size: 15px; color: var(--soft); max-width: 620px; }
+  .rec-out.op { color: var(--ink); font-weight: 600; }
+  .record-note { margin-top: 24px; font-size: 15px; color: var(--soft); max-width: 620px; }
 
   /* Currently */
   .current-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; }
@@ -219,10 +215,9 @@
   @media (max-width: 640px) {
     .lab-grid { grid-template-columns: 1fr; }
     section { padding: 64px 0; }
-    .ledger thead { display: none; }
-    .ledger, .ledger tbody, .ledger tr, .ledger td { display: block; width: 100%; }
-    .ledger tr { border-bottom: 1px solid var(--line); padding: 16px 0; }
-    .ledger td { border: none; padding: 3px 0; }
+    .rec { grid-template-columns: 1fr; gap: 2px; }
+    .rec-yr, .rec-out { padding-top: 0; }
+    .rec-out { text-align: left; }
     nav .links a { margin-left: 10px; font-size: 11px; letter-spacing: 0.06em; }
     .brand { font-size: 15px; }
   }
@@ -255,56 +250,72 @@
   <section id="record">
     <p class="kicker"><span class="num">01</span>The record</p>
     <h2>The work so far.</h2>
-    <table class="ledger">
-      <thead>
-        <tr><th>Years</th><th>Company</th><th class="ind">Industry</th><th>Role</th><th>Outcome</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="yr">2025 -</td>
-          <td class="co">Manano<small>WhatsApp-native payments platform for tradespeople, Ireland &amp; UK</small></td>
-          <td class="ind">AI-native fintech</td><td>CEO &amp; Co-Founder</td>
-          <td><span class="badge b-op">Operating</span></td>
-        </tr>
-        <tr>
-          <td class="yr">2020 - 25</td>
-          <td class="co">Clearword / Oggam<small>AI meeting intelligence and AI productivity tooling</small></td>
-          <td class="ind">Applied AI</td><td>CEO</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td class="yr">2016 - 20</td>
-          <td class="co">Sophos<small>Post-acquisition: Security Analytics, executive team, LSE-listed</small></td>
-          <td class="ind">AI security at scale</td><td>Director of Engineering</td>
-          <td><span class="badge b-exec">Exec</span></td>
-        </tr>
-        <tr>
-          <td class="yr">2014 - 16</td>
-          <td class="co">Barricade<small>AI threat detection</small></td>
-          <td class="ind">AI security</td><td>CEO &amp; Founder</td>
-          <td><span class="badge b-sold">Sold to Sophos</span></td>
-        </tr>
-        <tr>
-          <td class="yr">2011 - 14</td>
-          <td class="co">Engine Yard<small>Post-acquisition: Director of Engineering to VP of Data Analytics &amp; AI. Fraud systems saving $1M/month</small></td>
-          <td class="ind">Data &amp; AI platforms</td><td>Director, then VP</td>
-          <td><span class="badge b-exec">Exec</span></td>
-        </tr>
-        <tr>
-          <td class="yr">2010 - 11</td>
-          <td class="co">Orchestra<small>Auto-scaling cloud platform</small></td>
-          <td class="ind">Cloud infrastructure</td><td>CTO &amp; Co-Founder</td>
-          <td><span class="badge b-sold">Sold to Engine Yard</span></td>
-        </tr>
-        <tr>
-          <td class="yr">2005 - 08</td>
-          <td class="co">Agora Production<small>Machine learning consultancy: predictive algorithms, market forecasting, voice and pattern recognition. Alongside M&amp;A and technology advisory</small></td>
-          <td class="ind">Machine learning</td><td>Co-Founder</td>
-          <td><span class="badge b-sold">Sold</span></td>
-        </tr>
-      </tbody>
-    </table>
-    <p class="ledger-note">At Engine Yard and Sophos I stayed on after the acquisitions: building and leading engineering teams across continents, and scaling the products inside much larger companies.</p>
+    <div class="record-list">
+      <div class="rec">
+        <span class="rec-yr">2025 -</span>
+        <div>
+          <span class="rec-ind">AI-native fintech</span>
+          <p class="rec-co">Manano<span class="rec-role"> &middot; CEO &amp; Co-Founder</span></p>
+          <p class="rec-desc">WhatsApp-native payments for tradespeople in Ireland and the UK</p>
+        </div>
+        <span class="rec-out op">Operating</span>
+      </div>
+      <div class="rec">
+        <span class="rec-yr">2020 - 25</span>
+        <div>
+          <span class="rec-ind">Applied AI</span>
+          <p class="rec-co">Clearword / Oggam<span class="rec-role"> &middot; CEO</span></p>
+          <p class="rec-desc">AI meeting intelligence and AI productivity tooling</p>
+        </div>
+        <span class="rec-out"></span>
+      </div>
+      <div class="rec">
+        <span class="rec-yr">2016 - 20</span>
+        <div>
+          <span class="rec-ind">AI security at scale</span>
+          <p class="rec-co">Sophos<span class="rec-role"> &middot; Director of Engineering</span></p>
+          <p class="rec-desc">Post-acquisition: Security Analytics and the executive team, LSE-listed</p>
+        </div>
+        <span class="rec-out">Exec</span>
+      </div>
+      <div class="rec">
+        <span class="rec-yr">2014 - 16</span>
+        <div>
+          <span class="rec-ind">AI security</span>
+          <p class="rec-co">Barricade<span class="rec-role"> &middot; CEO &amp; Founder</span></p>
+          <p class="rec-desc">AI threat detection</p>
+        </div>
+        <span class="rec-out">Sold to Sophos</span>
+      </div>
+      <div class="rec">
+        <span class="rec-yr">2011 - 14</span>
+        <div>
+          <span class="rec-ind">Data &amp; AI platforms</span>
+          <p class="rec-co">Engine Yard<span class="rec-role"> &middot; Director, then VP</span></p>
+          <p class="rec-desc">Post-acquisition: VP of Data Analytics &amp; AI, fraud systems saving $1M/month</p>
+        </div>
+        <span class="rec-out">Exec</span>
+      </div>
+      <div class="rec">
+        <span class="rec-yr">2010 - 11</span>
+        <div>
+          <span class="rec-ind">Cloud infrastructure</span>
+          <p class="rec-co">Orchestra<span class="rec-role"> &middot; CTO &amp; Co-Founder</span></p>
+          <p class="rec-desc">Auto-scaling cloud platform</p>
+        </div>
+        <span class="rec-out">Sold to Engine Yard</span>
+      </div>
+      <div class="rec">
+        <span class="rec-yr">2005 - 08</span>
+        <div>
+          <span class="rec-ind">Machine learning</span>
+          <p class="rec-co">Agora Production<span class="rec-role"> &middot; Co-Founder</span></p>
+          <p class="rec-desc">ML consultancy: predictive algorithms, market forecasting, voice and pattern recognition, plus M&amp;A and technology advisory</p>
+        </div>
+        <span class="rec-out">Sold</span>
+      </div>
+    </div>
+    <p class="record-note">At Engine Yard and Sophos I stayed on after the acquisitions: building and leading engineering teams across continents, and scaling the products inside much larger companies.</p>
   </section>
 
   <section id="now">
