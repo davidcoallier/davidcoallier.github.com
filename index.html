@@ -96,11 +96,21 @@
 
   /* Record */
   .record-list { border-top: 1px solid var(--ink); }
-  .rec {
-    display: grid; grid-template-columns: 92px 1fr auto; gap: 0 28px;
-    padding: 22px 0; border-bottom: 1px solid var(--line);
-    align-items: start;
+  .rec { border-bottom: 1px solid var(--line); }
+  .rec summary {
+    display: grid; grid-template-columns: 92px 1fr auto 14px; gap: 0 24px;
+    padding: 22px 0; align-items: start; cursor: pointer; list-style: none;
   }
+  .rec summary::-webkit-details-marker { display: none; }
+  .rec summary:hover .rec-co { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; text-decoration-color: var(--hairline); }
+  .rec-plus {
+    color: var(--soft); font-size: 17px; font-weight: 400; line-height: 1;
+    padding-top: 20px; transition: transform 0.2s ease;
+  }
+  .rec[open] .rec-plus { transform: rotate(45deg); color: var(--ink); }
+  .rec-more { padding: 0 0 24px 116px; max-width: 640px; }
+  .rec-more li { list-style: none; font-size: 14px; color: var(--soft); padding: 3px 0 3px 14px; text-indent: -14px; }
+  .rec-more li::before { content: "- "; }
   .rec-yr { font-variant-numeric: tabular-nums; font-size: 14px; color: var(--soft); padding-top: 20px; }
   .rec-ind {
     display: block; font-size: 10.5px; font-weight: 500;
@@ -215,9 +225,11 @@
   @media (max-width: 640px) {
     .lab-grid { grid-template-columns: 1fr; }
     section { padding: 64px 0; }
-    .rec { grid-template-columns: 1fr; gap: 2px; }
+    .rec summary { grid-template-columns: 1fr; gap: 2px; position: relative; padding-right: 22px; }
     .rec-yr, .rec-out { padding-top: 0; }
     .rec-out { text-align: left; }
+    .rec-plus { position: absolute; right: 0; top: 24px; padding-top: 0; }
+    .rec-more { padding-left: 0; }
     nav .links a { margin-left: 10px; font-size: 11px; letter-spacing: 0.06em; }
     .brand { font-size: 15px; }
   }
@@ -251,69 +263,122 @@
     <p class="kicker"><span class="num">01</span>The record</p>
     <h2>The work so far.</h2>
     <div class="record-list">
-      <div class="rec">
-        <span class="rec-yr">2025 -</span>
-        <div>
-          <span class="rec-ind">AI-native fintech</span>
-          <p class="rec-co">Manano<span class="rec-role"> &middot; CEO &amp; Co-Founder</span></p>
-          <p class="rec-desc">WhatsApp-native payments for tradespeople in Ireland and the UK</p>
-        </div>
-        <span class="rec-out op">Operating</span>
-      </div>
-      <div class="rec">
-        <span class="rec-yr">2020 - 25</span>
-        <div>
-          <span class="rec-ind">Applied AI</span>
-          <p class="rec-co">Clearword / Oggam<span class="rec-role"> &middot; CEO</span></p>
-          <p class="rec-desc">AI meeting intelligence and AI productivity tooling</p>
-        </div>
-        <span class="rec-out"></span>
-      </div>
-      <div class="rec">
-        <span class="rec-yr">2016 - 20</span>
-        <div>
-          <span class="rec-ind">AI security at scale</span>
-          <p class="rec-co">Sophos<span class="rec-role"> &middot; Director of Engineering</span></p>
-          <p class="rec-desc">Post-acquisition: Security Analytics and the executive team, LSE-listed</p>
-        </div>
-        <span class="rec-out">Exec</span>
-      </div>
-      <div class="rec">
-        <span class="rec-yr">2014 - 16</span>
-        <div>
-          <span class="rec-ind">AI security</span>
-          <p class="rec-co">Barricade<span class="rec-role"> &middot; CEO &amp; Founder</span></p>
-          <p class="rec-desc">AI threat detection</p>
-        </div>
-        <span class="rec-out">Sold to Sophos</span>
-      </div>
-      <div class="rec">
-        <span class="rec-yr">2011 - 14</span>
-        <div>
-          <span class="rec-ind">Data &amp; AI platforms</span>
-          <p class="rec-co">Engine Yard<span class="rec-role"> &middot; Director, then VP</span></p>
-          <p class="rec-desc">Post-acquisition: VP of Data Analytics &amp; AI, fraud systems saving $1M/month</p>
-        </div>
-        <span class="rec-out">Exec</span>
-      </div>
-      <div class="rec">
-        <span class="rec-yr">2010 - 11</span>
-        <div>
-          <span class="rec-ind">Cloud infrastructure</span>
-          <p class="rec-co">Orchestra<span class="rec-role"> &middot; CTO &amp; Co-Founder</span></p>
-          <p class="rec-desc">Auto-scaling cloud platform</p>
-        </div>
-        <span class="rec-out">Sold to Engine Yard</span>
-      </div>
-      <div class="rec">
-        <span class="rec-yr">2005 - 08</span>
-        <div>
-          <span class="rec-ind">Machine learning</span>
-          <p class="rec-co">Agora Production<span class="rec-role"> &middot; Co-Founder</span></p>
-          <p class="rec-desc">ML consultancy: predictive algorithms, market forecasting, voice and pattern recognition, plus M&amp;A and technology advisory</p>
-        </div>
-        <span class="rec-out">Sold</span>
-      </div>
+      <details class="rec">
+        <summary>
+          <span class="rec-yr">2025 -</span>
+          <div>
+            <span class="rec-ind">AI-native fintech</span>
+            <p class="rec-co">Manano<span class="rec-role"> &middot; CEO &amp; Co-Founder</span></p>
+            <p class="rec-desc">WhatsApp-native payments for tradespeople in Ireland and the UK</p>
+          </div>
+          <span class="rec-out op">Operating</span>
+          <span class="rec-plus" aria-hidden="true">+</span>
+        </summary>
+        <ul class="rec-more">
+          <li>Two decades of AI and payments experience aimed at the trades: agentic workflows handle invoicing, quotes, expenses, and VAT entirely inside WhatsApp</li>
+          <li>Building the founding team and merchant partnerships across Ireland and the UK</li>
+        </ul>
+      </details>
+      <details class="rec">
+        <summary>
+          <span class="rec-yr">2020 - 25</span>
+          <div>
+            <span class="rec-ind">Applied AI</span>
+            <p class="rec-co">Clearword / Oggam<span class="rec-role"> &middot; CEO</span></p>
+            <p class="rec-desc">AI meeting intelligence and AI productivity tooling</p>
+          </div>
+          <span class="rec-out"></span>
+          <span class="rec-plus" aria-hidden="true">+</span>
+        </summary>
+        <ul class="rec-more">
+          <li>Founded Clearword, an AI platform that recorded, summarized, and organized meetings before AI notetakers were a category</li>
+          <li>Continued as Oggam, building AI agents that automate repetitive work, improving team efficiency 10 to 20x</li>
+          <li>Ran the full arc twice: product, team, and market</li>
+        </ul>
+      </details>
+      <details class="rec">
+        <summary>
+          <span class="rec-yr">2016 - 20</span>
+          <div>
+            <span class="rec-ind">AI security at scale</span>
+            <p class="rec-co">Sophos<span class="rec-role"> &middot; Director of Engineering</span></p>
+            <p class="rec-desc">Post-acquisition: Security Analytics and the executive team, LSE-listed</p>
+          </div>
+          <span class="rec-out">Exec</span>
+          <span class="rec-plus" aria-hidden="true">+</span>
+        </summary>
+        <ul class="rec-more">
+          <li>Joined through the Barricade acquisition; led engineering for Security Analytics at an LSE-listed public company</li>
+          <li>Ran distributed AI teams across Ireland, India, and the United States, shipping analytics that protected businesses against live threats</li>
+          <li>The step from founding AI companies to operating AI at public-company scale</li>
+        </ul>
+      </details>
+      <details class="rec">
+        <summary>
+          <span class="rec-yr">2014 - 16</span>
+          <div>
+            <span class="rec-ind">AI security</span>
+            <p class="rec-co">Barricade<span class="rec-role"> &middot; CEO &amp; Founder</span></p>
+            <p class="rec-desc">AI threat detection</p>
+          </div>
+          <span class="rec-out">Sold to Sophos</span>
+          <span class="rec-plus" aria-hidden="true">+</span>
+        </summary>
+        <ul class="rec-more">
+          <li>Founded an AI cybersecurity platform doing real-time threat detection and mitigation, years before AI security went mainstream</li>
+          <li>Scaled the product and team to acquisition by Sophos, then stayed to run it at scale</li>
+        </ul>
+      </details>
+      <details class="rec">
+        <summary>
+          <span class="rec-yr">2011 - 14</span>
+          <div>
+            <span class="rec-ind">Data &amp; AI platforms</span>
+            <p class="rec-co">Engine Yard<span class="rec-role"> &middot; Director, then VP</span></p>
+            <p class="rec-desc">Post-acquisition: VP of Data Analytics &amp; AI, fraud systems saving $1M/month</p>
+          </div>
+          <span class="rec-out">Exec</span>
+          <span class="rec-plus" aria-hidden="true">+</span>
+        </summary>
+        <ul class="rec-more">
+          <li>Joined through the Orchestra acquisition as Director of Engineering in Dublin, then moved to San Francisco as VP of Data Analytics &amp; AI</li>
+          <li>Established the predictive systems team whose fraud models cut costs by $1M per month</li>
+          <li>Where the machine learning groundwork became an executive mandate</li>
+        </ul>
+      </details>
+      <details class="rec">
+        <summary>
+          <span class="rec-yr">2010 - 11</span>
+          <div>
+            <span class="rec-ind">Cloud infrastructure</span>
+            <p class="rec-co">Orchestra<span class="rec-role"> &middot; CTO &amp; Co-Founder</span></p>
+            <p class="rec-desc">Auto-scaling cloud platform</p>
+          </div>
+          <span class="rec-out">Sold to Engine Yard</span>
+          <span class="rec-plus" aria-hidden="true">+</span>
+        </summary>
+        <ul class="rec-more">
+          <li>Co-founded an auto-scaling cloud hosting platform; acquired by Engine Yard within a year</li>
+          <li>The infrastructure chapter: the platform depth that later carried the data and AI work</li>
+        </ul>
+      </details>
+      <details class="rec">
+        <summary>
+          <span class="rec-yr">2005 - 08</span>
+          <div>
+            <span class="rec-ind">Machine learning</span>
+            <p class="rec-co">Agora Production<span class="rec-role"> &middot; Co-Founder</span></p>
+            <p class="rec-desc">ML consultancy: predictive algorithms, market forecasting, voice and pattern recognition, plus M&amp;A and technology advisory</p>
+          </div>
+          <span class="rec-out">Sold</span>
+          <span class="rec-plus" aria-hidden="true">+</span>
+        </summary>
+        <ul class="rec-more">
+          <li>First company, founded in Montreal: machine learning consultancy a decade before it was fashionable</li>
+          <li>Shipped predictive algorithms, market forecasting, voice recognition, and pattern recognition for clients, alongside M&amp;A and technology advisory</li>
+          <li>Where the thread starts: teaching machines to predict, then building companies around it</li>
+        </ul>
+      </details>
     </div>
     <p class="record-note">At Engine Yard and Sophos I stayed on after the acquisitions: building and leading engineering teams across continents, and scaling the products inside much larger companies.</p>
   </section>
