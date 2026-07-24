@@ -154,8 +154,9 @@
   .carousel img {
     position: absolute; inset: 0; width: 100%; height: 100%;
     object-fit: cover; opacity: 0; transition: opacity 0.5s ease;
+    pointer-events: none;
   }
-  .carousel img.on { opacity: 1; }
+  .carousel img.on { opacity: 1; pointer-events: auto; }
   .filmstrip {
     display: flex; gap: 3px; width: calc(100% + 44px); margin: -22px -22px 8px;
     aspect-ratio: 8 / 5; overflow: hidden;
@@ -179,6 +180,20 @@
     color: var(--soft); margin-top: 6px;
   }
   .lab-card p { font-size: 14.5px; color: var(--soft); }
+  .lab-card img { cursor: zoom-in; }
+
+  /* Lightbox */
+  .lightbox {
+    position: fixed; inset: 0; z-index: 50; display: none;
+    align-items: center; justify-content: center;
+    background: rgba(23, 23, 23, 0.85); padding: 4vmin; cursor: zoom-out;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img {
+    max-width: min(1400px, 94vw); max-height: 90vh; width: auto; height: auto;
+    border-radius: 4px; background: var(--card);
+    box-shadow: 0 16px 70px rgba(0, 0, 0, 0.45);
+  }
 
   /* Else */
   .else-list { list-style: none; max-width: 720px; }
@@ -283,8 +298,8 @@
         </tr>
         <tr>
           <td class="yr">2005 - 08</td>
-          <td class="co">Agora Production<small>M&amp;A, technology, and machine learning consultancy, plus backend web development. Montreal</small></td>
-          <td class="ind">Early machine learning</td><td>Co-Founder</td>
+          <td class="co">Agora Production<small>Machine learning consultancy: predictive algorithms, market forecasting, voice and pattern recognition. Alongside M&amp;A and technology advisory</small></td>
+          <td class="ind">Machine learning</td><td>Co-Founder</td>
           <td><span class="badge b-sold">Sold</span></td>
         </tr>
       </tbody>
@@ -405,6 +420,10 @@
 
 </div>
 
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Enlarged screenshot">
+  <img src="" alt="">
+</div>
+
 <script>
   document.querySelectorAll('.carousel').forEach(function (c) {
     var imgs = c.querySelectorAll('img');
@@ -419,6 +438,26 @@
     if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       setInterval(function () { show((i + 1) % imgs.length); }, 4000);
     }
+  });
+
+  var lb = document.getElementById('lightbox');
+  var lbImg = lb.querySelector('img');
+  function closeLightbox() {
+    lb.classList.remove('open');
+    lbImg.src = '';
+    document.body.style.overflow = '';
+  }
+  document.querySelectorAll('.lab-card img').forEach(function (im) {
+    im.addEventListener('click', function () {
+      lbImg.src = im.src;
+      lbImg.alt = im.alt;
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+  lb.addEventListener('click', closeLightbox);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && lb.classList.contains('open')) closeLightbox();
   });
 </script>
 </body>
