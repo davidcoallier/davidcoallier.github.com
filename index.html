@@ -15,7 +15,6 @@
     --line: #E4E2DC;
     --hairline: #D6D4CE;
     --card: #FFFFFF;
-    --red: #B3352B;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -104,20 +103,10 @@
   }
   .ledger td { padding: 18px 16px 18px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
   .ledger .ind {
-    position: relative; padding-left: 26px; white-space: nowrap;
+    white-space: nowrap;
     font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
     color: var(--soft);
   }
-  .ledger td.ind::before {
-    content: ""; position: absolute; left: 7px; top: 0; bottom: 0;
-    width: 2px; background: var(--red);
-  }
-  .ledger td.ind .dot {
-    position: absolute; left: 3px; top: 24px; width: 10px; height: 10px;
-    border-radius: 50%; background: var(--red); z-index: 1;
-  }
-  .ledger td.ind .dot.hollow { background: var(--paper); border: 2px solid var(--red); width: 6px; height: 6px; left: 5px; }
-  .ledger .ind .ai { color: var(--red); font-weight: 600; }
   .ledger .yr { font-variant-numeric: tabular-nums; font-size: 14px; color: var(--soft); white-space: nowrap; }
   .ledger .co { font-weight: 600; white-space: nowrap; }
   .ledger .co small { display: block; font-weight: 400; color: var(--soft); font-size: 14px; white-space: normal; max-width: 420px; }
@@ -219,8 +208,6 @@
     .ledger, .ledger tbody, .ledger tr, .ledger td { display: block; width: 100%; }
     .ledger tr { border-bottom: 1px solid var(--line); padding: 16px 0; }
     .ledger td { border: none; padding: 3px 0; }
-    .ledger td.ind { padding-left: 0; }
-    .ledger td.ind::before, .ledger td.ind .dot { display: none; }
     nav .links a { margin-left: 10px; font-size: 11px; letter-spacing: 0.06em; }
     .brand { font-size: 15px; }
   }
@@ -261,43 +248,43 @@
         <tr>
           <td class="yr">2025 -</td>
           <td class="co">Manano<small>WhatsApp-native payments platform for tradespeople, Ireland &amp; UK</small></td>
-          <td class="ind"><span class="dot"></span><span class="ai">AI</span> &middot; Fintech</td><td>CEO &amp; Co-Founder</td>
+          <td class="ind">AI-native fintech</td><td>CEO &amp; Co-Founder</td>
           <td><span class="badge b-op">Operating</span></td>
         </tr>
         <tr>
           <td class="yr">2020 - 25</td>
           <td class="co">Clearword / Oggam<small>AI meeting intelligence and AI productivity tooling</small></td>
-          <td class="ind"><span class="dot"></span><span class="ai">AI</span> &middot; SaaS</td><td>CEO</td>
+          <td class="ind">Applied AI</td><td>CEO</td>
           <td></td>
         </tr>
         <tr>
           <td class="yr">2016 - 20</td>
           <td class="co">Sophos<small>Post-acquisition: Security Analytics, executive team, LSE-listed</small></td>
-          <td class="ind"><span class="dot"></span><span class="ai">AI</span> &middot; Security</td><td>Director of Engineering</td>
+          <td class="ind">AI security at scale</td><td>Director of Engineering</td>
           <td><span class="badge b-exec">Exec</span></td>
         </tr>
         <tr>
           <td class="yr">2014 - 16</td>
           <td class="co">Barricade<small>AI threat detection</small></td>
-          <td class="ind"><span class="dot"></span><span class="ai">AI</span> &middot; Security</td><td>CEO &amp; Founder</td>
+          <td class="ind">AI security</td><td>CEO &amp; Founder</td>
           <td><span class="badge b-sold">Sold to Sophos</span></td>
         </tr>
         <tr>
           <td class="yr">2011 - 14</td>
           <td class="co">Engine Yard<small>Post-acquisition: Director of Engineering to VP of Data Analytics &amp; AI. Fraud systems saving $1M/month</small></td>
-          <td class="ind"><span class="dot"></span><span class="ai">AI</span> &middot; Cloud</td><td>Director, then VP</td>
+          <td class="ind">Data &amp; AI platforms</td><td>Director, then VP</td>
           <td><span class="badge b-exec">Exec</span></td>
         </tr>
         <tr>
           <td class="yr">2010 - 11</td>
           <td class="co">Orchestra<small>Auto-scaling cloud platform</small></td>
-          <td class="ind"><span class="dot hollow"></span>Cloud</td><td>CTO &amp; Co-Founder</td>
+          <td class="ind">Cloud infrastructure</td><td>CTO &amp; Co-Founder</td>
           <td><span class="badge b-sold">Sold to Engine Yard</span></td>
         </tr>
         <tr>
           <td class="yr">2005 - 08</td>
           <td class="co">Agora Production<small>M&amp;A, technology, and machine learning consultancy, plus backend web development. Montreal</small></td>
-          <td class="ind"><span class="dot"></span><span class="ai">ML</span> &middot; Consulting</td><td>Co-Founder</td>
+          <td class="ind">Early machine learning</td><td>Co-Founder</td>
           <td><span class="badge b-sold">Sold</span></td>
         </tr>
       </tbody>
