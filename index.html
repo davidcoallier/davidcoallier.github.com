@@ -1,173 +1,374 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>David Coallier - Founder & Operator, Cork</title>
+<meta name="description" content="Four companies built, four sold. Founder and operator across AI, security, and fintech. Cork, Ireland.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Spline+Sans:wght@400;500;600&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F4F5F1;
+    --ink: #101E17;
+    --ink-soft: #3C4A42;
+    --line: #C9CEC7;
+    --green: #0B5C38;
+    --copper: #9A4A20;
+    --card: #FBFBF9;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Spline Sans', sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1060px; margin: 0 auto; padding: 0 24px; }
+  a { color: var(--green); text-decoration: none; border-bottom: 1px solid var(--green); }
+  a:hover { border-bottom-width: 2px; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
 
-<meta name="Description" content="A bunch of projects for David Coallier" />
-<meta name="Keywords" content="php, python, ruby, couchdb, mathematics, game theory, cooperative games, software, engineering, physics" />
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<meta name="Distribution" content="Global" />
-<meta name="Author" content="David Coallier - david.coallier@gmail.com" />
-<meta name="Robots" content="index,follow" />		
-<script type="text/javascript" charset="utf-8" src="http://code.jquery.com/jquery-1.4.1.js">
-</script>
-<link rel="stylesheet" href="images/NewHorizon.css" type="text/css" />
+  /* Nav */
+  nav {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 28px 0 0;
+  }
+  .brand { font-family: 'Spline Sans Mono', monospace; font-size: 14px; letter-spacing: 0.04em; }
+  nav .links a {
+    font-family: 'Spline Sans Mono', monospace; font-size: 13px;
+    color: var(--ink-soft); border-bottom: none; margin-left: 22px;
+  }
+  nav .links a:hover { color: var(--green); }
 
-<title>David Coallier's @ GitHub'</title>
-	
+  /* Hero */
+  header.hero { padding: 96px 0 72px; }
+  .hero h1 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 800;
+    font-size: clamp(44px, 8.5vw, 104px);
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+  }
+  .hero h1 .sold { color: var(--green); }
+  .hero .sub {
+    margin-top: 34px; max-width: 640px;
+    font-size: 19px; color: var(--ink-soft);
+  }
+  .hero .sub strong { color: var(--ink); font-weight: 600; }
+  .hero .meta {
+    margin-top: 28px;
+    font-family: 'Spline Sans Mono', monospace;
+    font-size: 13px; color: var(--ink-soft); letter-spacing: 0.03em;
+  }
+
+  /* Section headings */
+  section { padding: 64px 0; border-top: 1px solid var(--line); }
+  .kicker {
+    font-family: 'Spline Sans Mono', monospace;
+    font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--green); margin-bottom: 10px;
+  }
+  h2 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 600; font-size: clamp(28px, 4vw, 40px);
+    letter-spacing: -0.01em; margin-bottom: 28px;
+  }
+
+  /* Ledger */
+  .ledger { width: 100%; border-collapse: collapse; font-size: 16px; }
+  .ledger th {
+    font-family: 'Spline Sans Mono', monospace; font-weight: 500;
+    font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink-soft); text-align: left;
+    padding: 0 16px 12px 0; border-bottom: 2px solid var(--ink);
+  }
+  .ledger td { padding: 16px 16px 16px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .ledger .yr { font-family: 'Spline Sans Mono', monospace; font-size: 14px; color: var(--ink-soft); white-space: nowrap; }
+  .ledger .co { font-weight: 600; white-space: nowrap; }
+  .ledger .co small { display: block; font-weight: 400; color: var(--ink-soft); font-size: 14px; white-space: normal; }
+  .badge {
+    font-family: 'Spline Sans Mono', monospace; font-size: 12px;
+    letter-spacing: 0.08em; padding: 3px 9px; border-radius: 3px;
+    white-space: nowrap;
+  }
+  .b-sold { color: var(--green); border: 1px solid var(--green); }
+  .b-op { color: var(--ink); border: 1px solid var(--ink); }
+  .b-exec { color: var(--ink-soft); border: 1px dashed var(--ink-soft); }
+  .ledger-note { margin-top: 20px; font-size: 15px; color: var(--ink-soft); max-width: 620px; }
+
+  /* Currently */
+  .current-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; }
+  .current-grid p + p { margin-top: 16px; }
+  .factbox {
+    background: var(--card); border: 1px solid var(--line); border-radius: 6px;
+    padding: 24px; font-family: 'Spline Sans Mono', monospace; font-size: 14px;
+  }
+  .factbox div { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dotted var(--line); }
+  .factbox div:last-child { border-bottom: none; }
+  .factbox span:first-child { color: var(--ink-soft); }
+
+  /* Lab */
+  .lab-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .lab-card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 6px;
+    padding: 22px; display: flex; flex-direction: column; gap: 8px;
+    transition: border-color 0.15s ease;
+    min-width: 0;
+  }
+  .lab-card:hover { border-color: var(--green); }
+  .lab-card > img {
+    display: block; width: calc(100% + 44px); margin: -22px -22px 6px;
+    aspect-ratio: 8 / 5; object-fit: cover;
+    border-radius: 5px 5px 0 0; border-bottom: 1px solid var(--line);
+  }
+  .carousel {
+    position: relative; width: calc(100% + 44px); margin: -22px -22px 6px;
+    aspect-ratio: 8 / 5; overflow: hidden;
+    border-radius: 5px 5px 0 0; border-bottom: 1px solid var(--line);
+  }
+  .carousel img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; opacity: 0; transition: opacity 0.5s ease;
+  }
+  .carousel img.on { opacity: 1; }
+  .filmstrip {
+    display: flex; gap: 3px; width: calc(100% + 44px); margin: -22px -22px 6px;
+    aspect-ratio: 8 / 5; overflow: hidden;
+    border-radius: 5px 5px 0 0; border-bottom: 1px solid var(--line);
+    background: var(--ink);
+  }
+  .filmstrip img { flex: 1; min-width: 0; height: 100%; object-fit: cover; }
+  .carousel .dots {
+    position: absolute; bottom: 8px; left: 0; right: 0; z-index: 2;
+    display: flex; justify-content: center; gap: 6px;
+  }
+  .carousel .dot {
+    width: 8px; height: 8px; border-radius: 50%; border: none; padding: 0;
+    background: rgba(255,255,255,0.6); box-shadow: 0 0 0 1px rgba(0,0,0,0.3);
+    cursor: pointer;
+  }
+  .carousel .dot.on { background: var(--green); }
+  .lab-card h3 { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 19px; }
+  .lab-card h3 a { color: inherit; }
+  .lab-card h3 a:hover { color: var(--green); }
+  .lab-card .tag { font-family: 'Spline Sans Mono', monospace; font-size: 12px; color: var(--green); letter-spacing: 0.06em; }
+  .lab-card p { font-size: 15px; color: var(--ink-soft); }
+
+  /* Else */
+  .else-list { list-style: none; max-width: 720px; }
+  .else-list li { padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 16px; }
+  .else-list li::before { content: "- "; color: var(--green); font-family: 'Spline Sans Mono', monospace; }
+
+  /* Contact */
+  .contact { padding: 80px 0 100px; }
+  .contact h2 { font-size: clamp(32px, 5vw, 52px); }
+  .contact .mail {
+    font-family: 'Spline Sans Mono', monospace; font-size: clamp(16px, 2.5vw, 22px);
+  }
+  footer { padding: 0 0 36px; font-family: 'Spline Sans Mono', monospace; font-size: 12px; color: var(--ink-soft); }
+
+  @media (max-width: 820px) {
+    .current-grid { grid-template-columns: 1fr; gap: 28px; }
+    .lab-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 640px) {
+    .lab-grid { grid-template-columns: 1fr; }
+    .ledger thead { display: none; }
+    .ledger, .ledger tbody, .ledger tr, .ledger td { display: block; width: 100%; }
+    .ledger tr { border-bottom: 1px solid var(--line); padding: 14px 0; }
+    .ledger td { border: none; padding: 2px 0; }
+    nav .links a { margin-left: 14px; }
+  }
+</style>
 </head>
-
 <body>
+<div class="wrap">
 
-	<!-- navigation starts here -->
-	<div id="nav">
-		
-		<ul>
-			<li id="current"><a href="/index.html">Home</a></li>
-			<li><a href="/projects.html">Projects</a></li>
-			<li><a href="/mathematics.html">Mathematics</a></li>
-			<li><a href="/about.html">About</a></li>			
-		</ul>
-	
-	</div>
+  <nav>
+    <span class="brand">david.coallier</span>
+    <span class="links">
+      <a href="#record">Record</a>
+      <a href="#now">Now</a>
+      <a href="#lab">Lab</a>
+      <a href="#contact">Contact</a>
+    </span>
+  </nav>
 
-	<!-- header starts here -->
-	<div id="header">	
-		<div id="clouds"></div>
-		<h1 id="logo-text"><a href="index.html" title="">A journey</a></h1>	
-		<p id="slogan">What you are not makes you who you are.</p>
-	</div>	
-				
-	<!-- content-wrap starts here -->
-	<div id="content-wrap"><div id="content">	 
-	
-		<div id="sidebar" >	
-			<h3>Search Box</h3>	
-			<form action="#" class="searchform">
-				<p>
-					<input name="search_query" class="textbox" type="text" value="Does nothing yet." />
-  					<input name="search" class="button" value="Search" type="submit" />
-				</p>			
-			</form>
-				
-			<h3>Sidebar Menu</h3>			
-			<ul class="sidemenu">
-				<li><a href="/index.html">Home</a></li>
-			</ul>	
-				
-				
-			<h3>Sponsors</h3>
-			<ul class="sidemenu">
-				<li><a href="http://www.echolibre.com" title="echolibre software engineering and web development">echolibre</a></li>
-			</ul>
-				
-			<h3>Wise Words</h3>
-			<p id="quote"></p>
-			<p class="align-right" id="quotewhom"></p>		
-		</div>	
-	
-		<div id="main">		
-				
-			<a name="Welcome"></a>				
-			
-			<h2><a href="index.html">First Page going</a></h2>		
-			
-			<p class="post-by">Posted by <a href="http://github.com/davidcoallier">david</a></p>
-				
-            <p>So I decided to create my github page... This is where I'll hold all my personal projects
-               and entertain my ideas. With the help of a weird but interesting design by <a href="http://www.styleshout.com/">styleshout.com</a>
-               I have managed to build this whole thing in nearly 10 minutes :))
-            </p>
-		</div>					
-		
-	<!-- content-wrap ends here -->		
-	</div></div>
+  <header class="hero">
+    <h1>Founder.<br>Operator.<br><span class="sold">Executive.</span></h1>
+    <p class="sub">I'm David Coallier, based in Cork. <strong>Four companies built, four sold.</strong> Twenty years across <strong>AI, security, and fintech</strong>: from first line of code to executive team of a public company. I find what a business is capable of and get it there.</p>
+    <p class="meta">CORK, IRELAND &middot; EN / FR / DE / ES / PT</p>
+  </header>
 
-	<!-- footer starts here-->	
-	<div id="footer-wrap">
-	
-		<!-- columns starts here-->		
-		<div id="columns">
-	
-			<div class="col3">
-				<h3>Mathematics</h3>
-				<ul>
-					<li><a href=""></a></li>
-				</ul>
-			</div>
-			<div class="col3-center">
-				<h3>Web Development</h3>
-				<ul>
-					<li><a href=""></a></li>
-				</ul>
-			</div>
-			<div class="col3">
-				<h3>Various Interests</h3>
-				<ul>
-					<li><a href=""></a></li>
-				</ul>
-			</div>
-		
-		<!-- columns ends -->
-		</div>	
-	
-		<div id="footer-bottom">		
-			<p>
-			&copy; 2010 <strong>David Coallier</strong>
+  <section id="record">
+    <p class="kicker">The record</p>
+    <h2>Twenty years. Four exits.</h2>
+    <table class="ledger">
+      <thead>
+        <tr><th>Years</th><th>Company</th><th>Role</th><th>Outcome</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="yr">2025 -</td>
+          <td class="co">Manano<small>WhatsApp-native payments platform for tradespeople, Ireland &amp; UK</small></td>
+          <td>CEO &amp; Co-Founder</td>
+          <td><span class="badge b-op">OPERATING</span></td>
+        </tr>
+        <tr>
+          <td class="yr">2024 - 25</td>
+          <td class="co">Oggam.ai<small>AI productivity tooling</small></td>
+          <td>CEO</td>
+          <td><span class="badge b-sold">SOLD</span></td>
+        </tr>
+        <tr>
+          <td class="yr">2016 - 20</td>
+          <td class="co">Sophos<small>Post-acquisition: Security Analytics, executive team, LSE-listed</small></td>
+          <td>Director of Engineering</td>
+          <td><span class="badge b-exec">EXEC</span></td>
+        </tr>
+        <tr>
+          <td class="yr">2014 - 16</td>
+          <td class="co">Barricade<small>AI threat detection</small></td>
+          <td>CEO &amp; Founder</td>
+          <td><span class="badge b-sold">SOLD TO SOPHOS</span></td>
+        </tr>
+        <tr>
+          <td class="yr">2011 - 14</td>
+          <td class="co">Engine Yard<small>Post-acquisition: Director of Engineering to VP of Data Analytics &amp; AI. Fraud systems saving $1M/month</small></td>
+          <td>Director, then VP</td>
+          <td><span class="badge b-exec">EXEC</span></td>
+        </tr>
+        <tr>
+          <td class="yr">2010 - 11</td>
+          <td class="co">Orchestra<small>Auto-scaling cloud platform</small></td>
+          <td>CTO &amp; Co-Founder</td>
+          <td><span class="badge b-sold">SOLD TO ENGINE YARD</span></td>
+        </tr>
+        <tr>
+          <td class="yr">2005 - 08</td>
+          <td class="co">Agora Production<small>Backend web development, Montreal</small></td>
+          <td>Co-Founder</td>
+          <td><span class="badge b-sold">SOLD</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="ledger-note">Twice I stayed after selling, at Engine Yard and at Sophos, and did the work on the other side of the deal: integrating, operating, and growing what the buyer paid for.</p>
+  </section>
 
-            &nbsp;&nbsp;&nbsp;&nbsp;
+  <section id="now">
+    <p class="kicker">Now</p>
+    <h2>Manano</h2>
+    <div class="current-grid">
+      <div>
+        <p>A payments platform for tradespeople that lives entirely inside WhatsApp: invoicing, quotes, payments, expenses, and VAT with no app to download. Built for plumbers, electricians, and builders across Ireland and the UK.</p>
+        <p>Beyond Manano, I work with acquirers as an M&amp;A consultant, helping newly acquired companies perform post-close: operations, integration, and value creation.</p>
+      </div>
+      <div class="factbox">
+        <div><span>Model</span><span>Embedded payments</span></div>
+        <div><span>Channel</span><span>WhatsApp-native</span></div>
+        <div><span>Market</span><span>Trades, IE + UK</span></div>
+        <div><span>Distribution</span><span>Merchant partners</span></div>
+      </div>
+    </div>
+  </section>
 
-			Awesome design by <a href="http://www.styleshout.com/">styleshout</a>
+  <section id="lab">
+    <p class="kicker">Lab</p>
+    <h2>I still build things myself.</h2>
+    <div class="lab-grid">
+      <div class="lab-card">
+        <img src="images/supaflake.png" alt="Supaflake — ask your Supabase anything, with dashboards and charts generated from plain-English questions">
+        <span class="tag">SUPABASE / DATA</span>
+        <h3><a href="https://supaflake.com">Supaflake</a></h3>
+        <p>Ask your database questions in plain English and get back charts, reports, and answers. No SQL, no analyst needed. Try it at <a href="https://supaflake.com">supaflake.com</a>.</p>
+      </div>
+      <div class="lab-card">
+        <img src="images/underseal.png" alt="Underseal — a private data exchange: the market for data that never goes public">
+        <span class="tag">DATA / SECURITY</span>
+        <h3>Underseal</h3>
+        <p>A private, members-only exchange for company data. Every member vetted, every sale reviewed by hand.</p>
+      </div>
+      <div class="lab-card">
+        <img src="images/alpaca.png" alt="Alpaca — software that maintains itself: describe a tool, get a URL in minutes">
+        <span class="tag">AI / PLATFORM</span>
+        <h3>Alpaca</h3>
+        <p>The simplest way to create and host an app. Describe it in a sentence: it gets built, deployed, and fixes itself when it breaks.</p>
+      </div>
+      <div class="lab-card">
+        <div class="carousel" aria-label="Hive screenshots">
+          <img src="images/hive-1.png" alt="Hive Dojo — practice cold calls until they're reflex" class="on">
+          <img src="images/hive-2.png" alt="The Dojo: pick a prospect temperament and start a practice call">
+          <div class="dots">
+            <button class="dot on" aria-label="Screenshot 1"></button>
+            <button class="dot" aria-label="Screenshot 2"></button>
+          </div>
+        </div>
+        <span class="tag">AI / VOICE</span>
+        <h3>Hive</h3>
+        <p>Practice cold calls against an AI that plays your toughest prospects, scores every call like a sales manager, and sharpens your pitch from what worked.</p>
+      </div>
+      <div class="lab-card">
+        <img src="images/correspondent-1.gif" alt="Correspondent — an email client where every message is verifiably written by hand" style="object-position: 50% 0;">
+        <span class="tag">EMAIL</span>
+        <h3>Correspondent</h3>
+        <p>An email client that makes email feel like a letter again. No paste, no rushing: every message carries cryptographic proof it was written by hand, with intention.</p>
+      </div>
+      <div class="lab-card">
+        <div class="filmstrip" aria-label="Barocast screenshots">
+          <img src="images/barocast-1.jpg" alt="Barocast today view showing current pressure and 12-hour trend">
+          <img src="images/barocast-3.jpg" alt="Barocast patterns view linking pressure dips to migraine episodes">
+          <img src="images/barocast-4.jpg" alt="Barocast pressure forecast with phone and Open-Meteo sources">
+          <img src="images/barocast-2.jpg" alt="Barocast Android notification about gentle pressure changes">
+        </div>
+        <span class="tag">MOBILE</span>
+        <h3>Barocast</h3>
+        <p>Barometric pressure and migraine tracking for Android.</p>
+      </div>
+    </div>
+  </section>
 
-			&nbsp;&nbsp;&nbsp;&nbsp;
-			
-			<a href="index.html">Home</a> |
-   		    <a href="index.html">Sitemap</a> |
-	  		<a href="index.html">RSS Feed</a> |
-            <a href="http://validator.w3.org/check?uri=referer">XHTML</a> |
-			<a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a>
-			</p>		
-		</div>	
-	
-	<!-- footer ends-->		
-	</div>
+  <section id="else">
+    <p class="kicker">Also</p>
+    <h2>The rest of the record</h2>
+    <ul class="else-list">
+      <li>Contributor to PHP, PEAR, and Debian Linux</li>
+      <li>Early work on neural style transfer, the technique behind face filters</li>
+      <li>Speaker at WebSummit and international technology conferences</li>
+      <li>Mentor to startups through NDRC and RDI Hub</li>
+      <li>Board roles: Hello World Foundation (CoderDojo), Lebens Art fur Kinder</li>
+    </ul>
+  </section>
 
-</body>
-<script type="text/javascript" charset="utf-8">
-    $(document).ready(function() {
-        var quotes = [];
-        var who    = [];
-        
-        quotes[0] = "Scientists dream about doing great things. Engineers do them.";
-        quotes[1] = "Pure mathematics is, in its way, the poetry of logical ideas.";
-        quotes[2] = "The highest form of pure thought is in mathematics";
-        quotes[3] = "Arithmetic is being able to count up to twenty without taking off your shoes";
-        quotes[4] = "Scientists investigate that which already is; Engineers create that which has never been."
-        quotes[5] = "Math is like love -- a simple idea but it can get complicated.";
-        quotes[6] = "There are things which seem incredible to most men who have not studied mathematics.";
-        quotes[7] = "A scientist studies what is, an engineer studies what never was.";
-        quotes[8] = "The engineer has been, and is, a maker of history";
-        quotes[9] = "In some mysterious way woods have never seemed to me to be static things. In physical terms, I move through them; yet in metaphysical ones, they seem to move through me.";
-        quotes[10] = "A bird does not sing because it has an answer. It sings because it has a song.";
-        quotes[11] = "There are many paths to the top of the mountain, but the view is always the same";
-        
-        who[0] = "James A. Michener";
-        who[1] = "Albert Einstein";
-        who[2] = "Plato";
-        who[3] = "Anonymous";
-        who[4] = "Albert Einstein";
-        who[5] = "Anonymous";
-        who[6] = "Aristotle";
-        who[7] = "Anonymous";
-        who[8] = "James Kip Finch";
-        who[9] = "John Fowles";
-        who[10] = "Anonymous";        
-        who[11] = "Anonymous";
-        
-        var i = Math.floor(Math.random() * quotes.length);
-        $('#quote').html(quotes[i]);
-        $('#quotewhom').html('- ' + who[i]);
-    });
+  <section id="contact" class="contact">
+    <p class="kicker">Contact</p>
+    <h2>Worth a conversation?</h2>
+    <p class="mail"><a href="mailto:david.coallier@gmail.com">david.coallier@gmail.com</a> &middot; <a href="https://www.linkedin.com/in/davidcoallier">LinkedIn</a></p>
+  </section>
+
+  <footer>DAVID COALLIER &middot; CORK &middot; NO TRACKING, NO COOKIES</footer>
+
+</div>
+
+<script>
+  document.querySelectorAll('.carousel').forEach(function (c) {
+    var imgs = c.querySelectorAll('img');
+    var dots = c.querySelectorAll('.dot');
+    var i = 0;
+    function show(n) {
+      i = n;
+      imgs.forEach(function (im, k) { im.classList.toggle('on', k === n); });
+      dots.forEach(function (d, k) { d.classList.toggle('on', k === n); });
+    }
+    dots.forEach(function (d, k) { d.addEventListener('click', function () { show(k); }); });
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setInterval(function () { show((i + 1) % imgs.length); }, 4000);
+    }
+  });
 </script>
+</body>
 </html>
