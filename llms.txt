@@ -1,0 +1,43 @@
+# David Coallier
+
+> Founder, operator, and executive with twenty years across AI, security, and fintech — from the first line of code to the executive team of a public company. Currently CEO and co-founder of Manano, building WhatsApp-native payments for tradespeople in Ireland and the UK.
+
+Based wherever the work is; operating worldwide in EN / FR / DE / ES / PT. Two companies sold (Barricade to Sophos, Orchestra to Engine Yard), with post-acquisition executive roles at both acquirers. Also works with acquirers as an M&A consultant on post-close operations, integration, and value creation.
+
+This site is a single page; the links below point to sections of it.
+
+## Site
+
+- [Home](https://davidcoallier.com/): Single-page overview — career record, current work, side projects, and contact.
+- [The record](https://davidcoallier.com/#record): Full career history, 2005 to present, with detail on each role.
+- [Now](https://davidcoallier.com/#now): Manano — embedded payments for the trades, WhatsApp-native, Ireland and the UK.
+- [Lab](https://davidcoallier.com/#lab): Side projects built personally.
+- [Also](https://davidcoallier.com/#else): Open source contributions, speaking, mentoring, board and investor roles.
+- [Contact](https://davidcoallier.com/#contact): Email and LinkedIn.
+
+## Background
+
+- Manano — CEO & co-founder, 2025 to present. Agentic workflows for invoicing, quotes, expenses, and VAT inside WhatsApp.
+- Clearword / Oggam — CEO, 2020 to 2025. AI meeting intelligence, then AI agents automating repetitive work.
+- Sophos — Director of Engineering, 2016 to 2020. Security Analytics and the executive team at an LSE-listed company; distributed AI teams across Ireland, India, and the US.
+- Barricade — CEO & founder, 2014 to 2016. AI threat detection; sold to Sophos.
+- Engine Yard — Director, then VP of Data Analytics & AI, 2011 to 2014. Fraud models that cut costs by $1M per month.
+- Orchestra — CTO & co-founder, 2010 to 2011. Auto-scaling cloud platform; sold to Engine Yard.
+- Agora Production — co-founder, 2005 to 2008. Machine learning consultancy: predictive algorithms, market forecasting, voice and pattern recognition, plus M&A and technology advisory.
+
+## Projects
+
+- [Supaflake](https://supaflake.com): Ask your database questions in plain English and get back charts, reports, and answers. No SQL needed.
+- [Zero](https://zero-crm.com): A CRM that lives inside ChatGPT — mention someone and they're saved, linked, and chased.
+- [GEO Analyzer](https://github.com/davidcoallier/geo-visibility): Open source. Checks how visible a site is to AI assistants — scores llms.txt, structured data, and crawlability.
+- [GTM Engineer](https://gtm-engineers.vercel.app/): A practical guide to AI-native go-to-market — tools, methodology, and mindset.
+- Underseal: A private, members-only exchange for company data. Every member vetted, every sale reviewed by hand.
+- Barocast: Barometric pressure and migraine tracking for Android.
+- Alpaca: Describe an app in a sentence; it gets built, deployed, and fixes itself when it breaks.
+- Correspondent: An email client where every message carries cryptographic proof it was written by hand.
+- Hive: Practice cold calls against an AI that plays your toughest prospects and scores every call.
+
+## Contact
+
+- [Email](mailto:david.coallier@gmail.com): david.coallier@gmail.com
+- [LinkedIn](https://www.linkedin.com/in/davidcoallier): Professional profile.
