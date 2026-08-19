@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thsi is a policy document - David Coallier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #FAFAF8;
+    --ink: #171717;
+    --soft: #5C5A55;
+    --line: #E4E2DC;
+    --hairline: #D6D4CE;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1020px; margin: 0 auto; padding: 0 28px; }
+  a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; text-decoration-color: var(--hairline); }
+  a:hover { text-decoration-color: var(--ink); }
+  a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+  nav {
+    display: flex; align-items: baseline;
+    max-width: 1020px; width: 100%; margin: 0 auto; padding: 30px 28px 0;
+  }
+  .brand {
+    font-family: 'Source Serif 4', serif; font-weight: 600; font-size: 17px;
+    letter-spacing: 0.01em; text-decoration: none;
+  }
+
+  .doc { padding: 72px 0 110px; max-width: 660px; }
+  h1 {
+    font-family: 'Source Serif 4', serif; font-weight: 600;
+    font-size: clamp(30px, 4.2vw, 44px);
+    letter-spacing: -0.01em; line-height: 1.15; margin-bottom: 36px;
+  }
+  .doc p + p { margin-top: 16px; }
+
+  footer {
+    padding: 26px 0; border-top: 1px solid var(--line);
+    font-size: 11.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--soft);
+  }
+
+  @media (max-width: 640px) {
+    .doc { padding: 48px 0 72px; }
+    .brand { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="brand" href="/">David Coallier</a>
+</nav>
+
+<div class="wrap">
+  <main class="doc">
+    <h1>Thsi is a policy document</h1>
+    <p>It's to be a page.</p>
+    <p>Awesome.</p>
+  </main>
+
+  <footer>David Coallier &middot; No tracking, no cookies</footer>
+</div>
+
+</body>
+</html>
